@@ -32,7 +32,7 @@ impl<ST, IN> ThreadActor<ST, IN> where
     pub fn new(state: ST) -> Self
     {
 
-        let io =  state.get_interactor();
+        let io =  state.interactor();
 
         let dropped_indicator = Arc::new(());
 
@@ -78,7 +78,7 @@ impl<ST, IN> ThreadActor<ST, IN> where
 
     }
 
-    pub fn get_interactor_ref(&self) -> &IN
+    pub fn interactor(&self) -> &IN
     {
 
         &self.io

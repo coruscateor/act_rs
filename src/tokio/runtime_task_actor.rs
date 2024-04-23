@@ -34,7 +34,7 @@ impl<SC, IN> RuntimeTaskActor<SC, IN> where
     pub fn new(handle: &Handle, state: SC) -> Self
     {
 
-        let interactor =  state.get_interactor();
+        let interactor =  state.interactor();
 
         let dropped_indicator = Arc::new(());
 
@@ -104,7 +104,7 @@ impl<SC, IN> ActorFrontend<IN> for RuntimeTaskActor<SC, IN>
     where IN: ActorInteractor, SC: Send + 'static + AsyncActorState<IN>
 {
 
-    fn get_interactor_ref(&self) -> &IN
+    fn interactor(&self) -> &IN
     {
 
         &self.interactor

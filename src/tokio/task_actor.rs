@@ -1,15 +1,12 @@
 use async_trait::async_trait;
 use futures::Future;
-//use tokio::sync::mpsc::{unbounded_channel, UnboundedSender, UnboundedReceiver};
-//use super::actor_workers::AsyncActorWorkerNoReturns;
+
 use tokio::task::{self, JoinHandle, spawn_blocking, JoinError};
 use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
 
-use crate::{ActorInteractor, AsyncActorState, DroppedIndicator, ActorFrontend}; //impl_actor_frontend,
-
-//use paste::paste;
+use crate::{ActorInteractor, AsyncActorState, DroppedIndicator, ActorFrontend};
 
 ///
 /// A task based actor.
@@ -27,25 +24,21 @@ pub struct TaskActor<ST, IN> where
 
 }
 
-//tokio::spawn Input/Output Actor
+
 
 impl<ST, IN> TaskActor<ST, IN> where
     ST: std::marker::Send + 'static + AsyncActorState<IN>,
     IN: ActorInteractor
 {
 
-    pub fn new(state: ST) -> Self //, input_output: IO)
+    pub fn new(state: ST) -> Self
     {
 
-        let interactor =  state.get_interactor();
-
-        //let io_moved = io.clone();
+        let interactor =  state.interactor();
 
         let dropped_indicator = Arc::new(());
 
         let dropped_indicator_moved = dropped_indicator.clone();
-
-        //let jh =  
         
         tokio::spawn(async move {
     
@@ -87,24 +80,13 @@ impl<ST, IN> TaskActor<ST, IN> where
 
     }
 
-    /*
-    pub fn get_interactor_ref(&self) -> &IN
-    {
-
-        &self.io
-
-    } 
-    */   
-
 }
-
-//impl_actor_frontend!(TaskActor, IN); // SC,  //<SC, IN>
 
 impl<IN, SC> ActorFrontend<IN> for TaskActor<SC, IN>
     where IN: ActorInteractor, SC: Send
 {
 
-    fn get_interactor_ref(&self) -> &IN
+    fn interactor(&self) -> &IN
     {
 
         &self.interactor

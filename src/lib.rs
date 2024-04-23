@@ -22,12 +22,14 @@ pub use actor_state::*;
 
 //pub mod tokio_oneshot;
 
-pub mod messages;
+//pub mod messages;
 
+#[cfg(feature="std")]
 pub mod std;
 
 //_actors
 
+#[cfg(feature="tokio")]
 pub mod tokio;
 
 mod actor_frontend;
@@ -122,6 +124,7 @@ mod tests {
     }
 
     //#[test]
+    #[cfg(feature="tokio")]
     #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
     async fn it_works() {
 

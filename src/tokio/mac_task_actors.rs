@@ -19,13 +19,13 @@
     pub trait ActorFrontend<IN: ActorInteractor>
     {
 
-        fn get_interactor_ref(&self) -> &IN; 
+        fn interactor_ref(&self) -> &IN; 
 
     }
 
     or
 
-    fn get_interactor_ref(&self) -> &IN
+    fn interactor_ref(&self) -> &IN
 
 
     state_type must implement:
@@ -45,14 +45,10 @@
 macro_rules! impl_mac_runtime_task_actor
 {
 
-    ($interactor_type:ty, $state_type:ty, $type_name:ident) => //$type_name_part_two:ident) =>
+    ($interactor_type:ty, $state_type:ty, $type_name:ident) =>
     {
 
-        //paste! {
-
-        pub struct $type_name //[<MacRuntimeTaskActor _ $type_name_part_two>] //[<RuntimeMacTaskActor _ $interactor_type _ $state_type>] //where //ST, <IN> 
-            //ST: std::marker::Send + 'static + AsyncActorState<IN>,
-            //IN: ActorInteractor
+        pub struct $type_name
         {
 
             interactor: $interactor_type,//IN,
@@ -63,26 +59,19 @@ macro_rules! impl_mac_runtime_task_actor
 
         //tokio Task, spawned from a runtime handle Input/Output Actor
 
-        impl $type_name //[<MacRuntimeTaskActor _ $type_name_part_two>] //[<RuntimeMacTaskActor _ $interactor_type _ $state_type>] //where //<ST, IN>
-            //ST: std::marker::Send + 'static + AsyncActorState<INRuntime
+        impl $type_name
         {
 
-            pub fn new(handle: &Handle, state: $state_type) -> Self //ST
+            pub fn new(handle: &Handle, state: $state_type) -> Self
             {
 
-                //let io = state.get_interactor();
-
-                let interactor = state.get_interactor();
+                let interactor = state.interactor();
 
                 let dropped_indicator = Arc::new(());
 
                 let dropped_indicator_moved = dropped_indicator.clone();
                 
                 handle.spawn(async move {
-            
-                    //[<RuntimeMacTaskActor _ $interactor_type _ $state_type>]::run(state, dropped_indicator_moved).await;
-
-                    //[<MacRuntimeTaskActor _ $type_name_part_two>]::run(state, dropped_indicator_moved).await;
 
                     $type_name::run(state, dropped_indicator_moved).await;
 
@@ -101,10 +90,6 @@ macro_rules! impl_mac_runtime_task_actor
 
             pub fn from_runtime(runtime: &Runtime, state: $state_type) -> Self
             {
-
-                //[<RuntimeMacTaskActor _ $interactor_type _ $state_type>]::new(runtime.handle(), state)
-
-                //[<MacRuntimeTaskActor _ $type_name_part_two>]::new(runtime.handle(), state)
 
                 $type_name::new(runtime.handle(), state)
 
@@ -135,15 +120,10 @@ macro_rules! impl_mac_runtime_task_actor
 
         }
 
-        //impl_actor_frontend!([<RuntimeMacTaskActor _ $interactor_type _ $state_type>], $interactor_type, $state_type>); 
-
-        //impl_actor_frontend!([<RuntimeMacTaskActor _ $type_name_part_two>], $interactor_type, $state_type); 
-
-        impl ActorFrontend<$interactor_type> for $type_name //[<MacRuntimeTaskActor _ $type_name_part_two>] //<SC, IN>
-            //where IN: ActorInteractor, SC: Send + 'static + AsyncActorState<IN>
+        impl ActorFrontend<$interactor_type> for $type_name 
         {
 
-            fn get_interactor_ref(&self) -> &$interactor_type
+            fn interactor(&self) -> &$interactor_type
             {
 
                 &self.interactor
@@ -152,9 +132,7 @@ macro_rules! impl_mac_runtime_task_actor
 
         }
 
-        impl Drop for $type_name //[<MacRuntimeTaskActor _ $type_name_part_two>] //[<RuntimeMacTaskActor _ $interactor_type _ $state_type>] //where <SC, IN>
-            //SC: AsyncActorState<IN> + std::marker::Send,
-            //IN: ActorInteractor
+        impl Drop for $type_name
         {
 
             fn drop(&mut self)
@@ -165,8 +143,6 @@ macro_rules! impl_mac_runtime_task_actor
             }
 
         }
-
-        //}
         
     }
 
@@ -191,13 +167,13 @@ macro_rules! impl_mac_runtime_task_actor
     pub trait ActorFrontend<IN: ActorInteractor>
     {
 
-        fn get_interactor_ref(&self) -> &IN; 
+        fn interactor(&self) -> &IN; 
 
     }
 
     or
 
-    fn get_interactor_ref(&self) -> &IN
+    fn interactor(&self) -> &IN
 
     state_type must implement:
 
@@ -218,12 +194,10 @@ macro_rules! impl_mac_runtime_task_actor
 macro_rules! impl_mac_task_actor
 {
 
-    ($interactor_type:ty, $state_type:ty, $type_name:ident) => //$type_name_part_two:ident) =>
+    ($interactor_type:ty, $state_type:ty, $type_name:ident) =>
     {
 
-        //paste! {
-
-        pub struct $type_name //[<MacTaskActor _ $type_name_part_two>]
+        pub struct $type_name
         {
 
             interactor: $interactor_type,
@@ -232,21 +206,19 @@ macro_rules! impl_mac_task_actor
 
         }
 
-        impl $type_name //[<MacTaskActor _ $type_name_part_two>]
+        impl $type_name
         {
 
             pub fn new(state: $state_type) -> Self
             {
 
-                let interactor = state.get_interactor();
+                let interactor = state.interactor();
 
                 let dropped_indicator = Arc::new(());
 
                 let dropped_indicator_moved = dropped_indicator.clone();
                 
                 tokio::spawn(async move {
-
-                    //[<MacTaskActor _ $type_name_part_two>]::run(state, dropped_indicator_moved).await;
 
                     $type_name::run(state, dropped_indicator_moved).await;
 
@@ -288,10 +260,10 @@ macro_rules! impl_mac_task_actor
 
         }
 
-        impl ActorFrontend<$interactor_type> for $type_name //[<MacTaskActor _ $type_name_part_two>]
+        impl ActorFrontend<$interactor_type> for $type_name
         {
 
-            fn get_interactor_ref(&self) -> &$interactor_type
+            fn interactor(&self) -> &$interactor_type
             {
 
                 &self.interactor
@@ -300,7 +272,7 @@ macro_rules! impl_mac_task_actor
 
         }
 
-        impl Drop for $type_name //[<MacTaskActor _ $type_name_part_two>]
+        impl Drop for $type_name
         {
 
             fn drop(&mut self)
@@ -318,11 +290,14 @@ macro_rules! impl_mac_task_actor
 
 }
 
+//I don't think I need these actually...
+
 //Default implementations of entry and exit methods to be used by the actor state
 
-///
-/// A default implementation of the on_enter_async mehthod for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
-/// 
+//
+// A default implementation of the on_enter_async mehthod for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+//
+/*
 #[macro_export]
 macro_rules! impl_default_on_enter_async
 {
@@ -340,10 +315,12 @@ macro_rules! impl_default_on_enter_async
     }
 
 }
+*/
 
-///
-/// A default implementation of the on_exit_async method for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
-/// 
+//
+// A default implementation of the on_exit_async method for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+//
+/*
 #[macro_export]
 macro_rules! impl_default_on_exit_async
 {
@@ -359,10 +336,12 @@ macro_rules! impl_default_on_exit_async
     }
 
 }
+*/
 
-///
-/// Default implementations of both the on_exit_async and on_exit_async methods for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
-/// 
+//
+// Default implementations of both the on_exit_async and on_exit_async methods for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+//
+/*
 #[macro_export]
 macro_rules! impl_default_on_enter_and_exit_async
 {
@@ -377,6 +356,7 @@ macro_rules! impl_default_on_enter_and_exit_async
     }
 
 }
+*/
 
 
 

@@ -28,7 +28,7 @@ impl<SC, IN> BlockingActor<SC, IN> where
     pub fn new(state: SC) -> Self
     {
 
-        let interactor =  state.get_interactor();
+        let interactor =  state.interactor();
 
         let dropped_indicator = Arc::new(());
 
@@ -74,7 +74,7 @@ impl<SC, IN> BlockingActor<SC, IN> where
 
     }
 
-    pub fn get_interactor_ref(&self) -> &IN
+    pub fn interactor(&self) -> &IN
     {
 
         &self.interactor

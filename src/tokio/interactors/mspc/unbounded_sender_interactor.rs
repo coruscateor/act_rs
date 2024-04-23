@@ -28,7 +28,7 @@ impl<T: Default> UnboundedSenderInteractor<T>
         
     }
 
-    pub fn get_unbounded_sender_ref(&self) -> &UnboundedSender<T>
+    pub fn sender(&self) -> &UnboundedSender<T>
     {
 
         &self.sender

@@ -5,9 +5,9 @@ use async_trait::async_trait;
 use super::dropped_indicator::*;
 
 ///
-/// All ActorInteractors must implement this trait. Assumes you're using at leat one input queue.
+/// All ActorInteractors must implement this trait. Assumes you're using at least one input queue.
 /// 
-/// Actors, or rather actor frontends call input_default in an attempt to wakeup a possibly asleep actor so that it can determaine that the front-end has been dropped and exit.
+/// Actors, or rather actor front-ends call input_default in an attempt to wakeup a possibly asleep actor so that it can determine that the front-end has been dropped and exit.
 /// 
 pub trait ActorInteractor: Clone
 {
@@ -23,7 +23,7 @@ pub trait HasInteractor<IN>
     where IN: ActorInteractor
 {
 
-    fn get_interactor(&self) -> IN;
+    fn interactor(&self) -> IN;
 
 }
 
@@ -79,36 +79,3 @@ pub trait AsyncActorState<IN> : HasInteractor<IN>
     }
 
 }
-
-/*
-pub trait ActorState<IN> : HasInteractor<IN>
-    where IN: ActorInteractor
-{
-
-    //fn get_interactor(&self) -> IN; //Arc<IO>;
-
-    fn on_enter(&mut self, di: &DroppedIndicator) -> bool;
-
-    fn run(&mut self, di: &DroppedIndicator) -> bool;
-
-    fn on_exit(&mut self, di: &DroppedIndicator);
-
-}
-
-#[async_trait] //(?Send)
-pub trait AsyncActorState<IN> : HasInteractor<IN>
-    where IN: ActorInteractor
-{
-
-    //async fn get_interactor_async(&self) -> IN;//Arc<IO>;
-
-    //fn get_interactor(&self) -> IN;
-
-    async fn on_enter_async(&mut self, di: &DroppedIndicator) -> bool;
-
-    async fn run_async(&mut self, di: &DroppedIndicator) -> bool;
-
-    async fn on_exit_async(&mut self, di: &DroppedIndicator);
-
-}
-*/

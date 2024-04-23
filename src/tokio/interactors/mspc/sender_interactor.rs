@@ -29,7 +29,7 @@ impl<T: Default> SenderInteractor<T>
         
     }
 
-    pub fn get_sender_ref(&self) -> &Sender<T>
+    pub fn sender(&self) -> &Sender<T>
     {
 
         &self.sender
