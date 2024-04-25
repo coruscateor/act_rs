@@ -6,6 +6,7 @@ use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
 use crate::{ActorInteractor, ActorState, DroppedIndicator};
 
+#[allow(dead_code)]
 pub struct BlockingActor<SC, IN> where
     SC: std::marker::Send + 'static,
     IN: ActorInteractor

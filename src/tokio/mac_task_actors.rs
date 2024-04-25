@@ -294,10 +294,11 @@ macro_rules! impl_mac_task_actor
 
 //Default implementations of entry and exit methods to be used by the actor state
 
-//
-// A default implementation of the on_enter_async mehthod for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
-//
-/*
+///
+/// A default implementation of the on_enter_async mehthod for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+/// 
+/// Can be used when you are not implementing AsyncActorState.
+///
 #[macro_export]
 macro_rules! impl_default_on_enter_async
 {
@@ -315,12 +316,12 @@ macro_rules! impl_default_on_enter_async
     }
 
 }
-*/
 
-//
-// A default implementation of the on_exit_async method for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
-//
-/*
+///
+/// A default implementation of the on_exit_async method for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+///
+/// Can be used when you are not implementing AsyncActorState.
+/// 
 #[macro_export]
 macro_rules! impl_default_on_exit_async
 {
@@ -336,12 +337,12 @@ macro_rules! impl_default_on_exit_async
     }
 
 }
-*/
 
-//
-// Default implementations of both the on_exit_async and on_exit_async methods for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
-//
-/*
+///
+/// Default implementations of both the on_exit_async and on_exit_async methods for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+///
+/// Can be used when you are not implementing AsyncActorState.
+/// 
 #[macro_export]
 macro_rules! impl_default_on_enter_and_exit_async
 {
@@ -356,7 +357,7 @@ macro_rules! impl_default_on_enter_and_exit_async
     }
 
 }
-*/
+
 
 
 

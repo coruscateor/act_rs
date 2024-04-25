@@ -10,7 +10,8 @@ use std::thread; //::Thread;
 
 ///
 /// An std::Thred based actor.
-/// 
+///
+#[allow(dead_code)]
 pub struct ThreadActor<ST, IN> where
     ST: std::marker::Send + 'static,
     IN: ActorInteractor

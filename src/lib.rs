@@ -40,6 +40,8 @@ pub use actor_frontend::*;
 
 //pub use async_state_container::*;
 
+pub mod macros;
+
 #[cfg(test)]
 mod tests {
 

@@ -16,7 +16,7 @@ tokio = { version = "1.*", features = ["rt", "rt-multi-thread", "sync", "macros"
 futures = "0.3.*"
 #parking_lot = "0.12.*"
 #crossbeam = "0.8.*"
-crossbeam = { version = "0.8.*", optional = true }
+#crossbeam = { version = "0.8.*", optional = true }
 async-trait = "0.1.*"
 delegate = "0.*"
 

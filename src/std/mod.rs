@@ -6,4 +6,6 @@ mod thread_actor;
 
 pub use thread_actor::*;
 
-//_actors
+pub mod interactors;
+
+

@@ -4,4 +4,4 @@
 
 pub mod broadcast;
 
-pub mod mspc;
+pub mod mpsc;

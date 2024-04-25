@@ -34,7 +34,7 @@ pub mod interactors;
 
 //pub mod single_shot;
 
-#[cfg(feature="crossbeam")]
-pub mod crossbeam;
+//#[cfg(feature="crossbeam")]
+//pub mod crossbeam;
 
 

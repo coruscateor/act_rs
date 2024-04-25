@@ -1,11 +1,13 @@
 use tokio::sync::mpsc::{Sender, Receiver};
 
-use crate::ActorInteractor;
+use crate::{impl_actor_interactor, impl_interactor_clone, impl_new_sender, impl_pub_sender, ActorInteractor};
 
-use futures::executor::block_on;
+//use futures::executor::block_on;
+
+//use crate::macros;
 
 ///
-/// An interactor containing an mspc sender.
+/// An interactor containing an mpsc sender.
 /// 
 pub struct SenderInteractor<T: Default>
 {
@@ -17,6 +19,7 @@ pub struct SenderInteractor<T: Default>
 impl<T: Default> SenderInteractor<T>
 {
 
+    /*
     pub fn new(sender: Sender<T>) -> Self
     {
 
@@ -28,16 +31,24 @@ impl<T: Default> SenderInteractor<T>
         }
         
     }
+    */
 
+    impl_new_sender!(Sender<T>);
+
+    /*
     pub fn sender(&self) -> &Sender<T>
     {
 
         &self.sender
 
     }
+    */
+
+    impl_pub_sender!(Sender<T>);
 
 }
 
+/*
 impl<T: Default> Clone for SenderInteractor<T>
 {
 
@@ -54,7 +65,11 @@ impl<T: Default> Clone for SenderInteractor<T>
     }
 
 }
+*/
 
+impl_interactor_clone!(SenderInteractor<T>);
+
+/*
 impl<T: Default> ActorInteractor for SenderInteractor<T>
 {
 
@@ -66,9 +81,12 @@ impl<T: Default> ActorInteractor for SenderInteractor<T>
     }
 
 }
+*/
+
+impl_actor_interactor!(SenderInteractor<T>);
 
 ///
-/// Calls tokio::sync::mpsc::channel and returns an SenderInteractor in additon to the Tokio receiver.
+/// Calls tokio::sync::mpsc::channel and returns a SenderInteractor in additon to the Tokio receiver.
 /// 
 pub fn channel<T: Default>(buffer: usize) -> (SenderInteractor<T>, Receiver<T>)
 {
