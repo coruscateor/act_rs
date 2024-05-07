@@ -1,6 +1,6 @@
-# Act_rs
+# Act.rs
 
-Act_rs is an actor library.
+Act.rs is an actor library.
 
 ## What is an actor?
 
