@@ -1,4 +1,6 @@
-/**
+//Comment PhantomData
+
+/*
 
     An async orinented actor created using a Task spawned using a Runtime Handle
     
@@ -9,32 +11,28 @@
 
     use tokio::runtime::{Runtime, Handle};
 
-    use act_rusty::ActorInteractor;
-
     In module scope
 
+    $state_type must implement:
 
-    Interactor_type must implement:
 
-    pub trait ActorFrontend<IN: ActorInteractor>
-    {
 
-        fn interactor_ref(&self) -> &IN; 
-
-    }
+    HasInteractor
 
     or
 
-    fn interactor_ref(&self) -> &IN
+    fn interactor(&self) -> &IN
 
+    directly
 
-    state_type must implement:
+    Also:
 
     async fn on_enter_async(&mut self, _di: &DroppedIndicator) -> bool;
 
     async fn run_async(&mut self, di: &DroppedIndicator) -> bool;
 
     async fn on_exit_async(&mut self, _di: &DroppedIndicator);
+
 
 
     The returned boolean values from the on_enter_async and run_async method implementations indicate whether or not actor execution should proceed.
@@ -51,8 +49,8 @@ macro_rules! impl_mac_runtime_task_actor
         pub struct $type_name
         {
 
-            interactor: $interactor_type,//IN,
-            phantom_data: PhantomData<$state_type>, //<ST>,
+            interactor: $interactor_type,
+            phantom_data: PhantomData<$state_type>,
             dropped_indicator: Arc<()>
 
         }
@@ -156,26 +154,21 @@ macro_rules! impl_mac_runtime_task_actor
 
     use std::{marker::PhantomData, sync::Arc};
 
-    use paste::paste;
-
-    //use act_rusty::ActorInteractor;
-
     In module scope
 
-    interactor_type must implement:
 
-    pub trait ActorFrontend<IN: ActorInteractor>
-    {
 
-        fn interactor(&self) -> &IN; 
+    $state_type  must implement:
 
-    }
+    HasInteractor
 
     or
 
     fn interactor(&self) -> &IN
 
-    state_type must implement:
+    directly
+
+    Also:
 
     async fn on_enter_async(&mut self, _di: &DroppedIndicator) -> bool;
 
@@ -184,11 +177,10 @@ macro_rules! impl_mac_runtime_task_actor
     async fn on_exit_async(&mut self, _di: &DroppedIndicator);
 
 
+
     The returned boolean values from the on_enter_async and run_async method implementations indicate whether or not actor execution should proceed.
 
 */
-
-//
 
 #[macro_export]
 macro_rules! impl_mac_task_actor
@@ -283,14 +275,10 @@ macro_rules! impl_mac_task_actor
             }
 
         }
-
-        //}
         
     }
 
 }
-
-//I don't think I need these actually...
 
 //Default implementations of entry and exit methods to be used by the actor state
 

@@ -12,9 +12,10 @@ use crate::{ActorInteractor, AsyncActorState, DroppedIndicator, ActorFrontend};
 /// A task based actor.
 /// 
 /// BROKEN: create your type using impl_mac_task_actor
-/// 
+///
+#[allow(dead_code)]
 pub struct TaskActor<ST, IN> where
-    ST: std::marker::Send + 'static,
+    ST: AsyncActorState<IN> + std::marker::Send + 'static,
     IN: ActorInteractor
 {
 
@@ -24,10 +25,8 @@ pub struct TaskActor<ST, IN> where
 
 }
 
-
-
 impl<ST, IN> TaskActor<ST, IN> where
-    ST: std::marker::Send + 'static + AsyncActorState<IN>,
+    ST: AsyncActorState<IN> + std::marker::Send + 'static,
     IN: ActorInteractor
 {
 
@@ -82,8 +81,9 @@ impl<ST, IN> TaskActor<ST, IN> where
 
 }
 
-impl<IN, SC> ActorFrontend<IN> for TaskActor<SC, IN>
-    where IN: ActorInteractor, SC: Send
+impl<ST, IN> ActorFrontend<IN> for TaskActor<ST, IN> where
+    ST: AsyncActorState<IN> + Send + 'static,
+    IN: ActorInteractor
 {
 
     fn interactor(&self) -> &IN
@@ -95,8 +95,8 @@ impl<IN, SC> ActorFrontend<IN> for TaskActor<SC, IN>
 
 }
 
-impl<SC, IN> Drop for TaskActor<SC, IN> where
-    SC: std::marker::Send,
+impl<ST, IN> Drop for TaskActor<ST, IN> where
+    ST: AsyncActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 

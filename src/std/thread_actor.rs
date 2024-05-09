@@ -4,7 +4,7 @@ use futures::Future;
 use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-use crate::{ActorInteractor, ActorState, DroppedIndicator};
+use crate::{ActorFrontend, ActorInteractor, ActorState, DroppedIndicator};
 
 use std::thread; //::Thread;
 
@@ -13,11 +13,11 @@ use std::thread; //::Thread;
 ///
 #[allow(dead_code)]
 pub struct ThreadActor<ST, IN> where
-    ST: std::marker::Send + 'static,
+    ST: std::marker::Send + 'static + ActorState<IN>,
     IN: ActorInteractor
 {
 
-    io: IN,
+    interactor: IN,
     phantom_data: PhantomData<ST>,
     dropped_indicator: Arc<()>
 
@@ -33,7 +33,7 @@ impl<ST, IN> ThreadActor<ST, IN> where
     pub fn new(state: ST) -> Self
     {
 
-        let io =  state.interactor();
+        let interactor =  state.interactor();
 
         let dropped_indicator = Arc::new(());
 
@@ -48,7 +48,7 @@ impl<ST, IN> ThreadActor<ST, IN> where
         Self
         {
 
-            io,
+            interactor,
             phantom_data: PhantomData::default(),
             dropped_indicator,
 
@@ -77,26 +77,33 @@ impl<ST, IN> ThreadActor<ST, IN> where
 
         }
 
-    }
-
-    pub fn interactor(&self) -> &IN
-    {
-
-        &self.io
-
-    }    
+    }  
     
 }
 
-impl<SC, IO> Drop for ThreadActor<SC, IO> where
-    SC: std::marker::Send,
-    IO: ActorInteractor
+impl<SC, IN> ActorFrontend<IN> for ThreadActor<SC, IN> where
+    SC: ActorState<IN> + Send + 'static,
+    IN: ActorInteractor
+{
+
+    fn interactor(&self) -> &IN
+    {
+
+        &self.interactor
+
+    }    
+
+}
+
+impl<ST, IN> Drop for ThreadActor<ST, IN> where
+    ST: ActorState<IN> + std::marker::Send,
+    IN: ActorInteractor
 {
 
     fn drop(&mut self)
     {
         
-        self.io.input_default();
+        self.interactor.input_default();
 
     }
 

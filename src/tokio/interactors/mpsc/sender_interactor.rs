@@ -1,8 +1,8 @@
 use tokio::sync::mpsc::{Sender, Receiver};
 
-use crate::{impl_actor_interactor, impl_interactor_clone, impl_new_sender, impl_pub_sender, ActorInteractor};
+use crate::{impl_actor_interactor_async, impl_interactor_clone, impl_new_sender, impl_pub_sender, ActorInteractor};
 
-//use futures::executor::block_on;
+use futures::executor::block_on;
 
 //use crate::macros;
 
@@ -83,7 +83,7 @@ impl<T: Default> ActorInteractor for SenderInteractor<T>
 }
 */
 
-impl_actor_interactor!(SenderInteractor<T>);
+impl_actor_interactor_async!(SenderInteractor<T>);
 
 ///
 /// Calls tokio::sync::mpsc::channel and returns a SenderInteractor in additon to the Tokio receiver.

@@ -4,16 +4,16 @@ use futures::Future;
 use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-use crate::{ActorInteractor, ActorState, DroppedIndicator};
+use crate::{ActorFrontend, ActorInteractor, ActorState, DroppedIndicator};
 
 #[allow(dead_code)]
-pub struct BlockingActor<SC, IN> where
-    SC: std::marker::Send + 'static,
+pub struct BlockingActor<ST, IN> where
+    ST: ActorState<IN> + std::marker::Send + 'static,
     IN: ActorInteractor
 {
 
     interactor: IN,
-    phantom_data: PhantomData<SC>,
+    phantom_data: PhantomData<ST>,
     dropped_indicator: Arc<()>
 
 }
@@ -21,12 +21,12 @@ pub struct BlockingActor<SC, IN> where
 ///
 ///Thread:spawn Input/Output Actor
 ///
-impl<SC, IN> BlockingActor<SC, IN> where
-    SC: std::marker::Send + 'static + ActorState<IN>,
+impl<ST, IN> BlockingActor<ST, IN> where
+    ST: ActorState<IN> + std::marker::Send + 'static,
     IN: ActorInteractor
 {
 
-    pub fn new(state: SC) -> Self
+    pub fn new(state: ST) -> Self
     {
 
         let interactor =  state.interactor();
@@ -52,7 +52,7 @@ impl<SC, IN> BlockingActor<SC, IN> where
 
     }
 
-    fn run(mut state: SC, dropped_indicator: Arc<()>)
+    fn run(mut state: ST, dropped_indicator: Arc<()>)
     {
 
         let mut proceed = true; 
@@ -73,20 +73,27 @@ impl<SC, IN> BlockingActor<SC, IN> where
 
         }
 
-    }
+    }  
+    
+}
 
-    pub fn interactor(&self) -> &IN
+impl<SC, IN> ActorFrontend<IN> for BlockingActor<SC, IN> where
+    SC: ActorState<IN> + Send + 'static,
+    IN: ActorInteractor
+{
+
+    fn interactor(&self) -> &IN
     {
 
         &self.interactor
 
     }    
-    
+
 }
 
-impl<SC, IO> Drop for BlockingActor<SC, IO> where
-    SC: std::marker::Send,
-    IO: ActorInteractor
+impl<ST, IN> Drop for BlockingActor<ST, IN> where
+    ST: ActorState<IN> + std::marker::Send + 'static,
+    IN: ActorInteractor
 {
 
     fn drop(&mut self)

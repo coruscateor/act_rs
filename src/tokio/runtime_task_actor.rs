@@ -12,9 +12,10 @@ use crate::{ActorInteractor, AsyncActorState, DroppedIndicator, ActorFrontend}; 
 /// A Task based actor that requres a runtime or a runtime handle to get started.
 /// 
 ///  BROKEN: create your type using impl_mac_runtime_task_actor
-/// 
+///
+#[allow(dead_code)]
 pub struct RuntimeTaskActor<SC, IN> where
-    SC: std::marker::Send + 'static + AsyncActorState<IN>,
+    SC: AsyncActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 
@@ -27,7 +28,7 @@ pub struct RuntimeTaskActor<SC, IN> where
 //tokio Task, spawned from a runtime handle Input/Output Actor
 
 impl<SC, IN> RuntimeTaskActor<SC, IN> where
-    SC: std::marker::Send + 'static + AsyncActorState<IN>,
+    SC: AsyncActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 
@@ -87,21 +88,18 @@ impl<SC, IN> RuntimeTaskActor<SC, IN> where
 
     }
 
-    /*
-    pub fn get_interactor_ref(&self) -> &IN
+    pub fn get_interactor(&self) -> &IN
     {
 
-        &self.io
+        &self.interactor
 
-    } 
-    */   
+    }  
 
 }
 
-//impl_actor_frontend!(RuntimeTaskActor, IN); //SC,  
-
-impl<SC, IN> ActorFrontend<IN> for RuntimeTaskActor<SC, IN>
-    where IN: ActorInteractor, SC: Send + 'static + AsyncActorState<IN>
+impl<SC, IN> ActorFrontend<IN> for RuntimeTaskActor<SC, IN> where
+    SC: AsyncActorState<IN> + Send + 'static,
+    IN: ActorInteractor
 {
 
     fn interactor(&self) -> &IN
@@ -114,7 +112,7 @@ impl<SC, IN> ActorFrontend<IN> for RuntimeTaskActor<SC, IN>
 }
 
 impl<SC, IN> Drop for RuntimeTaskActor<SC, IN> where
-    SC: AsyncActorState<IN> + std::marker::Send,
+    SC: AsyncActorState<IN> + std::marker::Send + 'static,
     IN: ActorInteractor
 {
 

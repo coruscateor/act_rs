@@ -5,13 +5,14 @@ use futures::{executor::block_on, FutureExt};
 use tokio::runtime::{Handle, Runtime};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-use crate::{ActorInteractor, ActorState, DroppedIndicator};
+use crate::{ActorFrontend, ActorInteractor, ActorState, AsyncActorState, DroppedIndicator};
 
 ///
 /// A blocking thread actor that requres a runtime or a runtime handle to get started.
 /// 
+#[allow(dead_code)]
 pub struct RuntimeBlockingActor<SC, IN> where
-    SC: std::marker::Send + 'static,
+    SC: ActorState<IN> + std::marker::Send + 'static,
     IN: ActorInteractor
 {
 
@@ -24,7 +25,7 @@ pub struct RuntimeBlockingActor<SC, IN> where
 //Thread:spawn Input/Output Actor
 
 impl<SC, IN> RuntimeBlockingActor<SC, IN> where
-    SC: std::marker::Send + 'static + ActorState<IN>,
+    SC: ActorState<IN> + std::marker::Send + 'static,
     IN: ActorInteractor
 {
 
@@ -83,19 +84,26 @@ impl<SC, IN> RuntimeBlockingActor<SC, IN> where
         }
 
     }
+    
+}
 
-    pub fn interactor(&self) -> &IN
+impl<SC, IN> ActorFrontend<IN> for RuntimeBlockingActor<SC, IN> where
+    SC: ActorState<IN> + Send + 'static,
+    IN: ActorInteractor
+{
+
+    fn interactor(&self) -> &IN
     {
 
         &self.interactor
 
     }    
-    
+
 }
 
-impl<SC, IO> Drop for RuntimeBlockingActor<SC, IO> where
-    SC: std::marker::Send,
-    IO: ActorInteractor
+impl<SC, IN> Drop for RuntimeBlockingActor<SC, IN> where
+    SC: ActorState<IN> + std::marker::Send + 'static,
+    IN: ActorInteractor
 {
 
     fn drop(&mut self)

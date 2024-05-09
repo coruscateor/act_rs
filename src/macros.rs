@@ -90,3 +90,31 @@ macro_rules! impl_actor_interactor
     }
 
 }
+
+///
+/// For interactors that have senders with async send methods.
+///
+/// Requires: "use futures::executor::block_on;""
+/// 
+#[macro_export]
+macro_rules! impl_actor_interactor_async
+{
+
+    ($for_type:ty) =>
+    {
+
+        impl<T: Default> ActorInteractor for $for_type
+        {
+
+            fn input_default(&self)
+            {
+
+                _ = block_on(self.sender.send(T::default()));
+
+            }
+
+        }
+
+    }
+
+}

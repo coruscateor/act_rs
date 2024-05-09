@@ -16,70 +16,13 @@ pub struct UnboundedSenderInteractor<T: Default>
 impl<T: Default> UnboundedSenderInteractor<T>
 {
 
-    /*
-    pub fn new(sender: UnboundedSender<T>) -> Self
-    {
-
-        Self
-        {
-
-            sender
-
-        }
-        
-    }
-    */
-
     impl_new_sender!(UnboundedSender<T>);
-
-    /*
-    pub fn sender(&self) -> &UnboundedSender<T>
-    {
-
-        &self.sender
-
-    }
-    */
 
     impl_pub_sender!(UnboundedSender<T>);
 
-
 }
-
-/*
-impl<T: Default> Clone for UnboundedSenderInteractor<T>
-{
-
-    fn clone(&self) -> Self
-    {
-
-        Self
-        {
-
-            sender: self.sender.clone()
-
-        }
-
-    }
-
-}
-*/
 
 impl_interactor_clone!(UnboundedSenderInteractor<T>);
-
-/*
-impl<T: Default> ActorInteractor for UnboundedSenderInteractor<T>
-{
-
-    fn input_default(&self)
-    {
-
-        _ = self.sender.send(T::default());
-
-    }
-
-}
-*/
 
 impl_actor_interactor!(UnboundedSenderInteractor<T>);
 
