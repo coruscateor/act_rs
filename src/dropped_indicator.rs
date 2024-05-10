@@ -32,7 +32,7 @@ impl DroppedIndicator
 
     }
 
-    pub fn has_not_dropped(&self) -> bool
+    pub fn not_dropped(&self) -> bool
     {
 
         Arc::strong_count(&self.dropped_indicator) == 2

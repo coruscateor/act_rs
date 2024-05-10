@@ -107,11 +107,11 @@ mod tests {
 
     //Workers
 
-    struct IntTest_increment
+    struct IntTestIncrement
     {
     }
 
-    impl IntTest_increment
+    impl IntTestIncrement
     {
 
         pub fn new() -> Self

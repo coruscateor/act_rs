@@ -32,7 +32,7 @@ impl<SC, IN> RuntimeBlockingActor<SC, IN> where
     pub fn new(handle: &Handle, state: SC) -> Self
     {
 
-        let interactor =  state.interactor();
+        let interactor =  state.interactor().clone();
 
         let dropped_indicator = Arc::new(());
 

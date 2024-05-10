@@ -23,7 +23,7 @@ pub trait HasInteractor<IN>
     where IN: ActorInteractor
 {
 
-    fn interactor(&self) -> IN;
+    fn interactor(&self) -> &IN;
 
 }
 

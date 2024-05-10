@@ -63,7 +63,7 @@ macro_rules! impl_mac_runtime_task_actor
             pub fn new(handle: &Handle, state: $state_type) -> Self
             {
 
-                let interactor = state.interactor();
+                let interactor = state.interactor().clone();
 
                 let dropped_indicator = Arc::new(());
 
@@ -204,7 +204,7 @@ macro_rules! impl_mac_task_actor
             pub fn new(state: $state_type) -> Self
             {
 
-                let interactor = state.interactor();
+                let interactor = state.interactor().clone();
 
                 let dropped_indicator = Arc::new(());
 
