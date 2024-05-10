@@ -33,7 +33,7 @@ impl<ST, IN> ThreadActor<ST, IN> where
     pub fn new(state: ST) -> Self
     {
 
-        let interactor =  state.interactor();
+        let interactor =  state.interactor().clone();
 
         let dropped_indicator = Arc::new(());
 
