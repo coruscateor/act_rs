@@ -1,6 +1,4 @@
-//mod task_actor;
-
-//pub use task_actor::*;
+#![doc = include_str!("../README.md")]
 
 mod dropped_indicator;
 
@@ -10,24 +8,8 @@ mod actor_state;
 
 pub use actor_state::*;
 
-//mod thread_actor;
-
-//pub use thread_actor::*;
-
-//mod blocking_actor;
-
-//pub use blocking_actor::*;
-
-//pub mod tokio_interactors;
-
-//pub mod tokio_oneshot;
-
-//pub mod messages;
-
 #[cfg(feature="std")]
 pub mod std;
-
-//_actors
 
 #[cfg(feature="tokio")]
 pub mod tokio;
@@ -35,10 +17,6 @@ pub mod tokio;
 mod actor_frontend;
 
 pub use actor_frontend::*;
-
-//mod async_state_container;
-
-//pub use async_state_container::*;
 
 pub mod macros;
 

@@ -5,17 +5,14 @@ use tokio::task::{self, JoinHandle, spawn_blocking, JoinError};
 use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-
 use crate::{ActorInteractor, AsyncActorState, DroppedIndicator, ActorFrontend};
 
 ///
 /// A task based actor.
 /// 
-/// BROKEN: create your type using impl_mac_task_actor
-///
 #[allow(dead_code)]
 pub struct TaskActor<ST, IN> where
-    ST: AsyncActorState<IN> + std::marker::Send + 'static,
+    ST: AsyncActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 
@@ -26,7 +23,7 @@ pub struct TaskActor<ST, IN> where
 }
 
 impl<ST, IN> TaskActor<ST, IN> where
-    ST: AsyncActorState<IN> + std::marker::Send + 'static,
+    ST: AsyncActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 

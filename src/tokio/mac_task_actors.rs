@@ -1,21 +1,21 @@
-//Comment PhantomData
+//https://doc.rust-lang.org/book/appendix-02-operators.html#non-operator-symbols
 
-/*
+/**
 
-    An async orinented actor created using a Task spawned using a Runtime Handle
+    Generates an async orinented actor created using a Task spawned using a Runtime Handle
     
 
     Must have:
 
-    use std::{marker::PhantomData, sync::Arc};
+    use std::sync::Arc;
 
     use tokio::runtime::{Runtime, Handle};
 
     In module scope
 
-    $state_type must implement:
 
 
+    $state_type must implement trait:
 
     HasInteractor
 
@@ -27,35 +27,39 @@
 
     Also:
 
+    AsyncActorState
+
+    or
+
     async fn on_enter_async(&mut self, _di: &DroppedIndicator) -> bool;
 
     async fn run_async(&mut self, di: &DroppedIndicator) -> bool;
 
     async fn on_exit_async(&mut self, _di: &DroppedIndicator);
 
+    directly
 
 
-    The returned boolean values from the on_enter_async and run_async method implementations indicate whether or not actor execution should proceed.
+
+    The returned boolean values from the on_enter_async and run_async method implementations indicate whether or not the actors execution should proceed.
 
 */
-
 #[macro_export]
 macro_rules! impl_mac_runtime_task_actor
 {
 
-    ($interactor_type:ty, $state_type:ty, $type_name:ident) =>
+    ($state_type:ty, $interactor_type:ty, $type_name:ident) =>
     {
 
         pub struct $type_name
         {
 
             interactor: $interactor_type,
-            phantom_data: PhantomData<$state_type>,
             dropped_indicator: Arc<()>
 
         }
 
-        //tokio Task, spawned from a runtime handle Input/Output Actor
+        //A tokio::Task spawned from a runtime handle Input/Output Actor
 
         impl $type_name
         {
@@ -79,7 +83,6 @@ macro_rules! impl_mac_runtime_task_actor
                 {
 
                     interactor,
-                    phantom_data: PhantomData::default(),
                     dropped_indicator,
 
                 }
@@ -146,19 +149,19 @@ macro_rules! impl_mac_runtime_task_actor
 
 }
 
-/*
+/**
 
-    An async orinented actor created within an async runtime context.
+    Generates an async orinented actor created within an async runtime context.
 
-    must have:
+    Must have:
 
-    use std::{marker::PhantomData, sync::Arc};
+    use std::sync::Arc;
 
     In module scope
 
 
 
-    $state_type  must implement:
+    $state_type must implement:
 
     HasInteractor
 
@@ -170,30 +173,34 @@ macro_rules! impl_mac_runtime_task_actor
 
     Also:
 
+    AsyncActorState
+
+    or
+
     async fn on_enter_async(&mut self, _di: &DroppedIndicator) -> bool;
 
     async fn run_async(&mut self, di: &DroppedIndicator) -> bool;
 
     async fn on_exit_async(&mut self, _di: &DroppedIndicator);
 
+    directly
 
 
-    The returned boolean values from the on_enter_async and run_async method implementations indicate whether or not actor execution should proceed.
+
+    The returned boolean values from the on_enter_async and run_async method implementations indicate whether or not the actors execution should proceed.
 
 */
-
 #[macro_export]
 macro_rules! impl_mac_task_actor
 {
 
-    ($interactor_type:ty, $state_type:ty, $type_name:ident) =>
+    ($state_type:ty, $interactor_type:ty, $type_name:ident) =>
     {
 
         pub struct $type_name
         {
 
             interactor: $interactor_type,
-            phantom_data: PhantomData<$state_type>,
             dropped_indicator: Arc<()>
 
         }
@@ -220,7 +227,6 @@ macro_rules! impl_mac_task_actor
                 {
 
                     interactor,
-                    phantom_data: PhantomData::default(),
                     dropped_indicator,
 
                 }
@@ -285,8 +291,8 @@ macro_rules! impl_mac_task_actor
 ///
 /// A default implementation of the on_enter_async mehthod for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
 /// 
-/// Can be used when you are not implementing AsyncActorState.
-///
+/// In this case it is a method returns a true constant.
+/// 
 #[macro_export]
 macro_rules! impl_default_on_enter_async
 {
@@ -306,9 +312,9 @@ macro_rules! impl_default_on_enter_async
 }
 
 ///
-/// A default implementation of the on_exit_async method for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+/// Produces a default implementation of the on_exit_async method for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
 ///
-/// Can be used when you are not implementing AsyncActorState.
+/// In this case it is an empty method.
 /// 
 #[macro_export]
 macro_rules! impl_default_on_exit_async
@@ -327,10 +333,8 @@ macro_rules! impl_default_on_exit_async
 }
 
 ///
-/// Default implementations of both the on_exit_async and on_exit_async methods for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+/// Produces default implementations of both the on_exit_async and on_exit_async methods for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
 ///
-/// Can be used when you are not implementing AsyncActorState.
-/// 
 #[macro_export]
 macro_rules! impl_default_on_enter_and_exit_async
 {
@@ -346,6 +350,43 @@ macro_rules! impl_default_on_enter_and_exit_async
 
 }
 
+///
+/// Produces an implementation of the on_enter_async method where DroppedIndicator::not_dropped gets called with its result returned immediately.
+/// 
+#[macro_export]
+macro_rules! impl_not_dropped_on_enter_async
+{
 
+    () =>
+    {
+
+        async fn on_enter_async(&mut self, di: &DroppedIndicator) -> bool
+        {
+    
+            di.not_dropped()
+    
+        }
+
+    }
+
+}
+
+///
+/// Produces default implementations of both the on_exit_async and on_exit_async methods using the impl_default_on_enter_async and impl_default_on_exit_async macros.
+///
+#[macro_export]
+macro_rules! impl_not_dropped_on_enter_and_default_exit_async
+{
+
+    () =>
+    {
+
+        impl_not_dropped_on_enter_async!();
+
+        impl_default_on_exit_async!();
+
+    }
+
+}
 
 

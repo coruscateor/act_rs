@@ -11,25 +11,25 @@ use crate::{ActorFrontend, ActorInteractor, ActorState, AsyncActorState, Dropped
 /// A blocking thread actor that requres a runtime or a runtime handle to get started.
 /// 
 #[allow(dead_code)]
-pub struct RuntimeBlockingActor<SC, IN> where
-    SC: ActorState<IN> + std::marker::Send + 'static,
+pub struct RuntimeBlockingActor<ST, IN> where
+    ST: ActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 
     interactor: IN,
-    phantom_data: PhantomData<SC>,
+    phantom_data: PhantomData<ST>,
     dropped_indicator: Arc<()>
 
 }
 
 //Thread:spawn Input/Output Actor
 
-impl<SC, IN> RuntimeBlockingActor<SC, IN> where
-    SC: ActorState<IN> + std::marker::Send + 'static,
+impl<ST, IN> RuntimeBlockingActor<ST, IN> where
+    ST: ActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 
-    pub fn new(handle: &Handle, state: SC) -> Self
+    pub fn new(handle: &Handle, state: ST) -> Self
     {
 
         let interactor =  state.interactor().clone();
@@ -55,14 +55,14 @@ impl<SC, IN> RuntimeBlockingActor<SC, IN> where
 
     }
 
-    pub fn from_runtime(runtime: &Runtime, state: SC) -> Self
+    pub fn from_runtime(runtime: &Runtime, state: ST) -> Self
     {
 
         RuntimeBlockingActor::new(runtime.handle(), state)
 
     }
 
-    fn run(mut state: SC, dropped_indicator: Arc<()>)
+    fn run(mut state: ST, dropped_indicator: Arc<()>)
     {
 
         let mut proceed = true; 
@@ -87,8 +87,8 @@ impl<SC, IN> RuntimeBlockingActor<SC, IN> where
     
 }
 
-impl<SC, IN> ActorFrontend<IN> for RuntimeBlockingActor<SC, IN> where
-    SC: ActorState<IN> + Send + 'static,
+impl<ST, IN> ActorFrontend<IN> for RuntimeBlockingActor<ST, IN> where
+    ST: ActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 
@@ -101,8 +101,8 @@ impl<SC, IN> ActorFrontend<IN> for RuntimeBlockingActor<SC, IN> where
 
 }
 
-impl<SC, IN> Drop for RuntimeBlockingActor<SC, IN> where
-    SC: ActorState<IN> + std::marker::Send + 'static,
+impl<ST, IN> Drop for RuntimeBlockingActor<ST, IN> where
+    ST: ActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 

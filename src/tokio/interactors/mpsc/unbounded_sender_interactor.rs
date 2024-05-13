@@ -4,7 +4,7 @@ use tokio::sync::mpsc::{UnboundedSender, UnboundedReceiver};
 use crate::{impl_actor_interactor, impl_interactor_clone, impl_new_sender, impl_pub_sender, ActorInteractor};
 
 ///
-/// An interactor containing an unbounded mspc sender.
+/// An interactor containing an unbounded mpsc sender.
 ///
 pub struct UnboundedSenderInteractor<T: Default>
 {

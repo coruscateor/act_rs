@@ -1,5 +1,3 @@
-use std::{sync::Arc, any::Any};
-
 use async_trait::async_trait;
 
 use super::dropped_indicator::*;
@@ -60,7 +58,7 @@ pub trait ActorState<IN> : HasInteractor<IN>
 /// 
 /// Use impl_mac_runtime_task_actor or impl_mac_task_actor instead.
 ///
-#[async_trait] //(?Send)
+#[async_trait]
 pub trait AsyncActorState<IN> : HasInteractor<IN>
     where IN: ActorInteractor
 {

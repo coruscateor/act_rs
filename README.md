@@ -2,11 +2,15 @@
 
 Act.rs is an actor library.
 
+<br />
+
 ## What is an actor?
 
 An actor is an object that runs in its own thread or task. You usually might communicate with it via a message queue.
 
-They have their own state, so you can just send a message indicating what you want done to a particular actor without necessarily having to move everything.
+They have their own state, so you can just send a message indicating what you want done to a particular actor without necessarily having to move everything to do it into its scope.
+
+<br />
 
 ## Pipelining
 
@@ -14,16 +18,27 @@ Another potential benefit of actors is they can make it reasonably straight-forw
 
 You might setup a pipeline to divide work into stages to be performed on different threads and to keep message queue sizes under control.
 
+<br />
+
+## Examples
+
+[Req It](https://github.com/coruscateor/req_it/blob/master/src/actors/graphql_actor.rs)
+
+[Escape It](https://github.com/coruscateor/escape_it/blob/master/src/conversion_actor.rs)
+
+Others...
 
 ## Potential Issues When Setting Up
 
 When setting your actors with input message queues, you should:
 
-- Make sure your actor doesn't wait excessively or get stuck (wait indefinitely).
+- Make sure your actor doesn't wait excessively or get stuck (wait indefinitely) when doing work.
 - If you are using actors as part of a pipeline; watch out for message loops.
 - Make sure that the actor doesn't exit unexpectedly, especially with messages still in the input queue.
 
-If you follow these guidelines you should have a pleasant time using Act_rs.
+If you follow these guidelines you should have a pleasant time using Act.rs.
+
+<br />
 
 ## Todo:
 
@@ -35,10 +50,13 @@ If you follow these guidelines you should have a pleasant time using Act_rs.
 - Link to example projects
 - Make actor implementations compile-time features,
 
+<br />
 
 ## Possibilities:
 
 - Add other async framework implementations such as std_async.
+
+<br />
 
 ## Coding Style
 

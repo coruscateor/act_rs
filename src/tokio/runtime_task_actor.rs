@@ -4,35 +4,31 @@ use tokio::{task::{self, JoinHandle, spawn_blocking, JoinError}, runtime::{Handl
 use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc};
 
-use crate::{ActorInteractor, AsyncActorState, DroppedIndicator, ActorFrontend}; //impl_actor_frontend,
-
-//use paste::paste;
+use crate::{ActorInteractor, AsyncActorState, DroppedIndicator, ActorFrontend};
 
 ///
 /// A Task based actor that requres a runtime or a runtime handle to get started.
 /// 
-///  BROKEN: create your type using impl_mac_runtime_task_actor
-///
 #[allow(dead_code)]
-pub struct RuntimeTaskActor<SC, IN> where
-    SC: AsyncActorState<IN> + Send + 'static,
+pub struct RuntimeTaskActor<ST, IN> where
+    ST: AsyncActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 
     interactor: IN,
-    phantom_data: PhantomData<SC>,
+    phantom_data: PhantomData<ST>,
     dropped_indicator: Arc<()>
 
 }
 
 //tokio Task, spawned from a runtime handle Input/Output Actor
 
-impl<SC, IN> RuntimeTaskActor<SC, IN> where
-    SC: AsyncActorState<IN> + Send + 'static,
+impl<ST, IN> RuntimeTaskActor<ST, IN> where
+    ST: AsyncActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 
-    pub fn new(handle: &Handle, state: SC) -> Self
+    pub fn new(handle: &Handle, state: ST) -> Self
     {
 
         let interactor =  state.interactor().clone();
@@ -58,14 +54,14 @@ impl<SC, IN> RuntimeTaskActor<SC, IN> where
 
     }
 
-    pub fn from_runtime(runtime: &Runtime, state: SC) -> Self
+    pub fn from_runtime(runtime: &Runtime, state: ST) -> Self
     {
 
         RuntimeTaskActor::new(runtime.handle(), state)
 
     }
 
-    async fn run(mut state: SC, dropped_indicator: Arc<()>)
+    async fn run(mut state: ST, dropped_indicator: Arc<()>)
     {
 
         let mut proceed = true; 
@@ -97,8 +93,8 @@ impl<SC, IN> RuntimeTaskActor<SC, IN> where
 
 }
 
-impl<SC, IN> ActorFrontend<IN> for RuntimeTaskActor<SC, IN> where
-    SC: AsyncActorState<IN> + Send + 'static,
+impl<ST, IN> ActorFrontend<IN> for RuntimeTaskActor<ST, IN> where
+    ST: AsyncActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 
@@ -111,8 +107,8 @@ impl<SC, IN> ActorFrontend<IN> for RuntimeTaskActor<SC, IN> where
 
 }
 
-impl<SC, IN> Drop for RuntimeTaskActor<SC, IN> where
-    SC: AsyncActorState<IN> + std::marker::Send + 'static,
+impl<ST, IN> Drop for RuntimeTaskActor<ST, IN> where
+    ST: AsyncActorState<IN> + std::marker::Send + 'static,
     IN: ActorInteractor
 {
 

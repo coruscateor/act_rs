@@ -13,6 +13,9 @@ pub struct DroppedIndicator
 impl DroppedIndicator
 {
 
+    ///
+    /// Constructs a new instance of DroppedIndicator.
+    /// 
     pub fn new(dropped_indicator: Arc<()>) -> Self
     {
 
@@ -25,6 +28,9 @@ impl DroppedIndicator
 
     }
 
+    ///
+    /// For checking if the "front-end" of the actor has dropped. 
+    /// 
     pub fn has_dropped(&self) -> bool
     {
 
@@ -32,6 +38,9 @@ impl DroppedIndicator
 
     }
 
+    ///
+    /// For checking if the "front-end" of the actor has not dropped. 
+    /// 
     pub fn not_dropped(&self) -> bool
     {
 

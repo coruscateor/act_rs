@@ -6,14 +6,14 @@ use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
 use crate::{ActorFrontend, ActorInteractor, ActorState, DroppedIndicator};
 
-use std::thread; //::Thread;
+use std::thread;
 
 ///
 /// An std::Thred based actor.
 ///
 #[allow(dead_code)]
 pub struct ThreadActor<ST, IN> where
-    ST: std::marker::Send + 'static + ActorState<IN>,
+    ST: Send + 'static + ActorState<IN>,
     IN: ActorInteractor
 {
 
@@ -26,7 +26,7 @@ pub struct ThreadActor<ST, IN> where
 //Thread:spawn Input/Output Actor
 
 impl<ST, IN> ThreadActor<ST, IN> where
-    ST: std::marker::Send + 'static + ActorState<IN>,
+    ST: Send + 'static + ActorState<IN>,
     IN: ActorInteractor
 {
 
@@ -81,8 +81,8 @@ impl<ST, IN> ThreadActor<ST, IN> where
     
 }
 
-impl<SC, IN> ActorFrontend<IN> for ThreadActor<SC, IN> where
-    SC: ActorState<IN> + Send + 'static,
+impl<ST, IN> ActorFrontend<IN> for ThreadActor<ST, IN> where
+    ST: ActorState<IN> + Send + 'static,
     IN: ActorInteractor
 {
 
@@ -96,7 +96,7 @@ impl<SC, IN> ActorFrontend<IN> for ThreadActor<SC, IN> where
 }
 
 impl<ST, IN> Drop for ThreadActor<ST, IN> where
-    ST: ActorState<IN> + std::marker::Send,
+    ST: ActorState<IN> + Send,
     IN: ActorInteractor
 {
 
