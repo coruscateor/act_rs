@@ -1,5 +1,7 @@
 #![doc = include_str!("../README.md")]
 
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+
 mod dropped_indicator;
 
 pub use dropped_indicator::*;
@@ -8,9 +10,16 @@ mod actor_state;
 
 pub use actor_state::*;
 
+//feature="doc"
+
+//#[cfg(feature="std")] //, doc))]
+//#[doc = "std"]
+//#[doc(cfg(feature="std"))]
+//#[cfg(any(feature="std", doc))]
 #[cfg(feature="std")]
 pub mod std;
 
+//#[cfg(any(feature="tokio", doc))]
 #[cfg(feature="tokio")]
 pub mod tokio;
 
@@ -18,6 +27,7 @@ mod actor_frontend;
 
 pub use actor_frontend::*;
 
+#[doc(hidden)]
 pub mod macros;
 
 #[cfg(test)]

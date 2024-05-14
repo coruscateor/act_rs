@@ -6,7 +6,7 @@ license = "MIT OR Apache-2.0"
 description = "An actor library"
 repository = "https://github.com/coruscateor/act_rs"
 homepage = "https://coruscateor.com/projects/act_rs"
-keywords = ["actor", "actors", "async", "message", "messages"]
+keywords = ["actor", "actors", "async", "message", "pipeline"]
 categories = ["asynchronous"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -24,4 +24,23 @@ delegate = "0.*"
 
 [features]
 std = []
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+#Apparently feature labelling in documentation compilation is unstable:
+
+#https://users.rust-lang.org/t/how-to-document-optional-features-in-api-docs/64577/2
+
+#https://doc.rust-lang.org/rustdoc/unstable-features.html
+
+#https://docs.rs/about/metadata
+
+
+
+#To compile the documentation use:
+
+#cargo doc --all-features
+
 

@@ -1,6 +1,23 @@
+<div align="center">
+
 # Act.rs
 
-Act.rs is an actor library.
+[![Crates.io](https://img.shields.io/crates/v/act_rs)](https://crates.io/crates/act_rs)
+[![License](https://img.shields.io/badge/license-MIT%2FApache-blue)](#license)
+[![Downloads](https://img.shields.io/crates/d/act_rs)](https://crates.io/crates/act_rs)
+[![Docs](https://docs.rs/act_rs/badge.svg)](https://docs.rs/act_rs/latest/act_rs/)
+[![Twitch Status](https://img.shields.io/twitch/status/coruscateor)](https://www.twitch.tv/coruscateor)
+
+[X](https://twitter.com/Coruscateor) | 
+[Twitch](https://www.twitch.tv/coruscateor) | 
+[Youtube](https://www.youtube.com/@coruscateor) | 
+[Mastodon](https://mastodon.social/@Coruscateor) | 
+[GitHub](https://github.com/coruscateor) | 
+[GitHub Sponsors](https://github.com/sponsors/coruscateor)
+
+Act.rs is an actor library written in Rust.
+
+</div>
 
 <br />
 
@@ -8,7 +25,7 @@ Act.rs is an actor library.
 
 An actor is an object that runs in its own thread or task. You usually might communicate with it via a message queue.
 
-They have their own state, so you can just send a message indicating what you want done to a particular actor without necessarily having to move everything to do it into its scope.
+Actors have their own state, so you can just send a message indicating what you want done to a particular actor without necessarily having to move everything to do it into its scope.
 
 <br />
 
@@ -16,7 +33,7 @@ They have their own state, so you can just send a message indicating what you wa
 
 Another potential benefit of actors is they can make it reasonably straight-forward to setup pipelines.
 
-You might setup a pipeline to divide work into stages to be performed on different threads and to keep message queue sizes under control.
+You might setup a pipeline to divide work into stages to be performed on different threads.
 
 <br />
 
@@ -30,7 +47,7 @@ Others...
 
 ## Potential Issues When Setting Up
 
-When setting your actors with input message queues, you should:
+When setting up your actors with input message queues, you should:
 
 - Make sure your actor doesn't wait excessively or get stuck (wait indefinitely) when doing work.
 - If you are using actors as part of a pipeline; watch out for message loops.
@@ -43,17 +60,17 @@ If you follow these guidelines you should have a pleasant time using Act.rs.
 ## Todo:
 
 - Add more documentation
-- Add code examples
+- Add more examples
 - Add some tests
 - Cleanup the code
 - Solidify the API for 1.0
-- Link to example projects
-- Make actor implementations compile-time features,
+- Add methods to all actor structs and macros which allow you to construct the actor-state in the actors thread, passing in any necessary parameters in order to do this e.g. the actors interactor.
 
 <br />
 
 ## Possibilities:
 
+- Rename required actor-state methods methods on_enter, on_exit as well as their async counterparts to something a bit more appropriate (particularly in regards to the last point in the Todo list). 
 - Add other async framework implementations such as std_async.
 
 <br />
