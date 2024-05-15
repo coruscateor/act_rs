@@ -21,11 +21,33 @@ Act.rs is an actor library written in Rust.
 
 <br />
 
-## What is an actor?
+## What Is An Actor?
 
 An actor is an object that runs in its own thread or task. You usually might communicate with it via a message queue.
 
 Actors have their own state, so you can just send a message indicating what you want done to a particular actor without necessarily having to move everything to do it into its scope.
+
+<br />
+
+## Components Of An Actor
+
+Act.rs actors have these three essential components:
+
+1. The actor state
+2. The interactor - part of #1
+3. The actor itself
+
+<br />
+
+## Putting The Components Together
+
+Create a state struct that contains the state of your actor, which includes an interactor.
+
+This state struct should implement either ActorState or AsyncActorState depending on whether or not the actor is async (Macro generated actors don't have this requirement and the state can implement the required methods directly)
+
+The interactor is exposed via HasInteractor which is required by both ActorState and AsyncActorState.
+
+Finally pass the state into the actor constructor and there you have your actor (see the examples).
 
 <br />
 
@@ -37,27 +59,29 @@ You might setup a pipeline to divide work into stages to be performed on differe
 
 <br />
 
-## Examples
-
-[Req It](https://github.com/coruscateor/req_it/blob/master/src/actors/graphql_actor.rs)
-
-[Escape It](https://github.com/coruscateor/escape_it/blob/master/src/conversion_actor.rs)
-
-Others...
-
 ## Potential Issues When Setting Up
 
 When setting up your actors with input message queues, you should:
 
 - Make sure your actor doesn't wait excessively or get stuck (wait indefinitely) when doing work.
 - If you are using actors as part of a pipeline; watch out for message loops.
-- Make sure that the actor doesn't exit unexpectedly, especially with messages still in the input queue.
+- Make sure that the actor doesn't exit unexpectedly.
 
 If you follow these guidelines you should have a pleasant time using Act.rs.
 
 <br />
 
-## Todo:
+## Examples
+
+[Req It](https://github.com/coruscateor/req_it/blob/latest/src/actors/graphql_actor.rs)
+
+[Escape It](https://github.com/coruscateor/escape_it/blob/latest/src/conversion_actor.rs)
+
+[Act.rs Async Traits Test](https://github.com/coruscateor/act_rs_async_traits_test/tree/latest)
+
+<br />
+
+## Todo
 
 - Add more documentation
 - Add more examples
@@ -65,13 +89,14 @@ If you follow these guidelines you should have a pleasant time using Act.rs.
 - Cleanup the code
 - Solidify the API for 1.0
 - Add methods to all actor structs and macros which allow you to construct the actor-state in the actors thread, passing in any necessary parameters in order to do this e.g. the actors interactor.
+- Improve code reuse
 
 <br />
 
 ## Possibilities:
 
 - Rename required actor-state methods methods on_enter, on_exit as well as their async counterparts to something a bit more appropriate (particularly in regards to the last point in the Todo list). 
-- Add other async framework implementations such as std_async.
+- Add other async framework implementations such as [smol](https://crates.io/crates/smol).
 
 <br />
 

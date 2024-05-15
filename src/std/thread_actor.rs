@@ -9,7 +9,7 @@ use crate::{ActorFrontend, ActorInteractor, ActorState, DroppedIndicator};
 use std::thread;
 
 ///
-/// An std::Thred based actor.
+/// An std::Thread based actor.
 ///
 #[allow(dead_code)]
 pub struct ThreadActor<ST, IN> where
