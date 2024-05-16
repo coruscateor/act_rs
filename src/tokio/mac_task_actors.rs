@@ -2,9 +2,8 @@
 
 /**
 
-    Generates an async orinented actor created using a Task spawned using a Runtime Handle
+    Generates an async oriented actor created using a Task spawned from a Runtime Handle.
     
-
     Must have:
 
     use std::sync::Arc;
@@ -151,7 +150,7 @@ macro_rules! impl_mac_runtime_task_actor
 
 /**
 
-    Generates an async orinented actor created within an async runtime context.
+    Generates an async oriented actor to be instantiated within an async runtime context.
 
     Must have:
 
