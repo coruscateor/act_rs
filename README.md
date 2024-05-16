@@ -81,6 +81,15 @@ If you follow these guidelines you should have a pleasant time using Act.rs.
 
 <br />
 
+## Features
+
+| Feature     | Description |
+| ----------- | ----------- |
+| tokio | Enable Tokio based actors and interactors. |
+| std   | Enable std based actors and interactors.|
+
+<br />
+
 ## Todo
 
 - Add more documentation
