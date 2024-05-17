@@ -15,7 +15,7 @@
 [GitHub](https://github.com/coruscateor) | 
 [GitHub Sponsors](https://github.com/sponsors/coruscateor)
 
-Act.rs is an actor library written in Rust.
+Act.rs is an actor library built to be used with the standard library and Tokio.
 
 </div>
 
@@ -33,15 +33,17 @@ Actors have their own state, so you can just send a message indicating what you 
 
 Act.rs actors have these three essential components:
 
-1. The actor state
-2. The interactor - part of #1
-3. The actor itself
+1. The actor-state
+2. The interactor - can be part of #1
+3. The actor itself, which has two components of its own:
+    1. The front-end - what users of actors interact with, contains the interactor or a clone of it.
+    2. The back-end - The thread/task were the actor does its work. The actor-state is moved into this scope.
 
 <br />
 
 ## Putting The Components Together
 
-Create a state struct that contains the state of your actor, which includes an interactor.
+Create a state struct that contains the state of your actor, this includes an interactor.
 
 This state struct should implement either ActorState or AsyncActorState depending on whether or not the actor is async (Macro generated actors don't have this requirement and the state can implement the required methods directly)
 
@@ -96,22 +98,23 @@ If you follow these guidelines you should have a pleasant time using Act.rs.
 - Add more examples
 - Add some tests
 - Cleanup the code
-- Solidify the API for 1.0
+- Solidify the API for 1.0.
 - Add methods to all actor structs and macros which allow you to construct the actor-state in the actors thread, passing in any necessary parameters in order to do this e.g. the actors interactor.
 - Improve code reuse
+- Remove the requirement that the actor-state should possess the interactor (and make a reference to it available). When using channels for interaction it makes sense that the send side should only be in the front-end of the actor.
 
 <br />
 
 ## Possibilities:
 
-- Rename required actor-state methods methods on_enter, on_exit as well as their async counterparts to something a bit more appropriate (particularly in regards to the last point in the Todo list). 
+- Rename the required actor-state methods methods on_enter, on_exit as well as their async counterparts to something a bit more appropriate (particularly in regards to the point about in-actor-thread state-constructors in the Todo list).
 - Add other async framework implementations such as [smol](https://crates.io/crates/smol).
 
 <br />
 
 ## Coding Style
 
-This project uses a coding style the emphasises the use of white space over keeping the line and column counts as low as possible.
+This project uses a coding style that emphasises the use of white space over keeping the line and column counts as low as possible.
 
 So this:
 

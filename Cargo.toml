@@ -3,7 +3,7 @@ name = "act_rs"
 version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
-description = "An actor library"
+description = "Act.rs is an actor library built to be used with the standard library and Tokio."
 repository = "https://github.com/coruscateor/act_rs"
 homepage = "https://coruscateor.com/projects/act_rs"
 keywords = ["actor", "actors", "async", "message", "pipeline"]
@@ -14,9 +14,6 @@ categories = ["asynchronous"]
 [dependencies]
 tokio = { version = "1.*", features = ["rt", "rt-multi-thread", "sync", "macros"], optional = true }
 futures = "0.3.*"
-#parking_lot = "0.12.*"
-#crossbeam = "0.8.*"
-#crossbeam = { version = "0.8.*", optional = true }
 async-trait = "0.1.*"
 delegate = "0.*"
 
