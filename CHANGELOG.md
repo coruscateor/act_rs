@@ -11,16 +11,16 @@
 
 - Made the std and tokio modules optional and dependant of their respective features.
 
--- Spell checked some documentation above ActorInteractor.
+- Spell checked some documentation above ActorInteractor.
 
 - Removed old code.
 - Remamed the “get_interactor_ref” method to “interactor” in ActorFrontend and updated this elsewhere.
 - Remamed the “get_interactor” method to “interactor” in ActorInteractor and updated this elsewhere.
 - Removed the messages module.
 
--- Renamed “get_sender_ref” to “sender” in SenderInteractor.
+- Renamed “get_sender_ref” to “sender” in SenderInteractor.
 
--- Renamed “get_unbounded_sender_ref” to “sender” in UnboundedSenderInteractor.
+- Renamed “get_unbounded_sender_ref” to “sender” in UnboundedSenderInteractor.
 
 -- Disabled impl_default_on_enter_async, impl_default_on_exit_async and impl_default_on_enter_and_exit_async in tokio/mac_task_actors.rs.
 
@@ -32,7 +32,7 @@
 
 - Removed crossbeam
 - Added a macros module with impl_pub_sender, impl_new_sender, impl_interactor_clone and impl_actor_interactor macros.
-- Added an interactors module with an mspc sub-module containing sender_interactor (SenderInteractor, channel) and sync_sender_interactor (SyncSenderInteractor, sync_channel) modules to the std module.
+- Added an interactors module with an mpsc sub-module containing sender_interactor (SenderInteractor, channel) and sync_sender_interactor (SyncSenderInteractor, sync_channel) modules to the std module.
 - Decorated std::ThreadActor and tokio::BlockingActor with #[allow(dead_code)].
 - Added a message at the top of the tokio/interactors/broadcast/mod file.
 - Under tokio/interactors the name of the module “mspc” has been changed to “mpsc”.
@@ -44,7 +44,7 @@
 
 c53838055f7a281b7cbebc8f89d4a22c73cbbf22
 
--- Changed Act_rs to Act.rs in the readme.
+- Changed Act_rs to Act.rs in the readme.
 
 35a1b28a3a89b621419a395515768e6931173c3e
 
@@ -69,7 +69,7 @@ a633f91ad65081da5eec9b5b9a7a1b35f862b693
 
 - Added comments to the DroppedIndicator methods.
 - Cleaned up lib.rs.
-- Removed the requirement that std::marker::PhantomData ben in scope to use the impl_mac_runtime_task_actor and impl_mac_task_actor macros.
+- Removed the requirement that std::marker::PhantomData be in scope to use the impl_mac_runtime_task_actor and impl_mac_task_actor macros.
 - Swapped the order of the $state_type and $interactor_type parameters in the impl_mac_runtime_task_actor and impl_mac_task_actor macros.
 
 - Updated the documentation of impl_default_on_enter_async, impl_default_on_exit_async and impl_default_on_enter_and_exit_async.
@@ -83,7 +83,7 @@ a633f91ad65081da5eec9b5b9a7a1b35f862b693
 - Replaced the “messages” keyword in the Cargo.toml with “pipeline”.
 - Added a package.metadata.docs.rs section to the Cargo.toml indicating that I want docs.rs to build all the features and create a configuration argument called “docsrs”.
 
--- Added links and badges to the readme and other changes.
+- Added links and badges to the readme and other changes.
 
 - Added #![cfg_attr(docsrs, feature(doc_auto_cfg))] near to the top of the lib.rs file to ensure that every conditional feature gets documentation indicating what flag is required and whether or not the item you’re looking at is optional on the docs.rs website.
 - Decorated the macros module declaration with #[doc(hidden)] in lib.rs.
@@ -103,6 +103,15 @@ c043d280e378a64397981c508a887ef62219d9aa
 
 
 61e4c2d0cff4a6c5be1d27b1438970609de67071
+
+
+
+- Corrected the HasInteractor documentation.
+
+- Removed the notice about async traits being broken in the AsyncActorState documentation.
+
+
+f48c920225d63955f6291c2df00792dd909360a3
 
 ## Version 0.1.0 (20/07/2023)
 
