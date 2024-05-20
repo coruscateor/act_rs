@@ -1,6 +1,6 @@
 [package]
 name = "act_rs"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "Act.rs is an actor library built to be used with the standard library and Tokio."
