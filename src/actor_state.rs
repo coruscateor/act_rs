@@ -7,6 +7,7 @@ use super::dropped_indicator::*;
 /// 
 /// Actors, or rather actor front-ends call input_default in an attempt to wakeup a possibly asleep actor so that it can determine that the front-end has been dropped and exit.
 /// 
+#[deprecated(since = "0.3.0", note = "Channels and other means of inter-thread communication should have ways of signalling to waiting actors that the front-end has dropped without needing every inter-actor to implement this trait.")]
 pub trait ActorInteractor: Clone
 {
 
@@ -18,7 +19,6 @@ pub trait ActorInteractor: Clone
 /// To be implemented on actor-states.
 /// 
 pub trait HasInteractor<IN>
-    where IN: ActorInteractor
 {
 
     fn interactor(&self) -> &IN;
@@ -31,7 +31,6 @@ pub trait HasInteractor<IN>
 /// The returned boolean values from the on_enter and run method implementations indicate whether or not actor execution should proceed.
 /// 
 pub trait ActorState<IN> : HasInteractor<IN>
-    where IN: ActorInteractor
 {
 
     fn on_enter(&mut self, _di: &DroppedIndicator) -> bool
@@ -56,7 +55,6 @@ pub trait ActorState<IN> : HasInteractor<IN>
 ///
 #[async_trait]
 pub trait AsyncActorState<IN> : HasInteractor<IN>
-    where IN: ActorInteractor
 {
 
     async fn on_enter_async(&mut self, _di: &DroppedIndicator) -> bool

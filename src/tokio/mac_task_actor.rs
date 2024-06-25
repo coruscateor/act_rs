@@ -58,6 +58,7 @@ macro_rules! impl_mac_task_actor
         {
 
             pub fn new(state: $state_type) -> Self
+                //where IN: Clone //<IN> //: IN
             {
 
                 let interactor = state.interactor().clone();
@@ -118,22 +119,12 @@ macro_rules! impl_mac_task_actor
             }    
 
         }
-
-        impl Drop for $type_name
-        {
-
-            fn drop(&mut self)
-            {
-                
-                self.interactor.input_default();
-
-            }
-
-        }
         
     }
 
 }
+
+//Different macros for different Task-actor methods of initialisation?
 
 //Default implementations of entry and exit methods to be used by the actor state
 

@@ -5,15 +5,14 @@ use tokio::task::{self, JoinHandle, spawn_blocking, JoinError};
 use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-use crate::{ActorInteractor, AsyncActorState, DroppedIndicator, ActorFrontend};
+use crate::{AsyncActorState, DroppedIndicator, ActorFrontend};
 
 ///
 /// A task based actor.
 /// 
 #[allow(dead_code)]
 pub struct TaskActor<ST, IN> where
-    ST: AsyncActorState<IN> + Send + 'static,
-    IN: ActorInteractor
+    ST: AsyncActorState<IN> + Send + 'static
 {
 
     interactor: IN,
@@ -23,11 +22,11 @@ pub struct TaskActor<ST, IN> where
 }
 
 impl<ST, IN> TaskActor<ST, IN> where
-    ST: AsyncActorState<IN> + Send + 'static,
-    IN: ActorInteractor
+    ST: AsyncActorState<IN> + Send + 'static
 {
 
     pub fn new(state: ST) -> Self
+        where IN: Clone
     {
 
         let interactor =  state.interactor().clone();
@@ -79,8 +78,7 @@ impl<ST, IN> TaskActor<ST, IN> where
 }
 
 impl<ST, IN> ActorFrontend<IN> for TaskActor<ST, IN> where
-    ST: AsyncActorState<IN> + Send + 'static,
-    IN: ActorInteractor
+    ST: AsyncActorState<IN> + Send + 'static
 {
 
     fn interactor(&self) -> &IN
@@ -91,18 +89,3 @@ impl<ST, IN> ActorFrontend<IN> for TaskActor<ST, IN> where
     }    
 
 }
-
-impl<ST, IN> Drop for TaskActor<ST, IN> where
-    ST: AsyncActorState<IN> + Send + 'static,
-    IN: ActorInteractor
-{
-
-    fn drop(&mut self)
-    {
-        
-        self.interactor.input_default();
-
-    }
-
-}
-    
