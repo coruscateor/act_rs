@@ -10,5 +10,6 @@ mod unbounded_sender_interactor;
 
 pub use unbounded_sender_interactor::*;
 
+mod actor_io_interactors;
 
-
+pub use actor_io_interactors::*;

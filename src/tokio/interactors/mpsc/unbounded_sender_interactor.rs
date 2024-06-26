@@ -1,11 +1,12 @@
 
 use tokio::sync::mpsc::{UnboundedSender, UnboundedReceiver};
 
-use crate::{impl_actor_interactor, impl_interactor_clone, impl_new_sender, impl_pub_sender, ActorInteractor};
+use crate::{impl_interactor_clone, impl_new_sender, impl_pub_sender};
 
 ///
 /// An interactor containing an unbounded mpsc sender.
 ///
+#[deprecated(since = "0.3.0", note = "Deprecated due to ActorInteractor being deprecated.")]
 pub struct UnboundedSenderInteractor<T: Default>
 {
 
@@ -24,11 +25,10 @@ impl<T: Default> UnboundedSenderInteractor<T>
 
 impl_interactor_clone!(UnboundedSenderInteractor<T>);
 
-impl_actor_interactor!(UnboundedSenderInteractor<T>);
-
 ///
 /// Calls tokio::sync::mpsc::unbounded_channel and returns a UnboundedSenderInteractor in additon to the Tokio unbounded receiver.
 /// 
+#[deprecated(since = "0.3.0", note = "Deprecated due to ActorInteractor being deprecated.")]
 pub fn unbounded_channel<T: Default>() -> (UnboundedSenderInteractor<T>, UnboundedReceiver<T>)
 {
 

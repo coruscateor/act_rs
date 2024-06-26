@@ -1,14 +1,13 @@
 use tokio::sync::mpsc::{Sender, Receiver};
 
-use crate::{impl_actor_interactor_async, impl_interactor_clone, impl_new_sender, impl_pub_sender, ActorInteractor};
-
-use futures::executor::block_on;
+use crate::{impl_interactor_clone, impl_new_sender, impl_pub_sender};
 
 //use crate::macros;
 
 ///
 /// An interactor containing an mpsc sender.
 /// 
+#[deprecated(since = "0.3.0", note = "Deprecated due to ActorInteractor being deprecated.")]
 pub struct SenderInteractor<T: Default>
 {
 
@@ -69,25 +68,10 @@ impl<T: Default> Clone for SenderInteractor<T>
 
 impl_interactor_clone!(SenderInteractor<T>);
 
-/*
-impl<T: Default> ActorInteractor for SenderInteractor<T>
-{
-
-    fn input_default(&self)
-    {
-
-        _ = block_on(self.sender.send(T::default()));
-
-    }
-
-}
-*/
-
-impl_actor_interactor_async!(SenderInteractor<T>);
-
 ///
 /// Calls tokio::sync::mpsc::channel and returns a SenderInteractor in additon to the Tokio receiver.
 /// 
+#[deprecated(since = "0.3.0", note = "Deprecated due to ActorInteractor being deprecated.")]
 pub fn channel<T: Default>(buffer: usize) -> (SenderInteractor<T>, Receiver<T>)
 {
 

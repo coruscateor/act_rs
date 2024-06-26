@@ -68,6 +68,7 @@ macro_rules! impl_interactor_clone
 
 }
 
+#[deprecated(since = "0.3.0", note = "Deprecated due to ActorInteractor being deprecated.")]
 #[macro_export]
 macro_rules! impl_actor_interactor
 {
@@ -96,6 +97,7 @@ macro_rules! impl_actor_interactor
 ///
 /// Requires: "use futures::executor::block_on;""
 /// 
+#[deprecated(since = "0.3.0", note = "Deprecated due to ActorInteractor being deprecated.")]
 #[macro_export]
 macro_rules! impl_actor_interactor_async
 {

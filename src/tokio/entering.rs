@@ -63,3 +63,65 @@ pub fn handle_enter_mut_param<F, P, R>(handle: &Handle, param: &mut P, func: F) 
     func(param)
 
 }
+
+//Macros
+
+///
+/// Calls "enter()" on the provided "$to_enter" parameter in a block, storing the result in a local constant. Then the provided "$func" parameter is called.
+/// 
+/// When the "$param" parameter is included, it is passed by reference to the provided "$func" parameter.
+/// 
+/// For use with tokio::runtime::Runtime and Handle objects.
+/// 
+#[macro_export]
+macro_rules! enter
+{
+
+    ($to_enter:ident, $func:expr) =>
+    {
+        
+        {
+
+            let _entered = $to_enter.enter();
+
+            $func()
+
+        }
+
+    };
+    ($to_enter:ident, $func:expr, $param:ident) =>
+    {
+        
+        {
+
+            let _entered = $to_enter.enter();
+
+            $func(&$param)
+
+        }
+
+    };
+
+}
+
+///
+/// Like the "enter" macro but for when you want to pass the provided "$param" to the "$func" by mutable reference.
+/// 
+#[macro_export]
+macro_rules! enter_mut_param
+{
+
+    ($to_enter:ident, $func:expr, $param:ident) =>
+    {
+        
+        {
+
+            let _entered = $to_enter.enter();
+
+            $func(&mut $param)
+
+        }
+
+    };
+
+}

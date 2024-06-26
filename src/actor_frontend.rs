@@ -1,4 +1,3 @@
-use crate::ActorInteractor;
 
 ///
 /// For implementing interactor access on the "front end" of the actor.

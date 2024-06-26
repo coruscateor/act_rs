@@ -1,10 +1,11 @@
 use std::sync::mpsc::{SyncSender, Receiver};
 
-use crate::{impl_actor_interactor, impl_interactor_clone, impl_new_sender, impl_pub_sender, ActorInteractor};
+use crate::{impl_interactor_clone, impl_new_sender, impl_pub_sender};
 
 ///
 /// An interactor containing an mpsc sender.
-/// 
+///
+#[deprecated(since = "0.3.0", note = "Deprecated due to ActorInteractor being deprecated.")]
 pub struct SyncSenderInteractor<T: Default>
 {
 
@@ -22,8 +23,6 @@ impl<T: Default> SyncSenderInteractor<T>
 }
 
 impl_interactor_clone!(SyncSenderInteractor<T>);
-
-impl_actor_interactor!(SyncSenderInteractor<T>);
 
 ///
 /// Calls std::sync::mpsc::sync_channel and returns a SenderInteractor in additon to the std receiver.
