@@ -4,11 +4,7 @@ use tokio::sync::mpsc::{channel, unbounded_channel, Receiver, Sender, UnboundedR
 
 //ActorIOInteractorClient, ActorIOInteractorServer
 
-//#[derive(Clone)]
-pub struct ActorIOInteractorClient<IM, OM>
-    where IM: Send,
-          OM: Send
-          
+pub struct ActorIOInteractorClient<IM, OM>          
 {
 
     actor_input_sender: Sender<IM>,
@@ -17,8 +13,6 @@ pub struct ActorIOInteractorClient<IM, OM>
 }
 
 impl<IM, OM> ActorIOInteractorClient<IM, OM>
-    where IM: Send,
-          OM: Send
 {
 
     pub fn new(actor_input_sender: Sender<IM>, actor_output_receiver: Receiver<OM>) -> Self
@@ -51,8 +45,6 @@ impl<IM, OM> ActorIOInteractorClient<IM, OM>
 }
 
 impl<IM, OM> Clone for ActorIOInteractorClient<IM, OM>
-    where IM: Send,
-          OM: Send
 {
 
     fn clone(&self) -> Self
@@ -63,6 +55,7 @@ impl<IM, OM> Clone for ActorIOInteractorClient<IM, OM>
             
             actor_input_sender: self.actor_input_sender.clone(),
             actor_output_receiver: self.actor_output_receiver.clone()
+            
         }
 
     }
@@ -70,8 +63,6 @@ impl<IM, OM> Clone for ActorIOInteractorClient<IM, OM>
 }
 
 pub struct ActorIOInteractorServer<IM, OM>
-    where IM: Send,
-          OM: Send
 {
 
     actor_input_receiver: Receiver<IM>,
@@ -80,8 +71,6 @@ pub struct ActorIOInteractorServer<IM, OM>
 }
 
 impl<IM, OM> ActorIOInteractorServer<IM, OM>
-    where IM: Send,
-          OM: Send
 {
 
     pub fn new(actor_input_receiver: Receiver<IM>, actor_output_sender: Sender<OM>) -> Self
@@ -115,8 +104,6 @@ impl<IM, OM> ActorIOInteractorServer<IM, OM>
 
 
 pub fn actor_io_interactors<IM, OM>(input_buffer_size: usize, output_buffer_size: usize) -> (ActorIOInteractorClient<IM, OM>, ActorIOInteractorServer<IM, OM>)
-    where IM: Send,
-          OM: Send
 {
 
     let (actor_input_sender,actor_input_receiver) = channel(input_buffer_size);
@@ -164,6 +151,24 @@ impl<IM, OM> UnboundedActorIOInteractorClient<IM, OM>
     {
 
         self.actor_output_receiver.lock()
+
+    }
+
+}
+
+impl<IM, OM> Clone for UnboundedActorIOInteractorClient<IM, OM>
+{
+
+    fn clone(&self) -> Self
+    {
+
+        Self
+        {
+            
+            actor_input_sender: self.actor_input_sender.clone(),
+            actor_output_receiver: self.actor_output_receiver.clone()
+
+        }
 
     }
 
