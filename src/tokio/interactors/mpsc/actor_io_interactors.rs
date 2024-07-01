@@ -4,6 +4,9 @@ use tokio::sync::mpsc::{channel, unbounded_channel, Receiver, Sender, UnboundedR
 
 //ActorIOInteractorClient, ActorIOInteractorServer
 
+///
+/// For use on the “client side” of the actor.
+/// 
 pub struct ActorIOInteractorClient<IM, OM>          
 {
 
@@ -62,6 +65,9 @@ impl<IM, OM> Clone for ActorIOInteractorClient<IM, OM>
 
 }
 
+///
+/// For use on the “server side” of the actor.
+/// 
 pub struct ActorIOInteractorServer<IM, OM>
 {
 
@@ -102,7 +108,9 @@ impl<IM, OM> ActorIOInteractorServer<IM, OM>
 
 }
 
-
+///
+/// Initialises bounded input and output channels. Make the client part the inter-actor of the actor object, or part of it, and put the server part in the actor state object.
+/// 
 pub fn actor_io_interactors<IM, OM>(input_buffer_size: usize, output_buffer_size: usize) -> (ActorIOInteractorClient<IM, OM>, ActorIOInteractorServer<IM, OM>)
 {
 
@@ -116,6 +124,9 @@ pub fn actor_io_interactors<IM, OM>(input_buffer_size: usize, output_buffer_size
 
 //UnboundedActorIOInteractorClient, UnboundedActorIOInteractorServer
 
+///
+/// For use on the “client side” of the actor.
+/// 
 pub struct UnboundedActorIOInteractorClient<IM, OM>
 {
 
@@ -174,6 +185,9 @@ impl<IM, OM> Clone for UnboundedActorIOInteractorClient<IM, OM>
 
 }
 
+///
+/// For use on the “server side” of the actor.
+/// 
 pub struct UnboundedActorIOInteractorServer<IM, OM>
 {
 
@@ -214,7 +228,9 @@ impl<IM, OM> UnboundedActorIOInteractorServer<IM, OM>
 
 }
 
-
+///
+/// Initialises unbounded input and output channels. Make the client part the inter-actor of the actor object, or part of it, and put the server part in the actor state object.
+/// 
 pub fn unbounded_actor_io_interactors<IM, OM>() -> (UnboundedActorIOInteractorClient<IM, OM>, UnboundedActorIOInteractorServer<IM, OM>)
 {
 
