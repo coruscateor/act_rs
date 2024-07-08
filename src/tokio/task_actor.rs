@@ -16,8 +16,7 @@ pub struct TaskActor<ST, IN> where
 {
 
     interactor: IN,
-    phantom_data: PhantomData<ST>,
-    dropped_indicator: Arc<()>
+    phantom_data: PhantomData<ST>
 
 }
 
@@ -30,14 +29,10 @@ impl<ST, IN> TaskActor<ST, IN> where
     {
 
         let interactor =  state.interactor().clone();
-
-        let dropped_indicator = Arc::new(());
-
-        let dropped_indicator_moved = dropped_indicator.clone();
         
         tokio::spawn(async move {
     
-            TaskActor::run(state, dropped_indicator_moved).await;
+            TaskActor::run(state).await;
 
         });
 
@@ -45,31 +40,28 @@ impl<ST, IN> TaskActor<ST, IN> where
         {
 
             interactor,
-            phantom_data: PhantomData::default(),
-            dropped_indicator,
+            phantom_data: PhantomData::default()
 
         }
 
     }
 
-    async fn run(mut state: ST, dropped_indicator: Arc<()>)
+    async fn run(mut state: ST)
     {
 
         let mut proceed = true; 
-
-        let di = DroppedIndicator::new(dropped_indicator);
         
-        if state.on_enter_async(&di).await
+        if state.on_enter_async().await
         {
 
             while proceed
             {
                 
-                proceed = state.run_async(&di).await;
+                proceed = state.run_async().await;
     
             }
     
-            state.on_exit_async(&di).await;
+            state.on_exit_async().await;
 
         }
 

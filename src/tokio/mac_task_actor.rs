@@ -2,14 +2,6 @@
 
     Generates an async oriented actor to be instantiated within an async runtime context.
 
-    Must have:
-
-    use std::sync::Arc;
-
-    In module scope
-
-
-
     $state_type must implement:
 
     HasInteractor
@@ -49,8 +41,7 @@ macro_rules! impl_mac_task_actor
         pub struct $type_name
         {
 
-            interactor: $interactor_type,
-            dropped_indicator: Arc<()>
+            interactor: $interactor_type
 
         }
 
@@ -58,49 +49,41 @@ macro_rules! impl_mac_task_actor
         {
 
             pub fn new(state: $state_type) -> Self
-                //where IN: Clone //<IN> //: IN
             {
 
                 let interactor = state.interactor().clone();
-
-                let dropped_indicator = Arc::new(());
-
-                let dropped_indicator_moved = dropped_indicator.clone();
                 
                 tokio::spawn(async move {
 
-                    $type_name::run(state, dropped_indicator_moved).await;
+                    $type_name::run(state).await;
 
                 });
 
                 Self
                 {
 
-                    interactor,
-                    dropped_indicator,
+                    interactor
 
                 }
 
             }
 
-            async fn run(mut state: $state_type, dropped_indicator: Arc<()>)
+            async fn run(mut state: $state_type)
             {
 
                 let mut proceed = true; 
-
-                let di = DroppedIndicator::new(dropped_indicator);
                 
-                if state.on_enter_async(&di).await
+                if state.on_enter_async().await
                 {
 
                     while proceed
                     {
                         
-                        proceed = state.run_async(&di).await;
+                        proceed = state.run_async().await;
             
                     }
             
-                    state.on_exit_async(&di).await;
+                    state.on_exit_async().await;
 
                 }
 
@@ -140,7 +123,7 @@ macro_rules! impl_default_on_enter_async
     () =>
     {
 
-        async fn on_enter_async(&mut self, _di: &DroppedIndicator) -> bool
+        async fn on_enter_async(&mut self) -> bool
         {
     
             true
@@ -163,10 +146,9 @@ macro_rules! impl_default_on_exit_async
     () =>
     {
 
-        async fn on_exit_async(&mut self, _di: &DroppedIndicator)
+        async fn on_exit_async(&mut self)
         {
         }
-    
 
     }
 
@@ -189,44 +171,3 @@ macro_rules! impl_default_on_enter_and_exit_async
     }
 
 }
-
-///
-/// Produces an implementation of the on_enter_async method where DroppedIndicator::not_dropped gets called with its result returned immediately.
-/// 
-#[macro_export]
-macro_rules! impl_not_dropped_on_enter_async
-{
-
-    () =>
-    {
-
-        async fn on_enter_async(&mut self, di: &DroppedIndicator) -> bool
-        {
-    
-            di.not_dropped()
-    
-        }
-
-    }
-
-}
-
-///
-/// Produces default implementations of both the on_exit_async and on_exit_async methods using the impl_default_on_enter_async and impl_default_on_exit_async macros.
-///
-#[macro_export]
-macro_rules! impl_not_dropped_on_enter_and_default_exit_async
-{
-
-    () =>
-    {
-
-        impl_not_dropped_on_enter_async!();
-
-        impl_default_on_exit_async!();
-
-    }
-
-}
-
-

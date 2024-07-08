@@ -33,16 +33,16 @@ pub trait HasInteractor<IN>
 pub trait ActorState<IN> : HasInteractor<IN>
 {
 
-    fn on_enter(&mut self, _di: &DroppedIndicator) -> bool
+    fn on_enter(&mut self) -> bool
     {
 
         true
 
     }
 
-    fn run(&mut self, di: &DroppedIndicator) -> bool;
+    fn run(&mut self) -> bool;
 
-    fn on_exit(&mut self, _di: &DroppedIndicator)
+    fn on_exit(&mut self)
     {
     }
 
@@ -57,16 +57,16 @@ pub trait ActorState<IN> : HasInteractor<IN>
 pub trait AsyncActorState<IN> : HasInteractor<IN>
 {
 
-    async fn on_enter_async(&mut self, _di: &DroppedIndicator) -> bool
+    async fn on_enter_async(&mut self) -> bool
     {
 
         true
 
     }
 
-    async fn run_async(&mut self, di: &DroppedIndicator) -> bool;
+    async fn run_async(&mut self) -> bool;
 
-    async fn on_exit_async(&mut self, _di: &DroppedIndicator)
+    async fn on_exit_async(&mut self)
     {
     }
 

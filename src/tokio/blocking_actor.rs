@@ -12,8 +12,7 @@ pub struct BlockingActor<ST, IN> where
 {
 
     interactor: IN,
-    phantom_data: PhantomData<ST>,
-    dropped_indicator: Arc<()>
+    phantom_data: PhantomData<ST>
 
 }
 
@@ -26,14 +25,10 @@ impl<ST, IN> BlockingActor<ST, IN> where
     {
 
         let interactor =  state.interactor().clone();
-
-        let dropped_indicator = Arc::new(());
-
-        let dropped_indicator_moved = dropped_indicator.clone();
         
         tokio::task::spawn_blocking(move || {
     
-            BlockingActor::run(state, dropped_indicator_moved);
+            BlockingActor::run(state);
 
         });
 
@@ -41,31 +36,28 @@ impl<ST, IN> BlockingActor<ST, IN> where
         {
 
             interactor,
-            phantom_data: PhantomData::default(),
-            dropped_indicator,
+            phantom_data: PhantomData::default()
 
         }
 
     }
 
-    fn run(mut state: ST, dropped_indicator: Arc<()>)
+    fn run(mut state: ST)
     {
 
         let mut proceed = true; 
-
-        let di = DroppedIndicator::new(dropped_indicator);
         
-        if state.on_enter(&di)
+        if state.on_enter()
         {
 
             while proceed
             {
                 
-                proceed = state.run(&di);
+                proceed = state.run();
     
             }
     
-            state.on_exit(&di);
+            state.on_exit();
 
         }
 

@@ -17,8 +17,7 @@ pub struct ThreadActor<ST, IN> where
 {
 
     interactor: IN,
-    phantom_data: PhantomData<ST>,
-    dropped_indicator: Arc<()>
+    phantom_data: PhantomData<ST>
 
 }
 
@@ -31,14 +30,10 @@ impl<ST, IN> ThreadActor<ST, IN> where
     {
 
         let interactor =  state.interactor().clone();
-
-        let dropped_indicator = Arc::new(());
-
-        let dropped_indicator_moved = dropped_indicator.clone();
         
         thread::spawn(move || {
     
-            ThreadActor::run(state, dropped_indicator_moved);
+            ThreadActor::run(state);
 
         });
 
@@ -46,31 +41,28 @@ impl<ST, IN> ThreadActor<ST, IN> where
         {
 
             interactor,
-            phantom_data: PhantomData::default(),
-            dropped_indicator,
+            phantom_data: PhantomData::default()
 
         }
 
     }
 
-    fn run(mut state: ST, dropped_indicator: Arc<()>)
+    fn run(mut state: ST)
     {
 
-        let mut proceed = true; 
-
-        let di = DroppedIndicator::new(dropped_indicator);
+        let mut proceed = true;
         
-        if state.on_enter(&di)
+        if state.on_enter()
         {
 
             while proceed
             {
                 
-                proceed = state.run(&di);
+                proceed = state.run();
     
             }
     
-            state.on_exit(&di);
+            state.on_exit();
 
         }
 

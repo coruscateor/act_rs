@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 ///
-/// Used in actor implementations to determine whether or not the "front-end" part of the actor has been dropped.
+/// Used to determine whether or not the "front-end" or the "back-end" components of an actor have been dropped.
 /// 
 pub struct DroppedIndicator
 {
@@ -29,7 +29,35 @@ impl DroppedIndicator
     }
 
     ///
-    /// For checking if the "front-end" of the actor has dropped. 
+    /// Creates a new pair of DroppedIndicators, one for the inter-actor on the "client" end and another for the actor state on the "server" end.
+    /// 
+    pub fn new_pair() -> (DroppedIndicator, DroppedIndicator)
+    {
+
+        let the_arc = Arc::new(());
+
+        let di_one = DroppedIndicator::new(the_arc.clone());
+
+        let di_two = DroppedIndicator::new(the_arc);
+
+        (di_one, di_two)
+
+    }
+
+    ///
+    /// Like new_pair, but one DroppedIndicator is Arc'd.
+    /// 
+    pub fn one_arcd() -> (Arc<DroppedIndicator>, DroppedIndicator)
+    {
+
+        let (di_one, di_two) = DroppedIndicator::new_pair();
+
+        (Arc::new(di_one), di_two)
+
+    }
+
+    ///
+    /// For checking if the "front-end" or the "back-end" of the actor has dropped (depending on where its located). 
     /// 
     pub fn has_dropped(&self) -> bool
     {
@@ -39,7 +67,7 @@ impl DroppedIndicator
     }
 
     ///
-    /// For checking if the "front-end" of the actor has not dropped. 
+    /// For checking if the "front-end" or the "back-end" of the actor has not dropped (depending on where its located). 
     /// 
     pub fn not_dropped(&self) -> bool
     {
@@ -47,6 +75,5 @@ impl DroppedIndicator
         Arc::strong_count(&self.dropped_indicator) == 2
 
     }
-    
 
 }
