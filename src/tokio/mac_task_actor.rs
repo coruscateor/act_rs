@@ -4,67 +4,51 @@
 
     $state_type must implement:
 
-    HasInteractor
+    AsyncActorState
 
     or
 
-    fn interactor(&self) -> &IN
+    async fn beginning_async(&mut self, _di: &DroppedIndicator) -> bool;
+
+    async fn run_async(&mut self, di: &DroppedIndicator) -> bool;
+
+    async fn ending_async(&mut self, _di: &DroppedIndicator);
 
     directly
 
     Also:
 
-    AsyncActorState
+    use tokio::task::JoinHandle;
 
-    or
+    must be in module scope.
 
-    async fn on_enter_async(&mut self, _di: &DroppedIndicator) -> bool;
+    
 
-    async fn run_async(&mut self, di: &DroppedIndicator) -> bool;
-
-    async fn on_exit_async(&mut self, _di: &DroppedIndicator);
-
-    directly
-
-
-
-    The returned boolean values from the on_enter_async and run_async method implementations indicate whether or not the actors execution should proceed.
+    The returned boolean values from the beginning_async and run_async method implementations indicate whether or not the actors execution should proceed.
 
 */
 #[macro_export]
 macro_rules! impl_mac_task_actor
 {
 
-    ($state_type:ty, $interactor_type:ty, $type_name:ident) =>
+    ($state_type:ty, $type_name:ident) =>
     {
 
         pub struct $type_name
         {
-
-            interactor: $interactor_type
-
         }
 
         impl $type_name
         {
 
-            pub fn new(state: $state_type) -> Self
+            pub fn spawn(state: $state_type) -> JoinHandle<()>
             {
-
-                let interactor = state.interactor().clone();
                 
                 tokio::spawn(async move {
 
                     $type_name::run(state).await;
 
-                });
-
-                Self
-                {
-
-                    interactor
-
-                }
+                })
 
             }
 
@@ -73,7 +57,7 @@ macro_rules! impl_mac_task_actor
 
                 let mut proceed = true; 
                 
-                if state.on_enter_async().await
+                if state.beginning_async().await
                 {
 
                     while proceed
@@ -82,24 +66,12 @@ macro_rules! impl_mac_task_actor
                         proceed = state.run_async().await;
             
                     }
-            
-                    state.on_exit_async().await;
 
                 }
 
+                state.ending_async().await;
+
             }
-
-        }
-
-        impl ActorFrontend<$interactor_type> for $type_name
-        {
-
-            fn interactor(&self) -> &$interactor_type
-            {
-
-                &self.interactor
-
-            }    
 
         }
         
@@ -107,23 +79,21 @@ macro_rules! impl_mac_task_actor
 
 }
 
-//Different macros for different Task-actor methods of initialisation?
-
-//Default implementations of entry and exit methods to be used by the actor state
+//Default implementations of beginning and ending methods to be used by the actor state
 
 ///
-/// A default implementation of the on_enter_async mehthod for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+/// A default implementation of the beginning_async mehthod for impl_mac_task_actor implementators.
 /// 
-/// In this case it is a method returns a true constant.
+/// In this case it is a method returns a true bool value.
 /// 
 #[macro_export]
-macro_rules! impl_default_on_enter_async
+macro_rules! impl_default_beginning_async
 {
 
     () =>
     {
 
-        async fn on_enter_async(&mut self) -> bool
+        async fn beginning_async(&mut self) -> bool
         {
     
             true
@@ -135,18 +105,18 @@ macro_rules! impl_default_on_enter_async
 }
 
 ///
-/// Produces a default implementation of the on_exit_async method for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+/// Produces a default implementation of the ending_async method.
 ///
 /// In this case it is an empty method.
 /// 
 #[macro_export]
-macro_rules! impl_default_on_exit_async
+macro_rules! impl_default_ending_async
 {
 
     () =>
     {
 
-        async fn on_exit_async(&mut self)
+        async fn ending_async(&mut self)
         {
         }
 
@@ -155,18 +125,18 @@ macro_rules! impl_default_on_exit_async
 }
 
 ///
-/// Produces default implementations of both the on_exit_async and on_exit_async methods for impl_mac_runtime_task_actor and impl_mac_task_actor implementators.
+/// Produces default implementations of both the beginning_async and ending_async methods.
 ///
 #[macro_export]
-macro_rules! impl_default_on_enter_and_exit_async
+macro_rules! impl_default_beginning_and_ending_async
 {
 
     () =>
     {
 
-        impl_default_on_enter_async!();
+        impl_default_beginning_async!();
 
-        impl_default_on_exit_async!();
+        impl_default_ending_async!();
 
     }
 

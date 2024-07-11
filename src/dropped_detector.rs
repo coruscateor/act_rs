@@ -3,18 +3,18 @@ use std::sync::Arc;
 ///
 /// Used to determine whether or not the "front-end" or the "back-end" components of an actor have been dropped.
 /// 
-pub struct DroppedIndicator
+pub struct DroppedDetector
 {
 
     dropped_indicator: Arc<()>
 
 }
 
-impl DroppedIndicator
+impl DroppedDetector
 {
 
     ///
-    /// Constructs a new instance of DroppedIndicator.
+    /// Constructs a new instance of DroppedDetector.
     /// 
     pub fn new(dropped_indicator: Arc<()>) -> Self
     {
@@ -29,28 +29,28 @@ impl DroppedIndicator
     }
 
     ///
-    /// Creates a new pair of DroppedIndicators, one for the inter-actor on the "client" end and another for the actor state on the "server" end.
+    /// Creates a new pair of DroppedDetectors, one for the inter-actor on the "client" end and another for the actor state on the "server" end.
     /// 
-    pub fn new_pair() -> (DroppedIndicator, DroppedIndicator)
+    pub fn new_pair() -> (DroppedDetector, DroppedDetector)
     {
 
         let the_arc = Arc::new(());
 
-        let di_one = DroppedIndicator::new(the_arc.clone());
+        let di_one = DroppedDetector::new(the_arc.clone());
 
-        let di_two = DroppedIndicator::new(the_arc);
+        let di_two = DroppedDetector::new(the_arc);
 
         (di_one, di_two)
 
     }
 
     ///
-    /// Like new_pair, but one DroppedIndicator is Arc'd.
+    /// Like new_pair, but one DroppedDetector is Arc'd.
     /// 
-    pub fn one_arcd() -> (Arc<DroppedIndicator>, DroppedIndicator)
+    pub fn one_arcd() -> (Arc<DroppedDetector>, DroppedDetector)
     {
 
-        let (di_one, di_two) = DroppedIndicator::new_pair();
+        let (di_one, di_two) = DroppedDetector::new_pair();
 
         (Arc::new(di_one), di_two)
 

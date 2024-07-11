@@ -2,12 +2,12 @@ use std::{sync::{Arc, Mutex, MutexGuard, PoisonError}};
 
 use tokio::sync::mpsc::{channel, unbounded_channel, Receiver, Sender, UnboundedReceiver, UnboundedSender};
 
-//ActorIOInteractorClient, ActorIOInteractorServer
+//ActorIOClient, ActorIOServer
 
 ///
 /// For use on the “client side” of the actor.
 /// 
-pub struct ActorIOInteractorClient<IM, OM>          
+pub struct ActorIOClient<IM, OM>          
 {
 
     actor_input_sender: Sender<IM>,
@@ -15,7 +15,7 @@ pub struct ActorIOInteractorClient<IM, OM>
 
 }
 
-impl<IM, OM> ActorIOInteractorClient<IM, OM>
+impl<IM, OM> ActorIOClient<IM, OM>
 {
 
     pub fn new(actor_input_sender: Sender<IM>, actor_output_receiver: Receiver<OM>) -> Self
@@ -47,7 +47,7 @@ impl<IM, OM> ActorIOInteractorClient<IM, OM>
 
 }
 
-impl<IM, OM> Clone for ActorIOInteractorClient<IM, OM>
+impl<IM, OM> Clone for ActorIOClient<IM, OM>
 {
 
     fn clone(&self) -> Self
@@ -68,7 +68,7 @@ impl<IM, OM> Clone for ActorIOInteractorClient<IM, OM>
 ///
 /// For use on the “server side” of the actor.
 /// 
-pub struct ActorIOInteractorServer<IM, OM>
+pub struct ActorIOServer<IM, OM>
 {
 
     actor_input_receiver: Receiver<IM>,
@@ -76,7 +76,7 @@ pub struct ActorIOInteractorServer<IM, OM>
 
 }
 
-impl<IM, OM> ActorIOInteractorServer<IM, OM>
+impl<IM, OM> ActorIOServer<IM, OM>
 {
 
     pub fn new(actor_input_receiver: Receiver<IM>, actor_output_sender: Sender<OM>) -> Self
@@ -109,25 +109,27 @@ impl<IM, OM> ActorIOInteractorServer<IM, OM>
 }
 
 ///
-/// Initialises bounded input and output channels. Make the client part the inter-actor of the actor object, or part of it, and put the server part in the actor state object.
+/// Initialises bounded input and output channels.
 /// 
-pub fn actor_io_interactors<IM, OM>(input_buffer_size: usize, output_buffer_size: usize) -> (ActorIOInteractorClient<IM, OM>, ActorIOInteractorServer<IM, OM>)
+/// Keep the ActorIOClient and put the ActorIOServer server object in the actor state.
+/// 
+pub fn actor_io<IM, OM>(input_buffer_size: usize, output_buffer_size: usize) -> (ActorIOClient<IM, OM>, ActorIOServer<IM, OM>)
 {
 
     let (actor_input_sender,actor_input_receiver) = channel(input_buffer_size);
 
     let (actor_output_sender,actor_output_receiver) = channel(output_buffer_size);
 
-    (ActorIOInteractorClient::new(actor_input_sender, actor_output_receiver), ActorIOInteractorServer::new(actor_input_receiver, actor_output_sender))
+    (ActorIOClient::new(actor_input_sender, actor_output_receiver), ActorIOServer::new(actor_input_receiver, actor_output_sender))
 
 }
 
-//UnboundedActorIOInteractorClient, UnboundedActorIOInteractorServer
+//UnboundedActorIOClient, UnboundedActorIOServer
 
 ///
 /// For use on the “client side” of the actor.
 /// 
-pub struct UnboundedActorIOInteractorClient<IM, OM>
+pub struct UnboundedActorIOClient<IM, OM>
 {
 
     actor_input_sender: UnboundedSender<IM>,
@@ -135,7 +137,7 @@ pub struct UnboundedActorIOInteractorClient<IM, OM>
 
 }
 
-impl<IM, OM> UnboundedActorIOInteractorClient<IM, OM>
+impl<IM, OM> UnboundedActorIOClient<IM, OM>
 {
 
     pub fn new(actor_input_sender: UnboundedSender<IM>, actor_output_receiver: UnboundedReceiver<OM>) -> Self
@@ -167,7 +169,7 @@ impl<IM, OM> UnboundedActorIOInteractorClient<IM, OM>
 
 }
 
-impl<IM, OM> Clone for UnboundedActorIOInteractorClient<IM, OM>
+impl<IM, OM> Clone for UnboundedActorIOClient<IM, OM>
 {
 
     fn clone(&self) -> Self
@@ -188,7 +190,7 @@ impl<IM, OM> Clone for UnboundedActorIOInteractorClient<IM, OM>
 ///
 /// For use on the “server side” of the actor.
 /// 
-pub struct UnboundedActorIOInteractorServer<IM, OM>
+pub struct UnboundedActorIOServer<IM, OM>
 {
 
     actor_input_receiver: UnboundedReceiver<IM>,
@@ -196,7 +198,7 @@ pub struct UnboundedActorIOInteractorServer<IM, OM>
 
 }
 
-impl<IM, OM> UnboundedActorIOInteractorServer<IM, OM>
+impl<IM, OM> UnboundedActorIOServer<IM, OM>
 {
 
     pub fn new(actor_input_receiver: UnboundedReceiver<IM>, actor_output_sender: UnboundedSender<OM>) -> Self
@@ -229,16 +231,18 @@ impl<IM, OM> UnboundedActorIOInteractorServer<IM, OM>
 }
 
 ///
-/// Initialises unbounded input and output channels. Make the client part the inter-actor of the actor object, or part of it, and put the server part in the actor state object.
+/// Initialises unbounded input and output channels.
 /// 
-pub fn unbounded_actor_io_interactors<IM, OM>() -> (UnboundedActorIOInteractorClient<IM, OM>, UnboundedActorIOInteractorServer<IM, OM>)
+/// Keep the UnboundedActorIOClient and put the UnboundedActorIOServer server object in the actor state.
+/// 
+pub fn unbounded_actor_io<IM, OM>() -> (UnboundedActorIOClient<IM, OM>, UnboundedActorIOServer<IM, OM>)
 {
 
     let (actor_input_sender,actor_input_receiver) = unbounded_channel();
 
     let (actor_output_sender,actor_output_receiver) = unbounded_channel();
 
-    (UnboundedActorIOInteractorClient::new(actor_input_sender, actor_output_receiver), UnboundedActorIOInteractorServer::new(actor_input_receiver, actor_output_sender))
+    (UnboundedActorIOClient::new(actor_input_sender, actor_output_receiver), UnboundedActorIOServer::new(actor_input_receiver, actor_output_sender))
 
 }
 

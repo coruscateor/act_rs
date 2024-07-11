@@ -5,53 +5,37 @@ use tokio::task::{self, JoinHandle, spawn_blocking, JoinError};
 use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-use crate::{AsyncActorState, DroppedIndicator, ActorFrontend};
+use crate::{AsyncActorState, ActorFrontend};
 
 ///
 /// A task based actor.
 /// 
-#[allow(dead_code)]
-pub struct TaskActor<ST, IN> where
-    ST: AsyncActorState<IN> + Send + 'static
+pub struct TaskActor
 {
-
-    interactor: IN,
-    phantom_data: PhantomData<ST>
-
 }
 
-impl<ST, IN> TaskActor<ST, IN> where
-    ST: AsyncActorState<IN> + Send + 'static
+impl TaskActor where
 {
 
-    pub fn new(state: ST) -> Self
-        where IN: Clone
+    pub fn spawn<ST>(state: ST) -> JoinHandle<()>
+        where ST: AsyncActorState + Send + 'static
     {
-
-        let interactor =  state.interactor().clone();
         
         tokio::spawn(async move {
     
             TaskActor::run(state).await;
 
-        });
-
-        Self
-        {
-
-            interactor,
-            phantom_data: PhantomData::default()
-
-        }
+        })
 
     }
 
-    async fn run(mut state: ST)
+    async fn run<ST>(mut state: ST)
+        where ST: AsyncActorState + Send + 'static
     {
 
         let mut proceed = true; 
         
-        if state.on_enter_async().await
+        if state.beginning_async().await
         {
 
             while proceed
@@ -60,24 +44,11 @@ impl<ST, IN> TaskActor<ST, IN> where
                 proceed = state.run_async().await;
     
             }
-    
-            state.on_exit_async().await;
 
         }
 
+        state.ending_async().await;
+
     }
-
-}
-
-impl<ST, IN> ActorFrontend<IN> for TaskActor<ST, IN> where
-    ST: AsyncActorState<IN> + Send + 'static
-{
-
-    fn interactor(&self) -> &IN
-    {
-
-        &self.interactor
-
-    }    
 
 }

@@ -2,9 +2,9 @@
 
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
-mod dropped_indicator;
+mod dropped_detector;
 
-pub use dropped_indicator::*;
+pub use dropped_detector::*;
 
 mod actor_state;
 
