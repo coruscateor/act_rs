@@ -37,7 +37,7 @@ impl ThreadActor
 
         let mut proceed = true;
         
-        if state.beginning()
+        if state.start()
         {
 
             while proceed
@@ -49,7 +49,7 @@ impl ThreadActor
 
         }
 
-        state.ending();
+        state.end();
 
     }  
     

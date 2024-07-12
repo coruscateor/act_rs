@@ -8,7 +8,7 @@ use async_trait::async_trait;
 pub trait ActorState
 {
 
-    fn beginning(&mut self) -> bool
+    fn start(&mut self) -> bool
     {
 
         true
@@ -17,7 +17,7 @@ pub trait ActorState
 
     fn run(&mut self) -> bool;
 
-    fn ending(&mut self)
+    fn end(&mut self)
     {
     }
 
@@ -32,7 +32,7 @@ pub trait ActorState
 pub trait AsyncActorState
 {
 
-    async fn beginning_async(&mut self) -> bool
+    async fn start_async(&mut self) -> bool
     {
 
         true
@@ -41,24 +41,24 @@ pub trait AsyncActorState
 
     async fn run_async(&mut self) -> bool;
 
-    async fn ending_async(&mut self)
+    async fn end_async(&mut self)
     {
     }
 
 }
 
 #[derive(Debug, Default, PartialEq, Eq)]
-pub enum CurrentActorState
+pub enum CurrentActorPhase
 {
 
     #[default]
-    Beginning,
-    Running,
-    Ending
+    Start,
+    Run,
+    End
 
 }
 
-impl CurrentActorState
+impl CurrentActorPhase
 {
 
     pub fn new() -> Self
@@ -74,23 +74,23 @@ impl CurrentActorState
         match self
         {
 
-            CurrentActorState::Beginning =>
+            CurrentActorPhase::Start =>
             {
 
-                *self = CurrentActorState::Running;
+                *self = CurrentActorPhase::Run;
 
                 true
 
             }
-            CurrentActorState::Running =>
+            CurrentActorPhase::Run =>
             {
 
-                *self = CurrentActorState::Ending;
+                *self = CurrentActorPhase::End;
 
                 true
 
             },
-            CurrentActorState::Ending =>
+            CurrentActorPhase::End =>
             {
 
                 false
@@ -98,6 +98,27 @@ impl CurrentActorState
             }
 
         }
+
+    }
+
+    pub fn is_start(&self) -> bool
+    {
+
+        *self == CurrentActorPhase::Start
+
+    }
+
+    pub fn is_run(&self) -> bool
+    {
+
+        *self == CurrentActorPhase::Run
+
+    }
+
+    pub fn is_end(&self) -> bool
+    {
+
+        *self == CurrentActorPhase::End
 
     }
 

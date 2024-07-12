@@ -32,7 +32,7 @@ impl BlockingActor where
 
         let mut proceed = true; 
         
-        if state.beginning()
+        if state.start()
         {
 
             while proceed
@@ -44,7 +44,7 @@ impl BlockingActor where
 
         }
 
-        state.ending();
+        state.end();
 
     }  
     

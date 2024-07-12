@@ -35,7 +35,7 @@ impl TaskActor where
 
         let mut proceed = true; 
         
-        if state.beginning_async().await
+        if state.start_async().await
         {
 
             while proceed
@@ -46,8 +46,8 @@ impl TaskActor where
             }
 
         }
-
-        state.ending_async().await;
+        
+        state.end_async().await;
 
     }
 
