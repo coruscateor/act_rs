@@ -39,10 +39,6 @@
 macro_rules! impl_mac_task_actor
 {
 
-    //$state_type:ty, 
- 
-    //$type_name
-
     ($actor_type:ident) =>
     {
 
@@ -69,6 +65,79 @@ macro_rules! impl_mac_task_actor
 
                 async fn run(mut state: [<$actor_type State>])
                 {
+
+                    let mut proceed = true; 
+                    
+                    if state.start_async().await
+                    {
+
+                        while proceed
+                        {
+                            
+                            proceed = state.run_async().await;
+                
+                        }
+
+                    }
+
+                    state.end_async().await;
+
+                }
+
+            }
+            
+        }
+
+    }
+
+}
+
+/**
+ * Similar to impl_mac_task_actor, but the produced spawn method takes an actor state builder object instead of the actor state itself.
+ * 
+ * Requires everything that impl_mac_task_actor does, but also that an actor state builder type with a method "build_async" that returns an actor state object be in the module scope of the macro call.
+ * 
+ * The actor state builder type name consists of the provided actor type name with the text "StateBuilder" appended.
+*/
+#[macro_export]
+macro_rules! impl_mac_task_actor_built_state
+{
+
+    ($actor_type:ident) =>
+    {
+
+        paste!
+        {
+
+            pub struct $actor_type
+            {
+            }
+
+            impl $actor_type
+            {
+
+                pub fn spawn(state_builder: [<$actor_type StateBuilder>]) -> JoinHandle<()>
+                {
+                    
+                    tokio::spawn(async move {
+
+                        $actor_type::run(state_builder).await;
+
+                    })
+
+                }
+
+                async fn run(mut state_builder: [<$actor_type StateBuilder>])
+                {
+
+                    let (proceed, mut state) = state_builder.build_async().await;
+
+                    if !proceed
+                    {
+
+                        return;
+
+                    }
 
                     let mut proceed = true; 
                     

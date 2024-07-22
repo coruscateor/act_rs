@@ -30,6 +30,10 @@ pub use actor_frontend::*;
 #[doc(hidden)]
 pub mod macros;
 
+mod actor_state_builder;
+
+pub use actor_state_builder::*;
+
 #[cfg(test)]
 mod tests {
 
