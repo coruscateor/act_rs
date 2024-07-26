@@ -73,6 +73,7 @@ pub fn handle_enter_mut_param<F, P, R>(handle: &Handle, param: &mut P, func: F) 
 /// 
 /// For use with tokio::runtime::Runtime and Handle objects.
 /// 
+/*
 #[macro_export]
 macro_rules! enter
 {
@@ -103,10 +104,36 @@ macro_rules! enter
     };
 
 }
+*/
+
+struct not_enter();
+
+///
+/// Calls "enter()" on the provided "$to_enter" parameter in a block, storing the result in a local constant. Then the provided "$expr" expression parameter is executed in this block.
+/// 
+#[macro_export]
+macro_rules! enter
+{
+
+    ($to_enter:ident, $expr:expr) =>
+    {
+        
+        {
+
+            let _entered = $to_enter.enter();
+
+            $expr
+
+        }
+
+    }
+
+}
 
 ///
 /// Like the "enter" macro but for when you want to pass the provided "$param" to the "$func" by mutable reference.
-/// 
+///
+/*
 #[macro_export]
 macro_rules! enter_mut_param
 {
@@ -125,3 +152,6 @@ macro_rules! enter_mut_param
     };
 
 }
+*/
+
+struct not_enter_mut_param();
