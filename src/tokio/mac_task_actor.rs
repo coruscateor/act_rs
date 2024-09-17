@@ -130,30 +130,28 @@ macro_rules! impl_mac_task_actor_built_state
                 async fn run(mut state_builder: [<$actor_type StateBuilder>])
                 {
 
-                    let (proceed, mut state) = state_builder.build_async().await;
+                    let mut opt_state = state_builder.build_async().await;
 
-                    if !proceed
+                    if let Some(mut state) = opt_state
                     {
 
-                        return;
-
-                    }
-
-                    let mut proceed = true; 
-                    
-                    if state.start_async().await
-                    {
-
-                        while proceed
+                        let mut proceed = true; 
+                        
+                        if state.start_async().await
                         {
-                            
-                            proceed = state.run_async().await;
-                
+
+                            while proceed
+                            {
+                                
+                                proceed = state.run_async().await;
+                    
+                            }
+
                         }
 
-                    }
+                        state.end_async().await;
 
-                    state.end_async().await;
+                    }
 
                 }
 
