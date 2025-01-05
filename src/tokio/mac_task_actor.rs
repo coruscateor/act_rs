@@ -8,11 +8,11 @@
 
     or
 
-    async fn start_async(&mut self, _di: &DroppedIndicator) -> bool;
+    async fn on_start_async(&mut self, _di: &DroppedIndicator) -> bool;
 
     async fn run_async(&mut self, di: &DroppedIndicator) -> bool;
 
-    async fn end_async(&mut self, _di: &DroppedIndicator);
+    async fn on_end_async(&mut self, _di: &DroppedIndicator);
 
     directly
 
@@ -30,9 +30,9 @@
     
 
 
-    The returned boolean values from the start_async and run_async method implementations indicate whether or not the actors execution should proceed.
+    The returned boolean values from the on_start_async and on_run_async method implementations indicate whether or not the actors execution should proceed.
 
-    The end_async method is called regardless.
+    The on_end_async method is called regardless.
 
 */
 #[macro_export]
@@ -68,7 +68,7 @@ macro_rules! impl_mac_task_actor
 
                     let mut proceed = true; 
                     
-                    if state.start_async().await
+                    if state.on_start_async().await
                     {
 
                         while proceed
@@ -80,7 +80,7 @@ macro_rules! impl_mac_task_actor
 
                     }
 
-                    state.end_async().await;
+                    state.on_end_async().await;
 
                 }
 
@@ -137,7 +137,7 @@ macro_rules! impl_mac_task_actor_built_state
 
                         let mut proceed = true; 
                         
-                        if state.start_async().await
+                        if state.on_start_async().await
                         {
 
                             while proceed
@@ -149,7 +149,7 @@ macro_rules! impl_mac_task_actor_built_state
 
                         }
 
-                        state.end_async().await;
+                        state.on_end_async().await;
 
                     }
 
@@ -171,13 +171,13 @@ macro_rules! impl_mac_task_actor_built_state
 /// In this case it is a method returns a true bool value.
 /// 
 #[macro_export]
-macro_rules! impl_default_start_async
+macro_rules! impl_default_on_start_async
 {
 
     () =>
     {
 
-        async fn start_async(&mut self) -> bool
+        async fn on_start_async(&mut self) -> bool
         {
     
             true
@@ -194,13 +194,13 @@ macro_rules! impl_default_start_async
 /// In this case it is an empty method.
 /// 
 #[macro_export]
-macro_rules! impl_default_end_async
+macro_rules! impl_default_on_end_async
 {
 
     () =>
     {
 
-        async fn end_async(&mut self)
+        async fn on_end_async(self)
         {
         }
 
@@ -212,15 +212,22 @@ macro_rules! impl_default_end_async
 /// Produces default implementations of both the start_async and end_async methods.
 ///
 #[macro_export]
-macro_rules! impl_default_start_and_end_async
+macro_rules! impl_default_on_start_and_end_async
 {
 
     () =>
     {
 
-        impl_default_start_async!();
+        async fn on_start_async(&mut self) -> bool
+        {
+    
+            true
+    
+        }
 
-        impl_default_end_async!();
+        async fn on_end_async(self)
+        {
+        }
 
     }
 

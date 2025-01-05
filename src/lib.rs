@@ -2,10 +2,6 @@
 
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
-mod dropped_detector;
-
-pub use dropped_detector::*;
-
 mod actor_state;
 
 pub use actor_state::*;
@@ -22,13 +18,6 @@ pub mod std;
 //#[cfg(any(feature="tokio", doc))]
 #[cfg(feature="tokio")]
 pub mod tokio;
-
-mod actor_frontend;
-
-pub use actor_frontend::*;
-
-#[doc(hidden)]
-pub mod macros;
 
 mod actor_state_builder;
 

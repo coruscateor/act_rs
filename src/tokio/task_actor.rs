@@ -5,7 +5,7 @@ use tokio::task::{self, JoinHandle, spawn_blocking, JoinError};
 use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-use crate::{AsyncActorState, ActorFrontend};
+use crate::AsyncActorState;
 
 ///
 /// A task based actor.
@@ -35,7 +35,7 @@ impl TaskActor where
 
         let mut proceed = true; 
         
-        if state.start_async().await
+        if state.on_start_async().await
         {
 
             while proceed
@@ -47,7 +47,7 @@ impl TaskActor where
 
         }
         
-        state.end_async().await;
+        state.on_end_async().await;
 
     }
 

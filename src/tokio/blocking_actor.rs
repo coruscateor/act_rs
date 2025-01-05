@@ -5,7 +5,7 @@ use futures::{executor::block_on, FutureExt};
 use tokio::task::JoinHandle;
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-use crate::{ActorFrontend, ActorState};
+use crate::ActorState;
 
 pub struct BlockingActor
 {
@@ -32,7 +32,7 @@ impl BlockingActor where
 
         let mut proceed = true; 
         
-        if state.start()
+        if state.on_start()
         {
 
             while proceed
@@ -44,7 +44,7 @@ impl BlockingActor where
 
         }
 
-        state.end();
+        state.on_end();
 
     }  
     

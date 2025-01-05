@@ -4,7 +4,7 @@ use futures::Future;
 use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-use crate::{ActorFrontend, ActorState};
+use crate::ActorState;
 
 use std::thread::{self, JoinHandle};
 
@@ -37,7 +37,7 @@ impl ThreadActor
 
         let mut proceed = true;
         
-        if state.start()
+        if state.on_start()
         {
 
             while proceed
@@ -49,7 +49,7 @@ impl ThreadActor
 
         }
 
-        state.end();
+        state.on_end();
 
     }  
     

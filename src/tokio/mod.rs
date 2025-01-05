@@ -14,8 +14,6 @@ mod mac_task_actor;
 
 pub use mac_task_actor::*;
 
-pub mod io;
-
 pub mod entering;
 
 pub use entering::*;
