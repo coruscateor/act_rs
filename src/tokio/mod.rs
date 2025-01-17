@@ -10,9 +10,9 @@ mod blocking_actor;
 
 pub use blocking_actor::*;
 
-mod mac_task_actor;
+mod mac_task_actors;
 
-pub use mac_task_actor::*;
+pub use mac_task_actors::*;
 
 pub mod entering;
 

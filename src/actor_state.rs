@@ -30,7 +30,7 @@ pub trait ActorState
 /// The returned boolean values from the on_start_async and run_async method implementations indicate whether or not actor execution should proceed.
 ///
 #[async_trait]
-pub trait AsyncActorState
+pub trait ActorStateAsync
     where Self: Sized
 {
 

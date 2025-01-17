@@ -11,7 +11,7 @@ pub struct BlockingActor
 {
 }
 
-impl BlockingActor where
+impl BlockingActor
 {
 
     pub fn spawn<ST>(state: ST) -> JoinHandle<()>

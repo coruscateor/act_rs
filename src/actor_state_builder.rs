@@ -8,7 +8,7 @@ pub trait ActorStateBuilder<T>
 }
 
 #[async_trait]
-pub trait AsyncActorStateBuilder<T>
+pub trait ActorStateBuilderAsync<T>
 {
 
     async fn build_async(self) -> Option<T>;

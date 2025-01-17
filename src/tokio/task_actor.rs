@@ -5,7 +5,7 @@ use tokio::task::{self, JoinHandle, spawn_blocking, JoinError};
 use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-use crate::AsyncActorState;
+use crate::ActorStateAsync;
 
 ///
 /// A task based actor.
@@ -18,7 +18,7 @@ impl TaskActor where
 {
 
     pub fn spawn<ST>(state: ST) -> JoinHandle<()>
-        where ST: AsyncActorState + Send + 'static
+        where ST: ActorStateAsync + Send + 'static
     {
         
         tokio::spawn(async move {
@@ -30,7 +30,7 @@ impl TaskActor where
     }
 
     async fn run<ST>(mut state: ST)
-        where ST: AsyncActorState + Send + 'static
+        where ST: ActorStateAsync + Send + 'static
     {
 
         let mut proceed = true; 
