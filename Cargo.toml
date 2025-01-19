@@ -1,6 +1,6 @@
 [package]
 name = "act_rs"
-version = "0.2.0"
+version = "0.3.0-beta"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "Act.rs is an actor library built to be used with the standard library and Tokio."
@@ -12,15 +12,12 @@ categories = ["asynchronous"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = { version = "1.*", features = ["rt", "rt-multi-thread", "sync", "macros"], optional = true }
-futures = "0.3.*"
-async-trait = "0.1.*"
-delegate = "0.*"
-
-#dependencies.tokio]
+tokio = { version = "1.43.0", features = ["rt", "rt-multi-thread", "sync", "macros"], optional = true }
+async-trait = { version = "0.1.85", optional = true }
 
 [features]
 std = []
+tokio = ["dep:tokio", "dep:async-trait"]
 
 [package.metadata.docs.rs]
 all-features = true

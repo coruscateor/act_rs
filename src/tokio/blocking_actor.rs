@@ -1,7 +1,7 @@
 use async_trait::async_trait;
-use futures::Future;
+//use futures::Future;
 
-use futures::{executor::block_on, FutureExt};
+//use futures::{executor::block_on, FutureExt};
 use tokio::task::JoinHandle;
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
@@ -32,7 +32,7 @@ impl BlockingActor
 
         let mut proceed = true; 
         
-        if state.on_start()
+        if state.on_started()
         {
 
             while proceed
@@ -44,7 +44,7 @@ impl BlockingActor
 
         }
 
-        state.on_end();
+        state.on_ending();
 
     }  
     

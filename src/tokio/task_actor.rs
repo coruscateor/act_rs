@@ -1,8 +1,8 @@
 use async_trait::async_trait;
-use futures::Future;
+//use futures::Future;
 
 use tokio::task::{self, JoinHandle, spawn_blocking, JoinError};
-use futures::{executor::block_on, FutureExt};
+//use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
 use crate::ActorStateAsync;
@@ -35,7 +35,7 @@ impl TaskActor where
 
         let mut proceed = true; 
         
-        if state.on_start_async().await
+        if state.on_started_async().await
         {
 
             while proceed
@@ -47,7 +47,7 @@ impl TaskActor where
 
         }
         
-        state.on_end_async().await;
+        state.on_ending_async().await;
 
     }
 

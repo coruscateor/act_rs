@@ -1,3 +1,4 @@
+#[cfg(feature = "tokio")]
 use async_trait::async_trait;
 
 pub trait ActorStateBuilder<T>
@@ -7,6 +8,7 @@ pub trait ActorStateBuilder<T>
 
 }
 
+#[cfg(feature = "tokio")]
 #[async_trait]
 pub trait ActorStateBuilderAsync<T>
 {
