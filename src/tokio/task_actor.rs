@@ -14,7 +14,7 @@ pub struct TaskActor
 {
 }
 
-impl TaskActor where
+impl TaskActor
 {
 
     pub fn spawn<ST>(state: ST) -> JoinHandle<()>
