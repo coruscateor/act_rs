@@ -23,6 +23,10 @@ mod actor_state_builder;
 
 pub use actor_state_builder::*;
 
+mod result_handling;
+
+pub use result_handling::*;
+
 #[cfg(test)]
 mod tests {
 
