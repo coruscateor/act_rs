@@ -1,3 +1,7 @@
+//!
+//! Entering things...
+//! 
+
 use tokio::runtime::{Handle, Runtime};
 
 //Runtime
@@ -12,7 +16,17 @@ pub fn runtime_enter<F, R>(runtime: &Runtime, func: F) -> R
 
 }
 
-pub fn runtime_enter_param<F, P, R>(runtime: &Runtime, param: &P, func: F) -> R
+pub fn runtime_enter_param<F, P, R>(runtime: &Runtime, param: P, func: F) -> R
+    where F: FnOnce(P) -> R
+{
+
+    let _entered = runtime.enter();
+
+    func(param)
+
+}
+
+pub fn runtime_enter_param_ref<F, P, R>(runtime: &Runtime, param: &P, func: F) -> R
     where F: FnOnce(&P) -> R
 {
 
@@ -22,7 +36,8 @@ pub fn runtime_enter_param<F, P, R>(runtime: &Runtime, param: &P, func: F) -> R
 
 }
 
-pub fn runtime_enter_mut_param<F, P, R>(runtime: &Runtime, param: &mut P, func: F) -> R
+
+pub fn runtime_enter_param_mut<F, P, R>(runtime: &Runtime, param: &mut P, func: F) -> R
     where F: FnOnce(&mut P) -> R
 {
 
@@ -44,7 +59,17 @@ pub fn handle_enter<F, R>(handle: &Handle, func: F) -> R
 
 }
 
-pub fn handle_enter_param<F, P, R>(handle: &Handle, param: &P, func: F) -> R
+pub fn handle_enter_param<F, P, R>(handle: &Handle, param: P, func: F) -> R
+    where F: FnOnce(P) -> R
+{
+
+    let _entered = handle.enter();
+
+    func(param)
+
+}
+
+pub fn handle_enter_param_ref<F, P, R>(handle: &Handle, param: &P, func: F) -> R
     where F: FnOnce(&P) -> R
 {
 
@@ -54,7 +79,8 @@ pub fn handle_enter_param<F, P, R>(handle: &Handle, param: &P, func: F) -> R
 
 }
 
-pub fn handle_enter_mut_param<F, P, R>(handle: &Handle, param: &mut P, func: F) -> R
+
+pub fn handle_enter_param_mut<F, P, R>(handle: &Handle, param: &mut P, func: F) -> R
     where F: FnOnce(&mut P) -> R
 {
 
@@ -66,13 +92,13 @@ pub fn handle_enter_mut_param<F, P, R>(handle: &Handle, param: &mut P, func: F) 
 
 //Macros
 
-///
-/// Calls "enter()" on the provided "$to_enter" parameter in a block, storing the result in a local constant. Then the provided "$func" parameter is called.
-/// 
-/// When the "$param" parameter is included, it is passed by reference to the provided "$func" parameter.
-/// 
-/// For use with tokio::runtime::Runtime and Handle objects.
-/// 
+//
+// Calls "enter()" on the provided "$to_enter" parameter in a block, storing the result in a local constant. Then the provided "$func" parameter is called.
+// 
+// When the "$param" parameter is included, it is passed by reference to the provided "$func" parameter.
+// 
+// For use with tokio::runtime::Runtime and Handle objects.
+// 
 /*
 #[macro_export]
 macro_rules! enter
@@ -109,7 +135,7 @@ macro_rules! enter
 //struct not_enter();
 
 ///
-/// Calls "enter()" on the provided "$to_enter" parameter in a block, storing the result in a local constant. Then the provided "$expr" expression parameter is executed in this block.
+/// Calls "enter()" on the provided "$to_enter" parameter in a block, storing the result in an invariant. Then the provided "$expr" expression parameter is then run in this block.
 /// 
 #[macro_export]
 macro_rules! enter

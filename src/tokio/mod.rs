@@ -1,5 +1,5 @@
 //!
-//! Tokio based actors (Optional)
+//! Tokio based actors
 //! 
 
 mod task_actor;

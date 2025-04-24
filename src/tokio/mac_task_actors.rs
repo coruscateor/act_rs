@@ -8,17 +8,17 @@
 
     or
 
-    async fn on_start_async(&mut self, _di: &DroppedIndicator) -> bool;
+    async fn on_started_async(&mut self, _di: &DroppedIndicator) -> bool;
 
     async fn run_async(&mut self, di: &DroppedIndicator) -> bool;
 
-    async fn on_end_async(&mut self, _di: &DroppedIndicator);
+    async fn on_ending_async(&mut self, _di: &DroppedIndicator);
 
     directly
 
     Also tokio::task::JoinHandle and paste::paste must be in module scope.
 
-    The latter is a macro from the paste crate: https://crates.io/crates/paste.
+    The latter is a macro from the [paste crate](https://crates.io/crates/paste).
 
     Works with version 1.0.15 and above.
 
@@ -95,7 +95,7 @@ macro_rules! impl_mac_task_actor
 /**
  * Similar to impl_mac_task_actor, but the produced spawn method takes an actor state builder object instead of the actor state itself.
  * 
- * Requires everything that impl_mac_task_actor does, but also that an actor state builder type with a method "build_async" that returns an actor state object be in the module scope of the macro call.
+ * Requires everything that impl_mac_task_actor does, but also that an actor state builder type with a method "build_async" that returns an optional actor state object be in the module scope of the macro call.
  * 
  * The actor state builder type name consists of the provided actor type name with the text "StateBuilder" appended.
 */
@@ -166,9 +166,9 @@ macro_rules! impl_mac_task_actor_built_state
 //Default implementations of start and end methods to be used by the actor state
 
 ///
-/// A default implementation of the start_async mehthod for impl_mac_task_actor implementators.
+/// The "default" implementation of the on_started_async method for impl_mac_task_actor and impl_mac_task_actor_built_state implementators.
 /// 
-/// In this case it is a method returns a true bool value.
+/// This macro produces a method that returns a true bool value when called.
 /// 
 #[macro_export]
 macro_rules! impl_on_started_async
@@ -189,9 +189,9 @@ macro_rules! impl_on_started_async
 }
 
 ///
-/// Produces a default implementation of the end_async method.
-///
-/// In this case it is an empty method.
+/// The "default" implementation of the on_ending_async method for impl_mac_task_actor and impl_mac_task_actor_built_state implementators.
+/// 
+/// This macro produces an empty method.
 /// 
 #[macro_export]
 macro_rules! impl_on_ending_async
@@ -209,7 +209,7 @@ macro_rules! impl_on_ending_async
 }
 
 ///
-/// Produces default implementations of both the start_async and end_async methods.
+/// Produces the "default" implementations of both the start_async and end_async methods.
 ///
 #[macro_export]
 macro_rules! impl_on_started_and_ending_async

@@ -1,4 +1,9 @@
 
+///
+/// A boilerplate reducer intended to be used in actor run methods.
+/// 
+/// Expects “$this” to have get_input and input_ok(res: <?>) methods.
+/// 
 #[macro_export]
 macro_rules! get_input
 {
@@ -44,6 +49,11 @@ macro_rules! get_input
 
 }
 
+///
+/// A boilerplate reducer intended to be used in actor run methods.
+/// 
+/// Expects “$this” to have get_input, input_ok(res: <?>) and input_err(err: <?>) methods.
+/// 
 #[macro_export]
 macro_rules! get_input_with_err
 {
@@ -91,6 +101,11 @@ macro_rules! get_input_with_err
 
 }
 
+///
+/// A boilerplate reducer intended to be used in actor run methods.
+/// 
+/// Expects “$this” to have get_input, input_ok(res: <?>), input_err(err: <?>) and input_ok_err(err: <?>) methods.
+/// 
 #[macro_export]
 macro_rules! get_input_with_errs
 {
@@ -142,6 +157,11 @@ macro_rules! get_input_with_errs
 
 //Async
 
+///
+/// A boilerplate reducer intended to be used in actor run_async methods.
+/// 
+/// Expects “$this” to have get_input_async and input_ok_async(res: <?>) methods.
+/// 
 #[macro_export]
 macro_rules! get_input_async
 {
@@ -187,6 +207,11 @@ macro_rules! get_input_async
 
 }
 
+///
+/// A boilerplate reducer intended to be used in actor run_async methods.
+/// 
+/// Expects “$this” to have get_input_async, input_ok_async(res: <?>) and input_err_async(err: <?>) methods.
+/// 
 #[macro_export]
 macro_rules! get_input_with_err_async
 {
@@ -234,6 +259,11 @@ macro_rules! get_input_with_err_async
 
 }
 
+///
+/// A boilerplate reducer intended to be used in actor run_async methods.
+/// 
+/// Expects “$this” to have get_input_async, input_ok_async(res: <?>), input_err_async(err: <?>) and input_ok_err_async(err: <?>) methods.
+/// 
 #[macro_export]
 macro_rules! get_input_with_errs_async
 {

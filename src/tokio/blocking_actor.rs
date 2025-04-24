@@ -7,6 +7,9 @@ use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
 use crate::ActorState;
 
+///
+/// A blocking thread based actor.
+/// 
 pub struct BlockingActor
 {
 }

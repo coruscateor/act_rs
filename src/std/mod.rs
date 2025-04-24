@@ -1,5 +1,5 @@
 //!
-//! std::Thread based actors (Optional)
+//! std::Thread based actors
 //! 
 
 mod thread_actor;

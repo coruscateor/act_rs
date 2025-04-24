@@ -12,8 +12,8 @@ categories = ["asynchronous"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = { version = "1.43.0", features = ["rt", "rt-multi-thread", "sync", "macros"], optional = true }
-async-trait = { version = "0.1.85", optional = true }
+tokio = { version = "1.44.2", features = ["rt", "rt-multi-thread", "sync", "macros"], optional = true }
+async-trait = { version = "0.1.88", optional = true }
 
 [features]
 std = []
