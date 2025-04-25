@@ -2,7 +2,9 @@
 ///
 /// A boilerplate reducer intended to be used in actor run methods.
 /// 
-/// Expects “$this” to have get_input and input_ok(res: <?>) methods.
+/// Expects “$this” to have get_input(&/&mut self) -> Result<\<?\>, \<Error?\>> and input_ok(&/&mut self, res: <Message?>) -> Result<(), <Error?>> methods.
+/// 
+/// Results in a bool value.
 /// 
 #[macro_export]
 macro_rules! get_input
@@ -52,7 +54,9 @@ macro_rules! get_input
 ///
 /// A boilerplate reducer intended to be used in actor run methods.
 /// 
-/// Expects “$this” to have get_input, input_ok(res: <?>) and input_err(err: <?>) methods.
+/// Expects “$this” to have get_input(&/&mut self) -> Result<\<?\>, \<Error?\>>, input_ok(&/&mut self, res: <Message?>) -> Result<(), <Error?>> and input_err(&/&mut self, err: <Error?>) methods.
+/// 
+/// Results in a bool value.
 /// 
 #[macro_export]
 macro_rules! get_input_with_err
@@ -104,7 +108,9 @@ macro_rules! get_input_with_err
 ///
 /// A boilerplate reducer intended to be used in actor run methods.
 /// 
-/// Expects “$this” to have get_input, input_ok(res: <?>), input_err(err: <?>) and input_ok_err(err: <?>) methods.
+/// Expects “$this” to have get_input(&/&mut self) -> Result<\<?\>, \<Error?\>>, input_ok(&/&mut self, res: <Message?>) -> Result<(), <Error?>>, input_err(&/&mut self, err: <Error?>) and input_ok_err(&/&mut self, err: <Error?>) methods.
+/// 
+/// Results in a bool value.
 /// 
 #[macro_export]
 macro_rules! get_input_with_errs
@@ -160,7 +166,9 @@ macro_rules! get_input_with_errs
 ///
 /// A boilerplate reducer intended to be used in actor run_async methods.
 /// 
-/// Expects “$this” to have get_input_async and input_ok_async(res: <?>) methods.
+/// Expects “$this” to have get_input_async(&/&mut self) -> Result<\<?\>, \<Error?\>> and input_ok_async(res: <Message?>) -> Result<(), <Error?>> methods.
+/// 
+/// Results in a bool value.
 /// 
 #[macro_export]
 macro_rules! get_input_async
@@ -210,7 +218,9 @@ macro_rules! get_input_async
 ///
 /// A boilerplate reducer intended to be used in actor run_async methods.
 /// 
-/// Expects “$this” to have get_input_async, input_ok_async(res: <?>) and input_err_async(err: <?>) methods.
+/// Expects “$this” to have get_input_async(&/&mut self) -> Result<\<?\>, \<Error?\>>, input_ok_async(res: <Message?>) -> Result<(), <Error?>> and input_err_async(err: <Error?>) methods.
+/// 
+/// Results in a bool value.
 /// 
 #[macro_export]
 macro_rules! get_input_with_err_async
@@ -262,7 +272,9 @@ macro_rules! get_input_with_err_async
 ///
 /// A boilerplate reducer intended to be used in actor run_async methods.
 /// 
-/// Expects “$this” to have get_input_async, input_ok_async(res: <?>), input_err_async(err: <?>) and input_ok_err_async(err: <?>) methods.
+/// Expects “$this” to have get_input_async(&/&mut self) -> Result<\<?\>, \<Error?\>>, input_ok_async(res: <Message?>) -> Result<(), <Error?>>, input_err_async(err: <Error?>) and input_ok_err_async(err: <Error?>) methods.
+/// 
+/// Results in a bool value.
 /// 
 #[macro_export]
 macro_rules! get_input_with_errs_async

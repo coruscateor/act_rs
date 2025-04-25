@@ -23,11 +23,13 @@ Act.rs is an actor library built to be used with the standard library and Tokio.
 
 ## What Is An Actor?
 
-An actor is an object that runs in its own thread or task. You usually might communicate with it via a message queue.
+An actor is an object that runs in its own thread or task. You usually might communicate with it via a channel.
 
-Actors have their own state, so you can just send a message indicating what you want done to a particular actor without necessarily having to move everything to do it into its scope.
+Actors have their own state, so ideally you just send a them messages indicating what you want done and you shouldn't necessarily need to move everything to do this work into the scope of each individual actor.
 
 <br />
+
+/*
 
 ## Components Of An Actor
 
@@ -40,6 +42,8 @@ Act.rs actors have these three essential components:
     2. The back-end - The thread/task were the actor does its work. The actor-state is moved into this scope.
 
 <br />
+
+*/
 
 ## Putting The Components Together
 
@@ -69,17 +73,19 @@ When setting up your actors with input message queues, you should:
 - If you are using actors as part of a pipeline; watch out for message loops.
 - Make sure that the actor doesn't exit unexpectedly.
 
-If you follow these guidelines you should have a pleasant time using Act.rs.
+If you follow these guidelines you should have a productive time using Act.rs.
 
 <br />
 
 ## Examples
 
-[Req It](https://github.com/coruscateor/req_it/blob/latest/src/actors/graphql_actor.rs)
+- [Req It](https://github.com/coruscateor/req_it/blob/latest/src/actors/graphql_actor.rs)
 
-[Escape It](https://github.com/coruscateor/escape_it/blob/latest/src/conversion_actor.rs)
+- [Escape It](https://github.com/coruscateor/escape_it/blob/latest/src/conversion_actor.rs)
 
-[Act.rs Async Traits Test](https://github.com/coruscateor/act_rs_async_traits_test/tree/latest)
+- [Act.rs Async Traits Test](https://github.com/coruscateor/act_rs_async_traits_test/tree/latest)
+
+- [Mapage Types Viewer](https://github.com/coruscateor/mapage_types_viewer)
 
 <br />
 
