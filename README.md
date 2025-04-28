@@ -23,7 +23,7 @@ Act.rs is an actor library built to be used with the standard library and Tokio.
 
 ## What Is An Actor?
 
-An actor is an object that runs in its own thread or task. You usually might communicate with it via a channel.
+An actor is an object that runs in its own thread or task. You usually would communicate with it via channels.
 
 Actors have their own state, so ideally you just send a them messages indicating what you want done and you shouldn't necessarily need to move everything to do this work into the scope of each individual actor.
 
@@ -49,11 +49,9 @@ Act.rs actors have these three essential components:
 
 Create a state struct that contains the state of your actor, this includes an interactor.
 
-This state struct should implement either ActorState or AsyncActorState depending on whether or not the actor is async (Macro generated actors don't have this requirement and the state can implement the required methods directly)
+This state struct should implement either ActorState or AsyncActorState depending on whether or not the actor is async (Macro generated actors don't have this requirement and the state stuct can implement the required methods directly)
 
-The interactor is exposed via HasInteractor which is required by both ActorState and AsyncActorState.
-
-Finally pass the state into the actor constructor and there you have your actor (see the examples).
+Finally pass the state into the actor spawn method and there you have your actor (see the examples).
 
 <br />
 
@@ -107,7 +105,6 @@ If you follow these guidelines you should have a productive time using Act.rs.
 - Solidify the API for 1.0.
 - Add methods to all actor structs and macros which allow you to construct the actor-state in the actors thread, passing in any necessary parameters in order to do this e.g. the actors interactor.
 - Improve code reuse
-- Remove the requirement that the actor-state should possess the interactor (and make a reference to it available). When using channels for interaction it makes sense that the send side should only be in the front-end of the actor.
 
 <br />
 
@@ -125,6 +122,9 @@ This project uses a coding style that emphasises the use of white space over kee
 So this:
 
 ```rust
+
+fn bar() {}
+
 fn foo()
 {
 
@@ -137,6 +137,9 @@ fn foo()
 Not this:
 
 ```rust
+
+fn bar() {}
+
 fn foo()
 {
     bar();
