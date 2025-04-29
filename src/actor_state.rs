@@ -4,13 +4,13 @@ use async_trait::async_trait;
 ///
 /// The trait used for standard thread and blocking thread based actors.
 /// 
-/// The returned boolean values from the on_started and run method implementations should indicate whether or not actor execution should proceed.
+/// The returned boolean values from the pre_run and run method implementations should indicate whether or not actor execution should proceed.
 /// 
 pub trait ActorState
     where Self: Sized
 {
 
-    fn on_started(&mut self) -> bool
+    fn pre_run(&mut self) -> bool
     {
 
         true
@@ -19,7 +19,7 @@ pub trait ActorState
 
     fn run(&mut self) -> bool;
 
-    fn on_ending(self)
+    fn post_run(self)
     {
     }
 
@@ -28,7 +28,7 @@ pub trait ActorState
 ///
 /// The trait used for async oriented actors.
 /// 
-/// The returned boolean values from the on_started_async and run_async method implementations should indicate whether or not actor execution should proceed.
+/// The returned boolean values from the pre_run_async and run_async method implementations should indicate whether or not actor execution should proceed.
 ///
 #[cfg(feature = "tokio")]
 #[async_trait]
@@ -36,7 +36,7 @@ pub trait ActorStateAsync
     where Self: Sized
 {
 
-    async fn on_started_async(&mut self) -> bool
+    async fn pre_run_async(&mut self) -> bool
     {
 
         true
@@ -45,7 +45,7 @@ pub trait ActorStateAsync
 
     async fn run_async(&mut self) -> bool;
 
-    async fn on_ending_async(self)
+    async fn post_run_async(self)
     {
     }
 

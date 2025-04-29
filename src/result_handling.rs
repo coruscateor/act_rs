@@ -4,6 +4,10 @@
 /// 
 /// Expects “$this” to have get_input(&/&mut self) -> Result<\<?\>, \<Error?\>> and input_ok(&/&mut self, res: <Message?>) -> Result<(), <Error?>> methods.
 /// 
+/// Use the get_input method for calling and returning the result of a recv method of a channel receiver object.
+/// 
+/// Use the input_ok method for handling the Ok result of the get_input method. It also is expected to return a Result object (likely from channel usage).
+/// 
 /// Results in a bool value.
 /// 
 #[macro_export]
@@ -55,6 +59,12 @@ macro_rules! get_input
 /// A boilerplate reducer intended to be used in actor run methods.
 /// 
 /// Expects “$this” to have get_input(&/&mut self) -> Result<\<?\>, \<Error?\>>, input_ok(&/&mut self, res: <Message?>) -> Result<(), <Error?>> and input_err(&/&mut self, err: <Error?>) methods.
+/// 
+/// Use the get_input method for calling and returning the result of a recv method of a channel receiver object.
+/// 
+/// Use the input_ok method for handling the Ok result of the get_input method. It also is expected to return a Result object (likely from channel usage).
+/// 
+/// input_err is for handling the error object from the get_input method call.
 /// 
 /// Results in a bool value.
 /// 
@@ -109,6 +119,14 @@ macro_rules! get_input_with_err
 /// A boilerplate reducer intended to be used in actor run methods.
 /// 
 /// Expects “$this” to have get_input(&/&mut self) -> Result<\<?\>, \<Error?\>>, input_ok(&/&mut self, res: <Message?>) -> Result<(), <Error?>>, input_err(&/&mut self, err: <Error?>) and input_ok_err(&/&mut self, err: <Error?>) methods.
+/// 
+/// Use the get_input method for calling and returning the result of a recv method of a channel receiver object.
+/// 
+/// Use the input_ok method for handling the Ok result of the get_input method. It also is expected to return a Result object (likely from channel usage).
+/// 
+/// input_err is for handling the error object from the get_input method call.
+/// 
+/// input_ok_err is for handling the error object from the input_ok method call.
 /// 
 /// Results in a bool value.
 /// 
@@ -168,6 +186,10 @@ macro_rules! get_input_with_errs
 /// 
 /// Expects “$this” to have get_input_async(&/&mut self) -> Result<\<?\>, \<Error?\>> and input_ok_async(res: <Message?>) -> Result<(), <Error?>> methods.
 /// 
+/// Use the get_input_async method for calling and returning the result of a recv method of a channel receiver object.
+/// 
+/// Use the input_ok_async method for handling the Ok result of the get_input_async method. It also is expected to return a Result object (likely from channel usage).
+/// 
 /// Results in a bool value.
 /// 
 #[macro_export]
@@ -219,6 +241,12 @@ macro_rules! get_input_async
 /// A boilerplate reducer intended to be used in actor run_async methods.
 /// 
 /// Expects “$this” to have get_input_async(&/&mut self) -> Result<\<?\>, \<Error?\>>, input_ok_async(res: <Message?>) -> Result<(), <Error?>> and input_err_async(err: <Error?>) methods.
+/// 
+/// Use the get_input_async method for calling and returning the result of a recv method of a channel receiver object.
+/// 
+/// Use the input_ok_async method for handling the Ok result of the get_input_async method. It also is expected to return a Result object (likely from channel usage).
+/// 
+/// input_err_async is for handling the error object from the get_input_async method call.
 /// 
 /// Results in a bool value.
 /// 
@@ -273,6 +301,14 @@ macro_rules! get_input_with_err_async
 /// A boilerplate reducer intended to be used in actor run_async methods.
 /// 
 /// Expects “$this” to have get_input_async(&/&mut self) -> Result<\<?\>, \<Error?\>>, input_ok_async(res: <Message?>) -> Result<(), <Error?>>, input_err_async(err: <Error?>) and input_ok_err_async(err: <Error?>) methods.
+/// 
+/// Use the get_input_async method for calling and returning the result of a recv method of a channel receiver object.
+/// 
+/// Use the input_ok_async method for handling the Ok result of the get_input_async method. It also is expected to return a Result object (likely from channel usage).
+/// 
+/// input_err_async is for handling the error object from the get_input_async method call.
+/// 
+/// input_ok_err_async is for handling the error object from the input_ok_async method call.
 /// 
 /// Results in a bool value.
 /// 

@@ -23,7 +23,7 @@ Act.rs is an actor library built to be used with the standard library and Tokio.
 
 ## What Is An Actor?
 
-An actor is an object that runs in its own thread or task. You usually would communicate with it via channels.
+An actor is an object that runs in its own thread or task. You would usually communicate with it via channels.
 
 Actors have their own state, so ideally you just send a them messages indicating what you want done and you shouldn't necessarily need to move everything to do this work into the scope of each individual actor.
 
@@ -120,34 +120,41 @@ Actors have their own state, so ideally you just send a them messages indicating
 
 In the above example an actor sends a String message to the main thread which prints it out.
 
+Note that the actor continues or stops running depending on whether you return true or false from the run method. This is the run phase of the actor. There are also pre-run and post-run phases represented by pre_run and post_run methods which can also be manually implemented.
+
+This is also the case with async actors as well, but each method you implement has an additional "_async" on the of its name.
+
+Lastly Act.rs actors do not handle communications or errors by default. It is left up to you to decide how to handle these issues.
+
 <br />
 
 
-## Putting The Components Together
+## An Overview
 
-Create a state struct that contains the state of your actor, this includes an interactor.
+You create a state struct that contains the state of your actor.
 
-This state struct should implement either ActorState or AsyncActorState depending on whether or not the actor is async (Macro generated actors don't have this requirement and the state stuct can implement the required methods directly)
+This state struct should implement either ActorState or AsyncActorState depending on whether or not the actor is async (Macro generated actors don't have this requirement and the state stuct can implement the required methods in its impl block).
 
-Finally pass the state into the actor spawn method and there you have your actor (see the examples).
+Finally pass the state into the actor spawn method and there you have your actor, which runs until its run method returns false.
 
 <br />
 
 ## Pipelining
 
-Another potential benefit of actors is they can make it reasonably straight-forward to setup pipelines.
+Another potential benefit of actors is that they can be used to help you setup pipelines.
 
-You might setup a pipeline to divide work into stages to be performed on different threads.
+You would setup a pipeline to divide work into stages which potentially would be performed on different threads depending on what kind of actors you chose among other things.
 
 <br />
 
 ## Potential Issues When Setting Up
 
-When setting up your actors with input message queues, you should:
+When setting up your actors with input channels or message queues, you should:
 
-- Make sure your actor doesn't wait excessively or get stuck (wait indefinitely) when doing work.
+- Make sure that your actors don't wait excessively or get stuck (wait indefinitely) when doing work.
 - If you are using actors as part of a pipeline; watch out for message loops.
-- Make sure that the actor doesn't exit unexpectedly.
+- Make sure that your actors don't exit unexpectedly.
+- Check for bottlenecks and possibly implement a way to add actors and remove actors from a particular  stage or channel dynamically (pipelines).
 
 If you follow these guidelines you should have a productive time using Act.rs.
 
@@ -169,8 +176,8 @@ If you follow these guidelines you should have a productive time using Act.rs.
 
 | Feature     | Description |
 | ----------- | ----------- |
-| tokio | Enable Tokio based actors and interactors. |
-| std   | Enable std based actors and interactors.|
+| tokio | Enable Tokio based actors. |
+| std   | Enable std based actors.|
 
 <br />
 
@@ -178,18 +185,18 @@ If you follow these guidelines you should have a productive time using Act.rs.
 
 - Add more documentation
 - Add more examples
-- Add some tests
+- Add more tests
 - Cleanup the code
 - Solidify the API for 1.0.
-- Add methods to all actor structs and macros which allow you to construct the actor-state in the actors thread, passing in any necessary parameters in order to do this e.g. the actors interactor.
+- Add methods to all actor structs and macros which allow you to construct the actor-state in the actors thread, passing in any necessary parameters in order to do this e.g. channel sender and receiver objects.
 - Improve code reuse
 
 <br />
 
 ## Possibilities:
 
-- Rename the required actor-state methods methods on_enter, on_exit as well as their async counterparts to something a bit more appropriate (particularly in regards to the point about in-actor-thread state-constructors in the Todo list).
 - Add other async framework implementations such as [smol](https://crates.io/crates/smol).
+- Add boilerplate reducers which use async and regular closures.
 
 <br />
 

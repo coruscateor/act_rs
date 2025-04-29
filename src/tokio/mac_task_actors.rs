@@ -4,15 +4,15 @@
 
     The state type that is provided to the produced spawn method must implement:
 
-    AsyncActorState
+    ActorStateAsync
 
     or
 
-    async fn on_started_async(&mut self, _di: &DroppedIndicator) -> bool;
+    async fn pre_run_async(&mut sel) -> bool;
 
-    async fn run_async(&mut self, di: &DroppedIndicator) -> bool;
+    async fn run_async(&mut self) -> bool;
 
-    async fn on_ending_async(&mut self, _di: &DroppedIndicator);
+    async fn post_run_async(self);
 
     directly
 
@@ -30,9 +30,9 @@
     
 
 
-    The returned boolean values from the on_start_async and on_run_async method implementations indicate whether or not the actors execution should proceed.
+    The returned bool values from the pre_run_async and on_run_async method implementations indicate whether or not the actors execution should proceed.
 
-    The on_end_async method is called regardless.
+    The post_run_async method is called regardless.
 
 */
 #[macro_export]
@@ -68,7 +68,7 @@ macro_rules! impl_mac_task_actor
 
                     let mut proceed = true; 
                     
-                    if state.on_started_async().await
+                    if state.pre_run_async().await
                     {
 
                         while proceed
@@ -80,7 +80,7 @@ macro_rules! impl_mac_task_actor
 
                     }
 
-                    state.on_ending_async().await;
+                    state.post_run_async().await;
 
                 }
 
@@ -95,9 +95,11 @@ macro_rules! impl_mac_task_actor
 /**
  * Similar to impl_mac_task_actor, but the produced spawn method takes an actor state builder object instead of the actor state itself.
  * 
- * Requires everything that impl_mac_task_actor does, but also that an actor state builder type with a method "build_async" that returns an optional actor state object be in the module scope of the macro call.
+ * Requires everything that impl_mac_task_actor does, but also that an actor state builder type with a method "build_async" that returns an optional actor state object share the scope of the macro call.
  * 
  * The actor state builder type name consists of the provided actor type name with the text "StateBuilder" appended.
+ * 
+ * Note that if build_async returns a None value then none of the run methods are called (including post_run_async).
 */
 #[macro_export]
 macro_rules! impl_mac_task_actor_built_state
@@ -137,7 +139,7 @@ macro_rules! impl_mac_task_actor_built_state
 
                         let mut proceed = true; 
                         
-                        if state.on_started_async().await
+                        if state.pre_run_async().await
                         {
 
                             while proceed
@@ -149,7 +151,7 @@ macro_rules! impl_mac_task_actor_built_state
 
                         }
 
-                        state.on_ending_async().await;
+                        state.post_run_async().await;
 
                     }
 
@@ -163,21 +165,21 @@ macro_rules! impl_mac_task_actor_built_state
 
 }
 
-//Default implementations of start and end methods to be used by the actor state
+//"Default" implementations of pre_run_async and post_run_async methods to be used by the actor state.
 
 ///
-/// The "default" implementation of the on_started_async method for impl_mac_task_actor and impl_mac_task_actor_built_state implementators.
+/// The "default" implementation of the pre_run_async method for impl_mac_task_actor and impl_mac_task_actor_built_state implementators.
 /// 
 /// This macro produces a method that returns a true bool value when called.
 /// 
 #[macro_export]
-macro_rules! impl_on_started_async
+macro_rules! impl_pre_run_async
 {
 
     () =>
     {
 
-        async fn on_started_async(&mut self) -> bool
+        async fn pre_run_async(&mut self) -> bool
         {
     
             true
@@ -189,18 +191,18 @@ macro_rules! impl_on_started_async
 }
 
 ///
-/// The "default" implementation of the on_ending_async method for impl_mac_task_actor and impl_mac_task_actor_built_state implementators.
+/// The "default" implementation of the post_run_async method for impl_mac_task_actor and impl_mac_task_actor_built_state implementators.
 /// 
 /// This macro produces an empty method.
 /// 
 #[macro_export]
-macro_rules! impl_on_ending_async
+macro_rules! impl_post_run_async
 {
 
     () =>
     {
 
-        async fn on_ending_async(self)
+        async fn post_run_async(self)
         {
         }
 
@@ -209,23 +211,23 @@ macro_rules! impl_on_ending_async
 }
 
 ///
-/// Produces the "default" implementations of both the start_async and end_async methods.
+/// Produces the "default" implementations of both the pre_run_async and post_run_async methods.
 ///
 #[macro_export]
-macro_rules! impl_on_started_and_ending_async
+macro_rules! impl_pre_and_post_run_async
 {
 
     () =>
     {
 
-        async fn on_started_async(&mut self) -> bool
+        async fn pre_run_async(&mut self) -> bool
         {
     
             true
     
         }
 
-        async fn on_ending_async(self)
+        async fn post_run_async(self)
         {
         }
 

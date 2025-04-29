@@ -35,7 +35,7 @@ impl BlockingActor
 
         let mut proceed = true; 
         
-        if state.on_started()
+        if state.pre_run()
         {
 
             while proceed
@@ -47,7 +47,7 @@ impl BlockingActor
 
         }
 
-        state.on_ending();
+        state.post_run();
 
     }  
     
