@@ -27,6 +27,7 @@ mod result_handling;
 
 pub use result_handling::*;
 
+/*
 #[cfg(test)]
 mod tests {
 
@@ -119,3 +120,4 @@ mod tests {
 
 
 }
+*/

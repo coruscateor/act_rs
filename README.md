@@ -29,21 +29,99 @@ Actors have their own state, so ideally you just send a them messages indicating
 
 <br />
 
-/*
+## A Basic Example
 
-## Components Of An Actor
+```rust
 
-Act.rs actors have these three essential components:
+    //Adapted from the std TwoPlusTwoActorState ThreadActor test. 
 
-1. The actor-state
-2. The interactor - can be part of #1
-3. The actor itself, which has two components of its own:
-    1. The front-end - what users of actors interact with, contains the interactor or a clone of it.
-    2. The back-end - The thread/task were the actor does its work. The actor-state is moved into this scope.
+    //use crate::ActorState;
+
+    use act_rs::ActorState;
+
+    use std::sync::mpsc::{Sender, channel};
+
+    //use super::*;
+
+    use act_rs::std::ThreadActor;
+
+    struct TwoPlusTwoActorState
+    {
+
+        number: u32,
+        client_sender: Sender<String>
+
+    }
+
+    impl TwoPlusTwoActorState
+    {
+
+        pub fn new(client_sender: Sender<String>) -> Self
+        {
+
+            Self
+            {
+
+                number: 2,
+                client_sender
+
+            }
+
+        }
+        
+    }
+
+    impl ActorState for TwoPlusTwoActorState
+    {
+
+        fn run(&mut self) -> bool
+        {
+
+            if self.number < 4
+            {
+
+                self.number += 2;
+
+                let message = format!("two plus two is: {}", self.number);
+
+                if let Err(_) = self.client_sender.send(message)
+                {
+
+                    return false;
+
+                }
+
+                return true;
+
+            }
+
+            false
+            
+        }
+
+    }
+
+    fn main()
+    {
+
+        let (sender, receiver) = channel();
+
+        ThreadActor::spawn(TwoPlusTwoActorState::new(sender));
+
+        let res = receiver.recv().expect("Error: Message not delivered");
+
+        println!("{}", res);
+
+    }
+
+```
 
 <br />
 
-*/
+In the above example an actor sends a String message to the main thread which prints it out.
+
+<br />
+
 
 ## Putting The Components Together
 

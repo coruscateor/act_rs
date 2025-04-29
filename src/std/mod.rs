@@ -12,25 +12,29 @@ mod tests
 
     use crate::ActorState;
 
+    use std::sync::mpsc::{Sender, channel}; //Receiver,
+
     use super::*;
 
     struct TwoPlusTwoActorState
     {
 
-        two: u32
+        number: u32,
+        client_sender: Sender<String>
 
     }
 
     impl TwoPlusTwoActorState
     {
 
-        pub fn new() -> Self
+        pub fn new(client_sender: Sender<String>) -> Self
         {
 
             Self
             {
 
-                two: 2
+                number: 2,
+                client_sender
 
             }
 
@@ -44,9 +48,27 @@ mod tests
         fn run(&mut self) -> bool
         {
 
-            println!("two plus two is: {}", self.two + 2);
+            if self.number < 4
+            {
 
-            true
+                self.number += 2;
+
+                let message = format!("two plus two is: {}", self.number);
+
+                if let Err(_) = self.client_sender.send(message)
+                {
+
+                    return false;
+
+                }
+
+                return true;
+
+            }
+
+            false
+
+            //println!("two plus two is: {}", self.two + 2);
             
         }
 
@@ -56,7 +78,13 @@ mod tests
     fn std_tread_actor_test()
     {
 
-        ThreadActor::spawn(TwoPlusTwoActorState::new());
+        let (sender, receiver) = channel();
+
+        ThreadActor::spawn(TwoPlusTwoActorState::new(sender));
+
+        let res = receiver.recv().expect("Error: Message not delivered");
+
+        println!("{}", res);
 
         //Don't run this in a test.
 
