@@ -1,11 +1,11 @@
 
-d0ecfc2e2b052d34aae6090a306a33598bccb58b
+d0ecfc2e2b052d34aae6090a306a33598bccb58b -
 
 Removed the Tokio runtime actors and macro.
 
 
 
-072e5de153bc4de63028908830b091e9d8f38acd
+072e5de153bc4de63028908830b091e9d8f38acd -
 
 - ActorFrontend, HasInteractor, ActorState and AsyncActorState no longer…
 … require their “IN” generic parameters to implement ActorInteractor.
@@ -20,7 +20,7 @@ Removed the Tokio runtime actors and macro.
 
 
 
-6353d01dd55bdc75edaeae9d383f00b8532163b6
+6353d01dd55bdc75edaeae9d383f00b8532163b6 -
 
 - Deprecated impl_actor_interactor, impl_actor_interactor_async, SenderI…
 …nteractor (under both tokio and std) , SyncSenderInteractor, UnboundedSenderInteractor, channel and unbounded_channel.
@@ -36,20 +36,20 @@ Removed the Tokio runtime actors and macro.
 
 
 
-c0058be56329fc4c9dd59f3cffb0998901d0d586
+c0058be56329fc4c9dd59f3cffb0998901d0d586 -
 
 Cleaned up the actor_io_interactors module, UnboundedActorIOInteractorCl…
 …ient now implements Clone.
 
 
 
-1f0bb62e611691ab4a0a5bebe9919e6565415372
+1f0bb62e611691ab4a0a5bebe9919e6565415372 -
 
 Added documentation to the actor_io_interactors objects.
 
 
 
-fcc0faa72af604df0b2e61dc02469e8a28807780
+fcc0faa72af604df0b2e61dc02469e8a28807780 -
 
 - Removed the DroppedIndicator reference parameter declarations from the…
 … of all the ActorState and AsyncActorState methods.
@@ -64,9 +64,10 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 
 
 
-5bee7b31b99aacf8f2c61613bd4496a673e19992
+5bee7b31b99aacf8f2c61613bd4496a673e19992 -
 
 - Removed the ActorInteractor and HasInteractor traits.
+
 - Renamed the methods “on_enter” to “beginning” in the ActorState trait and in its affected actor implementations (tokio::BlockingActor and std::ThreadActor).
 
 - Renamed the methods “on_enter_async” to “beginning_async” in the AsyncActorState trait and in its affected actor implementations and macros (impl_mac_task_actor and task_actor).
@@ -109,7 +110,7 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 
 
 
-3329567a4c0305016446ac543d6d69316170b331
+3329567a4c0305016446ac543d6d69316170b331 -
 
 - In this revision the end and end_async methods are always called befor…
 …e an actor terminates as opposed to the on_exit and on_exit_async methods which were only called if the on_start and on_start_async methods in each actor implementation returned true.
@@ -123,20 +124,20 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 
 
 
-8ddb0409cef0357a34fd9d7e91861a7460ef60ff
+8ddb0409cef0357a34fd9d7e91861a7460ef60ff -
 
 Disabled the broadcast sub-module in tokio/io.
 
 
 
-8e77e9baf4b963709b907370a1afda89e6d2b145
+8e77e9baf4b963709b907370a1afda89e6d2b145 -
 
 Added impl_mac_task_actor_built_state, ActorStateBuilder and AsyncActorS…
 …tateBuilder.
 
 
 
-055e503bdf124d2a7d588ce59a2939e941c87c4a
+055e503bdf124d2a7d588ce59a2939e941c87c4a -
 
 - The enter macro now treats the provided expression as a literal expres…
 …sion as opposed to a function.
@@ -145,7 +146,7 @@ Added impl_mac_task_actor_built_state, ActorStateBuilder and AsyncActorS…
 
 
 
-af0ff5c8cd546531969868ee1eb385adad2ad2b4
+af0ff5c8cd546531969868ee1eb385adad2ad2b4 -
 
 The impl_mac_task_actor_built_state macro now requires that the build_as…
 …ync method of the provided state_builder object returns an Option object containing the actor state.

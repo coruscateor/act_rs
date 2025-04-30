@@ -7,6 +7,247 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version 0.3.0 (__/04/2025)
 
+### Added
+
+072e5de153bc4de63028908830b091e9d8f38acd
+
+-- A new module called “entering” has been added which contains functions for dealing with entering runtime contexts.
+
+- The tokio/entering module has been added which contains functions for dealing with entering runtime contexts.
+
+6353d01dd55bdc75edaeae9d383f00b8532163b6
+
+-- Added the “enter” and “enter_mut_param” (Removed) macros to the “tokio/entering” module.
+
+
+
+-- Added ActorIOInteractorClient (Removed), ActorIOInteractorServer (Removed), actor_io_interactors (Removed) and their unbounded counterparts to the “tokio/interactors/mspc” module (Removed).
+
+
+
+1f0bb62e611691ab4a0a5bebe9919e6565415372
+
+-- Added documentation to the actor_io_interactors objects (Removed).
+
+
+
+fcc0faa72af604df0b2e61dc02469e8a28807780
+
+-- Added “new_pair” and “one_arcd” methods to DroppedIndicator (Removed) and updated its documentation.
+
+
+
+5bee7b31b99aacf8f2c61613bd4496a673e19992
+
+-- Added enum CurrentActorState. (Removed)
+
+
+
+8e77e9baf4b963709b907370a1afda89e6d2b145
+
+-- Added impl_mac_task_actor_built_state, ActorStateBuilder and AsyncActorStateBuilder (Renamed to ActorStateBuilderAsync).
+
+- Added impl_mac_task_actor_built_state, ActorStateBuilder and ActorStateBuilderAsync.
+
+
+
+### Changed
+
+072e5de153bc4de63028908830b091e9d8f38acd
+
+-- ActorFrontend (Removed), HasInteractor (Removed), ActorState and AsyncActorState (Renamed to ActorStateAsync) no longer require their “IN” generic parameters to implement ActorInteractor. (ActorState and ActorStateAsync are no longer generic)
+
+
+
+-- ActorInteractor has been deprecated. (Removed)
+
+
+
+6353d01dd55bdc75edaeae9d383f00b8532163b6
+
+-- Deprecated impl_actor_interactor (Removed), impl_actor_interactor_async (Removed), SenderInteractor (under both tokio and std) (Removed), SyncSenderInteractor (Removed), UnboundedSenderInteractor (Removed), channel (Removed) and unbounded_channel (Removed).
+
+
+
+c0058be56329fc4c9dd59f3cffb0998901d0d586
+
+-- Cleaned up the actor_io_interactors module (Removed), UnboundedActorIOInteractorClient now implements Clone (Removed).
+
+
+
+fcc0faa72af604df0b2e61dc02469e8a28807780
+
+- Updated the documentation of impl_mac_task_actor to reflect the fact that it no longer requires std::sync::Arc to be in module scope when used.
+
+
+
+5bee7b31b99aacf8f2c61613bd4496a673e19992
+
+-- Renamed the methods “on_enter” to “beginning” in the ActorState trait and in its affected actor implementations (tokio::BlockingActor and std::ThreadActor) (Now pre_run).
+
+
+
+- Renamed the methods “on_enter_async” to “beginning_async” in the AsyncActorState trait and in its affected actor implementations and macros (impl_mac_task_actor and task_actor) (Now ActorStateAsync and pre_run_async).
+
+
+
+-- Renamed the methods “on_exit” to “ending” in the ActorState trait and in its affected actor implementations (tokio::BlockingActor and std::ThreadActor) (Now post_run).
+
+
+
+-- Renamed the methods “on_exit_async” to “ending_async” in the AsyncActorState trait and in its affected actor implementations and macros (impl_mac_task_actor and task_actor) (Now ActorStateAsync and post_run_async).
+
+
+-- Renamed DroppedIndicator to DroppedDetector (Removed).
+
+
+
+-- In tokio::BlockingActor, std::ThreadActor and tokio::TaskActor all struct level generic parameters and constraints have been removed in addition to the ActorFrontend (Removed) implementation. In each struct implementation all methods named “new” have been renamed to “spawn” with “ST” generic parameters added. The original generic constraint has been replaced with “ST: AsyncActorState (Renamed) + Send + 'static” (Or “ST: ActorState (Renamed) + Send + 'static”) for each method. Also the “run” methods in each struct implementation have had an identically named and constrained generic parameter added. (Re-write)
+
+
+
+-- the interactors sub-module of the tokio module has been renamed to “io”. (Removed)
+
+
+
+-- ActorIOInteractorClient has been renamed to ActorIOClient. (Removed)
+
+
+
+-- ActorIOInteractorServer has been renamed to ActorIOServer. (Removed)
+
+
+
+-- actor_io_interactor has been renamed to actor_io. (Removed)
+
+
+
+-- UnboundedActorIOInteractorClient has been renamed to UnboundedActorIOClient.  (Removed)
+
+
+
+-- UnboundedActorIOInteractorServer has been renamed to UnboundedActorIOServer. (Removed)
+
+
+-- unbounded_actor_io_interactors has been renamed to  unbounded_actor_io. (Removed)
+
+
+
+- impl_mac_task_actor and its documentation has been changed to reflect TaskActor and the removal of the HasInteractor trait.
+
+
+
+-- impl_default_on_enter_async has been renamed to impl_default_beginning_async. (Now impl_pre_run_async)
+
+
+
+-- impl_default_on_exit_async has been renamed to impl_default_ending_async. (Now impl_post_run_async)
+
+
+-- impl_default_on_enter_and_exit_async has been renamed to impl_default_beginning_and_ending_async. (Now impl_pre_and_post_run_async)
+
+
+
+3329567a4c0305016446ac543d6d69316170b331
+
+-- In this revision the end and end_async methods are always called before an actor terminates as opposed to the on_exit and on_exit_async methods which were only called if the on_start and on_start_async methods in each actor implementation returned true. (Renamed Methods etc)
+
+- The renamed post_run and post_run_async methods are now run regardless of whether the (also renamed) pre_run or pre_run_async methods return true. This is the case for all actor implementations and meta-implementations.
+
+-- Every method that was called “beginning” is now called “start” and every method that was called “ending” is now called “end”. The same situation is true for all of the async variants of these methods. (now pre_run and pre_run_async, post_run and post_run_async)
+
+
+
+-- The CurrentActorState has been renamed to CurrentActorPhase and its variants are now “Start”, “Run” and “End”. Also is_start, is_run and is_end methods have been added to its implementation. (Removed)
+
+
+
+- impl_mac_task_actor now only takes the $actor_type parameter and derives the type name of the actor state from it. Its documentation has also been updated.
+
+
+
+8ddb0409cef0357a34fd9d7e91861a7460ef60ff
+
+-- Disabled the broadcast sub-module in tokio/io. (See Removed)
+
+
+055e503bdf124d2a7d588ce59a2939e941c87c4a
+
+-- The enter macro now treats the provided expression as a literal expression as opposed to a function. (Irrelevant, added in this version.)
+
+
+
+-- The enter_mut_param macro has been disabled. (Added in this version.)
+
+
+
+af0ff5c8cd546531969868ee1eb385adad2ad2b4
+
+-- The impl_mac_task_actor_built_state macro now requires that the build_async method of the provided state_builder object returns an Option object containing the actor state. (Added in this version.)
+
+
+
+
+### Removed
+
+d0ecfc2e2b052d34aae6090a306a33598bccb58b
+
+- Removed the Tokio runtime actors and macro.
+
+072e5de153bc4de63028908830b091e9d8f38acd
+
+-- ActorInteractor has been removed as a constraint from all actors. (Removed)
+
+
+
+- Drop implementation blocks have been removed from the impl_mac_task_actor macro as well as all actor modules.
+
+6353d01dd55bdc75edaeae9d383f00b8532163b6
+
+-- Removed “impl_actor_interactor!(SenderInteractor<T>);” and “impl_actor_interactor_async!(SenderInteractor<T>);” from both (tokio and std) the SenderInteractors implementation blocks (Removed).
+
+
+
+-- Removed “impl_actor_interactor!(SyncSenderInteractor<T>);” from the SyncSenderInteractor implementation block (Removed).
+
+fcc0faa72af604df0b2e61dc02469e8a28807780
+
+-- Removed the DroppedIndicator (Removed) reference parameter declarations from the of all the ActorState and AsyncActorState methods.
+
+
+
+-- Removed all DroppedIndicator (Removed) references and instantiations, including its Arc instance type, from all actor types as well as the impl_mac_task_actor, impl_default_on_enter_async and impl_default_on_exit_async macros.
+
+
+
+- Removed the impl_not_dropped_on_enter_async and impl_not_dropped_on_enter_and_default_exit_async macros.
+
+
+
+5bee7b31b99aacf8f2c61613bd4496a673e19992
+
+- Removed the ActorInteractor and HasInteractor traits.
+
+
+
+-- Removed the SenderInteractor and UnboundedSenderInteractor structs as well as the channel and unbounded_channel functions that were under tokio::interactors::mspc (Removed).
+
+
+
+-- Removed the oneshot_at module.
+
+- Removed the tokio/oneshot_at module.
+
+
+8ddb0409cef0357a34fd9d7e91861a7460ef60ff
+
+-- Removed the broadcast sub-module in tokio/io. (See 61ca16b57c073ee3a32f7e76b7778359117ac006)
+
+
+
+### Fixed
+
+
 
 
 ## Version 0.2.0 (20/05/2024)
