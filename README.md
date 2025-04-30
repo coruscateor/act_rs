@@ -122,7 +122,7 @@ In the above example an actor sends a String message to the main thread which pr
 
 Note that the actor continues or stops running depending on whether you return true or false from the run method. This is the run phase of the actor. There are also pre-run and post-run phases represented by pre_run and post_run methods which can also be manually implemented.
 
-This is also the case with async actors as well, but each method you implement has an additional "_async" on the of its name.
+This is also the case with async actors as well, but each method you implement has an additional "_async" on the end of its name.
 
 Lastly Act.rs actors do not handle communications or errors by default. It is left up to you to decide how to handle these issues.
 
@@ -133,9 +133,9 @@ Lastly Act.rs actors do not handle communications or errors by default. It is le
 
 You create a state struct that contains the state of your actor.
 
-This state struct should implement either ActorState or AsyncActorState depending on whether or not the actor is async (Macro generated actors don't have this requirement and the state stuct can implement the required methods in its impl block).
+This state struct should implement either ActorState or ActorStateAsync depending on whether or not you want the actor to be async compatible (Macro generated actors don't have this requirement and the state stuct can implement the required methods in its impl block).
 
-Finally pass the state into the actor spawn method and there you have your actor, which runs until its run method returns false.
+Finally pass the state into the actor spawn method and there you have your actor, which basically runs until its run method returns false.
 
 <br />
 

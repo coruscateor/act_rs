@@ -30,7 +30,7 @@
     
 
 
-    The returned bool values from the pre_run_async and on_run_async method implementations indicate whether or not the actors execution should proceed.
+    The returned bool values from the pre_run_async and run_async method implementations indicate whether or not the actors execution should proceed.
 
     The post_run_async method is called regardless.
 
@@ -97,7 +97,7 @@ macro_rules! impl_mac_task_actor
  * 
  * Requires everything that impl_mac_task_actor does, but also that an actor state builder type with a method "build_async" that returns an optional actor state object share the scope of the macro call.
  * 
- * The actor state builder type name consists of the provided actor type name with the text "StateBuilder" appended.
+ * The actor state builder type name consists of the provided actor type name with "StateBuilder" appended.
  * 
  * Note that if build_async returns a None value then none of the run methods are called (including post_run_async).
 */
