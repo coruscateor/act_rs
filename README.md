@@ -195,7 +195,7 @@ If you follow these guidelines you should have a productive time using Act.rs.
 
 ## Possibilities:
 
-- Add other async framework implementations such as [smol](https://crates.io/crates/smol).
+- Add other async frameworks such as [smol](https://crates.io/crates/smol).
 - Add boilerplate reducers which use async and regular closures.
 
 <br />
