@@ -153,7 +153,7 @@ The impl_mac_task_actor_built_state macro now requires that the build_as…
 
 
 
-61ca16b57c073ee3a32f7e76b7778359117ac006
+61ca16b57c073ee3a32f7e76b7778359117ac006 -
 
 - Removed ActorFrontend
 
@@ -179,7 +179,7 @@ The impl_mac_task_actor_built_state macro now requires that the build_as…
 
 
 
-2609fd0f4ee923fbd4141b1184369199321b7ba7
+2609fd0f4ee923fbd4141b1184369199321b7ba7 -
 
 - Renamed AsyncActorState to ActorStateAsync and updated the relevant pa…
 …rts of the project to reflect this change.
@@ -190,7 +190,7 @@ The impl_mac_task_actor_built_state macro now requires that the build_as…
 
 
 
-c0f36d073ecb445e1ec153e5c1a096d363ac0286
+c0f36d073ecb445e1ec153e5c1a096d363ac0286 -
 
 - Added the Cargo.lock file.
 
@@ -214,20 +214,20 @@ c0f36d073ecb445e1ec153e5c1a096d363ac0286
 
 
 
-7c2f409f93eb37c95f7608ad70ce2a3b6cf28f1c
+7c2f409f93eb37c95f7608ad70ce2a3b6cf28f1c -
 
 - Removed another rouge where keyword.
 
 
 
-f69287ed812d30a742cca518d5628feaae4d0002
+f69287ed812d30a742cca518d5628feaae4d0002 -
 
 - Added get_input, get_input_with_err, get_input_with_errs, get_input_as…
 …ync, get_input_with_err_async and get_input_with_errs_async macros.
 
 
 
-e8b7bf7403924985822d050f19157665c14e1a7e
+e8b7bf7403924985822d050f19157665c14e1a7e -
 
 - The tokio minimum version has been updated to 1.44.2 and the async-tra…
 …it minimum version has been updated to 0.1.88. Related dependencies have also been updated.
@@ -238,7 +238,7 @@ e8b7bf7403924985822d050f19157665c14e1a7e
 
 
 
-8728324952b70d1c68e9af9212702275ff9f8dd1
+8728324952b70d1c68e9af9212702275ff9f8dd1 -
 
 - Updated the readme
 
@@ -246,7 +246,7 @@ e8b7bf7403924985822d050f19157665c14e1a7e
 
 
 
-c75418f0e274214b4059f07ad5ca4f295daac8bc
+c75418f0e274214b4059f07ad5ca4f295daac8bc -
 
 - Updated the readme
 
@@ -254,7 +254,7 @@ c75418f0e274214b4059f07ad5ca4f295daac8bc
 
 
 
-7994f5503a851003e8f624f98774f33f6bc238e0
+7994f5503a851003e8f624f98774f33f6bc238e0 -
 
 - Updated the readme
 
@@ -264,7 +264,7 @@ c75418f0e274214b4059f07ad5ca4f295daac8bc
 
 
 
-b9dee061de9fe5d69db2c54fe82532fe4c395682
+b9dee061de9fe5d69db2c54fe82532fe4c395682 -
 
 - Updated the readme
 
@@ -274,7 +274,7 @@ b9dee061de9fe5d69db2c54fe82532fe4c395682
 
 
 
-1c5007e4ea6897d1e3b8e4ecf7b171d87cfc32f0
+1c5007e4ea6897d1e3b8e4ecf7b171d87cfc32f0 -
 
 - Updated the readme and the documentation.
 

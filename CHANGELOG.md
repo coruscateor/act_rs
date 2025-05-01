@@ -33,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 fcc0faa72af604df0b2e61dc02469e8a28807780
 
--- Added “new_pair” and “one_arcd” methods to DroppedIndicator (Removed) and updated its documentation.
+-- Added “new_pair” and “one_arcd” methods to DroppedIndicator and updated its documentation. (Removed)
 
 
 
@@ -45,9 +45,26 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 
 8e77e9baf4b963709b907370a1afda89e6d2b145
 
--- Added impl_mac_task_actor_built_state, ActorStateBuilder and AsyncActorStateBuilder (Renamed to ActorStateBuilderAsync).
+-- Added impl_mac_task_actor_built_state, ActorStateBuilder and AsyncActorStateBuilder (Renamed to ActorStateBuilderAsync: 
+2609fd0f4ee923fbd4141b1184369199321b7ba7, point 2).
 
 - Added impl_mac_task_actor_built_state, ActorStateBuilder and ActorStateBuilderAsync.
+
+
+
+c0f36d073ecb445e1ec153e5c1a096d363ac0286
+
+- Added the Cargo.lock file.
+
+f69287ed812d30a742cca518d5628feaae4d0002
+
+- Added get_input, get_input_with_err, get_input_with_errs, get_input_async, get_input_with_err_async and get_input_with_errs_async macros.
+
+c75418f0e274214b4059f07ad5ca4f295daac8bc
+
+-- Added a test in std/mod.
+
+- Added the std TwoPlusTwoActorState ThreadActor test to std/mod.
 
 
 
@@ -55,7 +72,7 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 
 072e5de153bc4de63028908830b091e9d8f38acd
 
--- ActorFrontend (Removed), HasInteractor (Removed), ActorState and AsyncActorState (Renamed to ActorStateAsync) no longer require their “IN” generic parameters to implement ActorInteractor. (ActorState and ActorStateAsync are no longer generic)
+-- ActorFrontend (Removed), HasInteractor (Removed), ActorState and AsyncActorState (Renamed to ActorStateAsync) no longer require their “IN” generic parameters to implement ActorInteractor. (ActorState and ActorStateAsync are no longer generic) (Remove)
 
 
 
@@ -87,7 +104,7 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 
 
 
-- Renamed the methods “on_enter_async” to “beginning_async” in the AsyncActorState trait and in its affected actor implementations and macros (impl_mac_task_actor and task_actor) (Now ActorStateAsync and pre_run_async).
+-- Renamed the methods “on_enter_async” to “beginning_async” in the AsyncActorState trait and in its affected actor implementations and macros (impl_mac_task_actor and task_actor) (Now ActorStateAsync and pre_run_async).
 
 
 
@@ -98,11 +115,14 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 -- Renamed the methods “on_exit_async” to “ending_async” in the AsyncActorState trait and in its affected actor implementations and macros (impl_mac_task_actor and task_actor) (Now ActorStateAsync and post_run_async).
 
 
+
 -- Renamed DroppedIndicator to DroppedDetector (Removed).
 
 
 
 -- In tokio::BlockingActor, std::ThreadActor and tokio::TaskActor all struct level generic parameters and constraints have been removed in addition to the ActorFrontend (Removed) implementation. In each struct implementation all methods named “new” have been renamed to “spawn” with “ST” generic parameters added. The original generic constraint has been replaced with “ST: AsyncActorState (Renamed) + Send + 'static” (Or “ST: ActorState (Renamed) + Send + 'static”) for each method. Also the “run” methods in each struct implementation have had an identically named and constrained generic parameter added. (Re-write)
+
+- In tokio::BlockingActor, std::ThreadActor and tokio::TaskActor all struct level generic parameters and constraints have been removed. In each struct implementation all methods named “new” have been renamed to “spawn” with “ST” generic parameters added. The original generic constraint has been replaced with “ST: ActorStateAsync + Send + 'static” or “ST: ActorState + Send + 'static” for each method. Also the “run” methods in each struct implementation have had an identically named and constrained generic parameter added. 
 
 
 
@@ -129,6 +149,7 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 -- UnboundedActorIOInteractorServer has been renamed to UnboundedActorIOServer. (Removed)
 
 
+
 -- unbounded_actor_io_interactors has been renamed to  unbounded_actor_io. (Removed)
 
 
@@ -142,6 +163,7 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 
 
 -- impl_default_on_exit_async has been renamed to impl_default_ending_async. (Now impl_post_run_async)
+
 
 
 -- impl_default_on_enter_and_exit_async has been renamed to impl_default_beginning_and_ending_async. (Now impl_pre_and_post_run_async)
@@ -171,6 +193,7 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 -- Disabled the broadcast sub-module in tokio/io. (See Removed)
 
 
+
 055e503bdf124d2a7d588ce59a2939e941c87c4a
 
 -- The enter macro now treats the provided expression as a literal expression as opposed to a function. (Irrelevant, added in this version.)
@@ -187,6 +210,133 @@ af0ff5c8cd546531969868ee1eb385adad2ad2b4
 
 
 
+61ca16b57c073ee3a32f7e76b7778359117ac006
+
+-- Updated ActorState: renamed the start method declaration to on_start and the end method declaration to on_end. Constrained Self to Sized. Updated dependant object definitions. (Address method declaration name changes elsewhere.)
+
+- Constrained Self to Sized in ActorState.
+
+-- Updated ActorSyncState (AsyncActorState?): renamed the start_async method declaration to on_start_async and the end_async method declaration to on_end_async. Constrained Self to Sized. Updated dependant object definitions. (Address method declaration name changes elsewhere.)
+
+- Constrained Self to Sized in ActorStateAsync.
+
+-- The build method declaration of ActorStateBuilder now requires that Option<T> be returned. (Added in this version.)
+
+-- The build method declaration of AsyncActorStateBuilder (Now ActorStateBuilderAsync) now requires that Option<T> be returned and is now async. (Added in this version.)
+
+-- Updated documentation (Addressed later)
+
+
+
+2609fd0f4ee923fbd4141b1184369199321b7ba7
+
+- Renamed AsyncActorState to ActorStateAsync and updated the relevant parts of the project to reflect this change.
+
+-- Renamed AsyncActorStateBuilder to ActorStateBuilderAsync. (Added in this version.)
+
+
+
+-- Renamed the tokio/mac_task_actor module to tokio/mac_task_actors. (Shows up as mac_task_actors in v0.2.0. Remove)
+
+
+
+c0f36d073ecb445e1ec153e5c1a096d363ac0286
+
+-- Updated the crates version string to "0.3.0-beta". (Irrelevant; remove)
+
+
+
+- Made the inclusion of the async-trait dependency dependant on the presence of the tokio feature.
+
+
+
+-- Updated some documentation. (Addressed later)
+
+
+
+-- In ActorState renamed on_start to on_started and on_end to on_ending and updated the relevant parts of the project to reflect these changes. (Now pre_run and post_run, Addressed later.)
+
+
+
+-- In ActorStateAsync renamed on_start_async to on_started_async and on_end_async to on_ending_async and updated the relevant parts of the project to reflect these changes. (Now pre_run_async and post_run_async, Addressed later.)
+
+
+
+-- Made ActorStateAsync and ActorStateBuilderAsync (Added in this verion) only be included if the tokio feature is enabled.
+
+- Made ActorStateAsync only be included if the tokio feature is enabled.
+
+
+
+-- Made impl_mac_task_actor and impl_mac_task_actor_built_state compatible with ActorStateAsync. (A bit vague.)
+
+
+
+-- Renamed impl_default_on_start_async (Was impl_default_on_enter_async)  to impl_on_started_async (Now impl_pre_run_async), impl_default_on_end_async (Was impl_default_on_exit_async) to impl_on_ending_async (Now impl_post_run_async) and impl_default_on_start_and_end_async (Was impl_default_on_enter_and_exit_async) to impl_on_started_and_ending_async (Now impl_pre_and_post_run_async) and made them compatible with ActorStateAsync. (Re-written below as latest changes not are mentioned elsewhere)
+
+- Renamed tokio sub-module macros impl_default_on_enter_async to impl_pre_run_async, impl_default_on_exit_async to impl_post_run_async and impl_default_on_enter_and_exit_async to impl_pre_and_post_run_async and made them compatible with ActorStateAsync.
+
+
+
+e8b7bf7403924985822d050f19157665c14e1a7e
+
+- The tokio minimum version has been updated to 1.44.2 and the async-trait minimum version has been updated to 0.1.88. Related dependencies have also been updated.
+
+-- In the tokio/entering module runtime_enter_param function signature param is now passed by move. runtime_enter_param_ref has been added. runtime_enter_mut_param has been renamed to runtime_enter_param_mut. In the handle_enter_param function signature param is now passed by move. handle_enter_param_ref has been added. handle_enter_mut_param has been renamed to handle_enter_param_mut. (Splitup between this category and the Added section.) (Added in this version.)
+
+-- In the tokio/entering module runtime_enter_param function signature param is now passed by move. runtime_enter_mut_param has been renamed to runtime_enter_param_mut. In the handle_enter_param function signature param is now passed by move. handle_enter_mut_param has been renamed to handle_enter_param_mut. (Added in this version.)
+
+-- In the tokio/entering module runtime_enter_param_ref and handle_enter_param_ref have been added. (Added in this version.)
+
+-- Updated the documentation (Addressed later)
+
+
+
+8728324952b70d1c68e9af9212702275ff9f8dd1
+
+(I'll go with these:)
+
+- Updated the readme
+
+- Updated documentation
+
+
+
+c75418f0e274214b4059f07ad5ca4f295daac8bc
+
+-- Updated the readme (Remove)
+
+
+
+7994f5503a851003e8f624f98774f33f6bc238e0
+
+-- Updated the readme (Remove)
+
+- Disabled the test module in the lib file.
+
+-- Updated the std TwoPlusTwoActorState ThreadActor test in std/mod. (Remove)
+
+
+
+b9dee061de9fe5d69db2c54fe82532fe4c395682
+
+-- Updated the readme (Remove)
+
+-- All methods named on_started and on_ending have been renamed to pre_run and post_run and on_started_async and on_ending_async have been renamed to pre_run_async and post_run_async respectively, whether they be in trait declarations, implementation blocks, macros or documentation.
+
+- All methods named on_enter and on_exit have been renamed to pre_run and post_run and on_enter_async and on_exit_async have been renamed to pre_run_async and post_run_async respectively, whether they be in trait declarations, implementation blocks, macros or documentation.
+
+
+
+-- Updated the documentation (Remove)
+
+
+
+1c5007e4ea6897d1e3b8e4ecf7b171d87cfc32f0
+
+-- Updated the readme and the documentation. (Remove)
+
+
 
 ### Removed
 
@@ -201,6 +351,8 @@ d0ecfc2e2b052d34aae6090a306a33598bccb58b
 
 
 - Drop implementation blocks have been removed from the impl_mac_task_actor macro as well as all actor modules.
+
+
 
 6353d01dd55bdc75edaeae9d383f00b8532163b6
 
@@ -239,9 +391,43 @@ fcc0faa72af604df0b2e61dc02469e8a28807780
 - Removed the tokio/oneshot_at module.
 
 
+
 8ddb0409cef0357a34fd9d7e91861a7460ef60ff
 
 -- Removed the broadcast sub-module in tokio/io. (See 61ca16b57c073ee3a32f7e76b7778359117ac006)
+
+
+
+61ca16b57c073ee3a32f7e76b7778359117ac006
+
+- Removed ActorFrontend
+
+-- Removed CurrentActorPhase (Irrelevant; originally CurrentActorState, added in this version.)
+
+- Removed DroppedDetector
+
+- Removed the impl_pub_sender, impl_new_sender, impl_interactor_clone, impl_actor_interactor and impl_actor_interactor_async macros.
+
+- Removed the interactors sub-module and it contents from std.
+
+- Removed the io sub-module and it contents from tokio.
+
+
+
+c0f36d073ecb445e1ec153e5c1a096d363ac0286
+
+-- Removed the futures and delegate dependencies and updated the remaining tokio and async-trait dependencies to versions 1.43.0 and 0.1.85 respectively. (Updated dependancies addressed later.)
+
+- Removed the futures and delegate dependencies.
+
+
+
+7c2f409f93eb37c95f7608ad70ce2a3b6cf28f1c
+
+-- Removed another rouge where keyword. (Where was the other one?)
+
+- Removed a rouge where keyword from the tokio/TaskActor implementaion.
+
 
 
 
