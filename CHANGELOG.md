@@ -55,6 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - All methods named on_enter and on_exit have been renamed to pre_run and post_run and on_enter_async and on_exit_async have been renamed to pre_run_async and post_run_async respectively, whether they be in trait declarations, implementation blocks, macros or documentation.
 
+- Updated the MIT License copyright year.
+
 
 
 ### Removed
