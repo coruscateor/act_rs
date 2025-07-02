@@ -1,7 +1,7 @@
 [package]
 name = "act_rs"
-version = "0.3.0"
-edition = "2021"
+version = "0.4.0-alpha"
+edition = "2024"
 license = "MIT OR Apache-2.0"
 description = "Act.rs is an actor library built to be used with the standard library and Tokio."
 repository = "https://github.com/coruscateor/act_rs"
