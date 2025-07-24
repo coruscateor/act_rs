@@ -3,22 +3,28 @@ name = "act_rs"
 version = "0.4.0-alpha"
 edition = "2024"
 license = "MIT OR Apache-2.0"
-description = "Act.rs is an actor library built to be used with the standard library and Tokio."
+description = "Act.rs helps you build actors."
 repository = "https://github.com/coruscateor/act_rs"
 homepage = "https://coruscateor.com/projects/act_rs"
 keywords = ["actor", "actors", "async", "message", "pipeline"]
-categories = ["asynchronous"]
+categories = ["asynchronous", "concurrency"]
 authors = ["Paul Saunders"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = { version = "1.44.2", features = ["rt", "rt-multi-thread", "sync", "macros"], optional = true }
+
+#Disabled
+
+#tokio = { version = "1.44.2", features = ["rt", "rt-multi-thread", "sync", "macros"], optional = true }
 async-trait = { version = "0.1.88", optional = true }
 
 [features]
 std = []
-tokio = ["dep:tokio", "dep:async-trait"]
+
+#Disabled
+
+#tokio = ["dep:tokio", "dep:async-trait"]
 
 [package.metadata.docs.rs]
 all-features = true

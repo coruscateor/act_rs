@@ -1,4 +1,5 @@
-#[cfg(feature = "tokio")]
+//#[cfg(feature = "tokio")]
+
 use async_trait::async_trait;
 
 ///
@@ -30,7 +31,6 @@ pub trait ActorState
 /// 
 /// The returned boolean values from the pre_run_async and run_async method implementations should indicate whether or not actor execution should proceed.
 ///
-#[cfg(feature = "tokio")]
 #[async_trait]
 pub trait ActorStateAsync
     where Self: Sized
@@ -50,6 +50,8 @@ pub trait ActorStateAsync
     }
 
 }
+
+//#[cfg(feature = "tokio")]
 
 
 

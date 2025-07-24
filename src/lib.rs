@@ -16,8 +16,11 @@ pub use actor_state::*;
 pub mod std;
 
 //#[cfg(any(feature="tokio", doc))]
-#[cfg(feature="tokio")]
-pub mod tokio;
+
+//Disabled
+
+//#[cfg(feature="tokio")]
+//pub mod tokio;
 
 mod actor_state_builder;
 
@@ -26,6 +29,10 @@ pub use actor_state_builder::*;
 mod result_handling;
 
 pub use result_handling::*;
+
+mod mac_task_actors;
+
+pub use mac_task_actors::*;
 
 /*
 #[cfg(test)]
