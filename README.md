@@ -15,7 +15,7 @@
 [GitHub](https://github.com/coruscateor) | 
 [GitHub Sponsors](https://github.com/sponsors/coruscateor)
 
-Act.rs is an actor library built to be used with the standard library and Tokio.
+Act.rs is a minimal actor framework.
 
 </div>
 
