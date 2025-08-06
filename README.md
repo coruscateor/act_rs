@@ -27,6 +27,10 @@ An actor is an object that runs in its own thread or task. You would usually com
 
 Actors have their own state, so ideally you just send a them messages indicating what you want done and you shouldn't necessarily need to move everything to do this work into the scope of each individual actor.
 
+## Tokio Functionality
+
+The Tokio functionality has been moved.
+
 <br />
 
 ## A Basic Example
@@ -176,7 +180,6 @@ If you follow these guidelines you should have a productive time using Act.rs.
 
 | Feature     | Description |
 | ----------- | ----------- |
-| tokio | Enable Tokio based actors. |
 | std   | Enable std based actors.|
 
 <br />
@@ -184,19 +187,11 @@ If you follow these guidelines you should have a productive time using Act.rs.
 ## Todo
 
 - Add more documentation
-- Add more examples
-- Add more tests
+- Add examples
+- Add tests
 - Cleanup the code
-- Solidify the API for 1.0.
-- Add methods to all actor structs and macros which allow you to construct the actor-state in the actors thread, passing in any necessary parameters in order to do this e.g. channel sender and receiver objects.
-- Improve code reuse
-
-<br />
-
-## Possibilities:
-
-- Add other async frameworks such as [smol](https://crates.io/crates/smol).
-- Add boilerplate reducers which use async and regular closures.
+- Add methods to all actor structs and macros which allow you to construct the actor-state in the actors thread or task, passing in any necessary parameters in order to do this e.g. channel sender and receiver objects.
+- Make the inclusion of the async_trait dependency and dependant types optional.
 
 <br />
 
