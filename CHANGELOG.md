@@ -5,15 +5,66 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) (post version 0.2.0),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Version 0.4.0 (05/08/2025)
+## Version 0.4.0 (08/08/2025)
 
 ### Added
 
+5f5bd1d408c82a95fc8125025044a4bad75efda9
+
+(Added)
+
+- Added "concurrency" to the categories array field in the Cargo.toml file.
+
+
 ### Changed
+
+5f5bd1d408c82a95fc8125025044a4bad75efda9
+
+-- Updated the crates description.
+
+- Updated the crates description in the Cargo.toml file.
+
+-- Made the the async_trait dependency independent of the tokio feature in regards to the ActorStateAsync trait. (The tokio feature has been removed)
+
+-- Disabled the tokio module and feature. (The tokio feature has been removed)
+
+- Moved the impl_pre_run_async, impl_post_run_async and the impl_pre_and_post_run_async macro definitions out of the tokio sub-module and into the base module.
+
+
+
+81396a881a9a0d4a473e89b82cf902a719cc5b8b
+
+-- Updated the crates description in the Cargo.toml and the readme. (Redundant)
+
+
+
+95c58dfc79d1e48c866e864d36c650fbda0d8a61
+
+- Made the async-trait dependency non-optional.
+
+- Updated the readme.
+
+
+5ec9c9b94b8f1c891d4dede5189f5ef974edd031
+
+-- Updated the readme. (Redundant)
+
+- ActorStateBuilderAsync is no longer dependant the removed tokio feature.
+
 
 ### Removed
 
+5ec9c9b94b8f1c891d4dede5189f5ef974edd031
+
+-- Removed the disabled tokio dependency, feature and sub-module.
+
+- Removed the tokio dependency, feature and sub-module.
+
 ### Fixed
+
+5ec9c9b94b8f1c891d4dede5189f5ef974edd031
+
+- Fixed the homepage URL in the Cargo.toml file.
 
 
 
