@@ -29,7 +29,7 @@ Actors have their own state, so ideally you just send a them messages indicating
 
 ## Tokio Functionality
 
-The Tokio functionality has been moved.
+The Tokio functionality has been moved to the Act.rs Tokio crate (act_rs_tokio).
 
 <br />
 
@@ -132,12 +132,11 @@ Lastly Act.rs actors do not handle communications or errors by default. It is le
 
 <br />
 
-
 ## An Overview
 
 You create a state struct that contains the state of your actor.
 
-This state struct should implement either ActorState or ActorStateAsync depending on whether or not you want the actor to be async compatible (Macro generated actors don't have this requirement and the state stuct can implement the required methods in its impl block).
+This state struct should implement either ActorState or ActorStateAsync depending on whether or not you want the actor to be async compatible (Macro generated actors don't have this requirement and the state struct can implement the required methods in its impl block).
 
 Finally pass the state into the actor spawn method and there you have your actor, which basically runs until its run method returns false.
 
@@ -145,7 +144,7 @@ Finally pass the state into the actor spawn method and there you have your actor
 
 ## Pipelining
 
-Another potential benefit of actors is that they can be used to help you setup pipelines.
+Actors can be used to help you setup pipelines.
 
 You would setup a pipeline to divide work into stages which potentially would be performed on different threads depending on what kind of actors you chose among other things.
 
@@ -158,7 +157,7 @@ When setting up your actors with input channels or message queues, you should:
 - Make sure that your actors don't wait excessively or get stuck (wait indefinitely) when doing work.
 - If you are using actors as part of a pipeline; watch out for message loops.
 - Make sure that your actors don't exit unexpectedly.
-- Check for bottlenecks and possibly implement a way to add actors and remove actors from a particular  stage or channel dynamically (pipelines).
+- Check for bottlenecks and possibly implement a way to add actors and remove actors from a particular stage or channel dynamically (pipelines).
 
 If you follow these guidelines you should have a productive time using Act.rs.
 
@@ -186,7 +185,6 @@ If you follow these guidelines you should have a productive time using Act.rs.
 
 ## Todo
 
-- Add more documentation
 - Add examples
 - Add tests
 - Cleanup the code

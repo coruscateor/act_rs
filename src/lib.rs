@@ -15,13 +15,6 @@ pub use actor_state::*;
 #[cfg(feature="std")]
 pub mod std;
 
-//#[cfg(any(feature="tokio", doc))]
-
-//Disabled
-
-//#[cfg(feature="tokio")]
-//pub mod tokio;
-
 mod actor_state_builder;
 
 pub use actor_state_builder::*;
