@@ -18,7 +18,11 @@ authors = ["Paul Saunders"]
 
 #async-trait = { version = "0.1.88", optional = true }
 
-async-trait = "0.1.88"
+dynosaur = "0.3.0"
+
+#Disabled
+
+#async-trait = "0.1.88"
 
 [features]
 std = []
