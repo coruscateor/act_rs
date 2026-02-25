@@ -1,6 +1,6 @@
-//#[cfg(feature = "tokio")]
 
-use dynosaur::dynosaur;
+#[cfg(feature = "async-trait")]
+use async_trait::async_trait;
 
 //Disabled
 
@@ -30,20 +30,15 @@ pub trait ActorState
 
 }
 
-//Disabled
-
-//#[async_trait]
-
-//DynActorStateAsync = dyn(box)
-
 ///
 /// The trait used for async oriented actors.
 /// 
 /// The returned boolean values from the pre_run_async and run_async method implementations should indicate whether or not actor execution should proceed.
 ///
-#[dynosaur(DynActorStateAsync = dyn(box) ActorStateAsync)]
+#[cfg(feature = "async-trait")]
+#[async_trait]
 pub trait ActorStateAsync
-    //where Self: Sized
+    where Self: Sized
 {
 
     async fn pre_run_async(&mut self) -> bool

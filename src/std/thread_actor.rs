@@ -4,14 +4,13 @@
 //use futures::{executor::block_on, FutureExt};
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
-use crate::ActorState;
+use crate::{ActorState, ActorStateBuilder};
 
 use std::thread::{self, JoinHandle};
 
 ///
 /// An std::Thread based actor.
 ///
-#[allow(dead_code)]
 pub struct ThreadActor
 {
 }
@@ -23,9 +22,29 @@ impl ThreadActor
         where ST: ActorState + Send + 'static
     {
         
-        thread::spawn(move || {
+        thread::spawn(move ||
+        {
     
             ThreadActor::run(state);
+
+        })
+
+    }
+
+    pub fn spawn_then_build_state<STB, ST>(state_builder: STB) -> JoinHandle<()>
+        where STB: ActorStateBuilder<ST> + Send + 'static,
+               ST: ActorState + Send + 'static
+    {
+        
+        thread::spawn(move ||
+        {
+
+            if let Some(state) = state_builder.build()
+            {
+
+                ThreadActor::run(state);
+
+            }      
 
         })
 

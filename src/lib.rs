@@ -1,6 +1,6 @@
 #![doc = include_str!("../README.md")]
 
-#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+#![cfg_attr(docsrs, feature(doc_auto_cfg))] // Invalid
 
 mod actor_state;
 
@@ -26,6 +26,10 @@ pub use result_handling::*;
 mod mac_task_actors;
 
 pub use mac_task_actors::*;
+
+mod actor_flow;
+
+pub use actor_flow::*;
 
 //Disabled
 

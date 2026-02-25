@@ -14,15 +14,9 @@ authors = ["Paul Saunders"]
 
 [dependencies]
 
-#Optional
+#Run cargo update
 
-#async-trait = { version = "0.1.88", optional = true }
-
-dynosaur = "0.3.0"
-
-#Disabled
-
-#async-trait = "0.1.88"
+async-trait = { version = "0.1.89", optional = true }
 
 [features]
 std = []
