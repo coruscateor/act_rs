@@ -135,3 +135,15 @@ impl Deref for ActorFlow
     }
 
 }
+
+impl From<ActorFlow> for bool
+{
+
+    fn from(value: ActorFlow) -> Self
+    {
+        
+        value.is_proceed()
+        
+    }
+
+}
