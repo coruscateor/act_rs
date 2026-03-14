@@ -68,3 +68,43 @@ macro_rules! impl_pre_and_post_run_async
 
 }
 
+#[macro_export]
+macro_rules! impl_pre_run_flow_async
+{
+
+    () =>
+    {
+
+        async fn pre_run_async(&mut self) -> ActorFlow
+        {
+    
+            ActorFlow::Proceed
+    
+        }
+
+    }
+
+}
+
+#[macro_export]
+macro_rules! impl_pre_run_flow_and_post_run_async
+{
+
+    () =>
+    {
+
+        async fn pre_run_async(&mut self) -> ActorFlow
+        {
+    
+            ActorFlow::Proceed
+    
+        }
+
+        async fn post_run_async(self)
+        {
+        }
+
+    }
+
+}
+

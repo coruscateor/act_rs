@@ -31,9 +31,9 @@ impl ThreadActor
 
     }
 
-    pub fn spawn_then_build_state<STB, ST>(state_builder: STB) -> JoinHandle<()>
-        where STB: ActorStateBuilder<ST> + Send + 'static,
-               ST: ActorState + Send + 'static
+    pub fn spawn_and_build<ST, STB>(state_builder: STB) -> JoinHandle<()>
+        where ST: ActorState + Send + 'static,
+              STB: ActorStateBuilder<ST> + Send + 'static
     {
         
         thread::spawn(move ||
