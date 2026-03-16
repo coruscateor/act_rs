@@ -2,7 +2,10 @@
 #[cfg(feature = "async-trait")]
 use async_trait::async_trait;
 
-use crate::{ActorFlow, ActorState, ActorStateAsync};
+#[cfg(feature = "async-trait")]
+use crate::ActorStateAsync;
+
+use crate::{ActorFlow, ActorState};
 
 ///
 /// An ActorState that deals with ActorFlows.

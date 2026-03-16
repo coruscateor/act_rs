@@ -35,6 +35,10 @@ mod actor_state_flow;
 
 pub use actor_state_flow::*;
 
+mod actor_state_flexible;
+
+pub use actor_state_flexible::*;
+
 //Disabled
 
 /*
