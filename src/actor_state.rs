@@ -1,4 +1,6 @@
 
+use std::panic::UnwindSafe;
+
 #[cfg(feature = "async-trait")]
 use async_trait::async_trait;
 
@@ -56,7 +58,11 @@ pub trait ActorStateAsync
 
 }
 
-//#[cfg(feature = "tokio")]
+#[cfg(feature = "async-trait")]
+#[async_trait]
+pub trait ActorStateUnwindSafeAsync: ActorStateAsync + UnwindSafe + Sized
+{
+}
 
 
 
