@@ -13,8 +13,7 @@ use async_trait::async_trait;
 /// 
 /// The returned boolean values from the pre_run and run method implementations should indicate whether or not actor execution should proceed.
 /// 
-pub trait ActorState
-    where Self: Sized
+pub trait ActorState : Sized
 {
 
     fn pre_run(&mut self) -> bool
@@ -39,8 +38,7 @@ pub trait ActorState
 ///
 #[cfg(feature = "async-trait")]
 #[async_trait]
-pub trait ActorStateAsync
-    where Self: Sized
+pub trait ActorStateAsync : Sized
 {
 
     async fn pre_run_async(&mut self) -> bool
@@ -60,9 +58,6 @@ pub trait ActorStateAsync
 
 #[cfg(feature = "async-trait")]
 #[async_trait]
-pub trait ActorStateUnwindSafeAsync: ActorStateAsync + UnwindSafe + Sized
+pub trait ActorStateUnwindSafeAsync : ActorStateAsync + UnwindSafe + Sized
 {
 }
-
-
-

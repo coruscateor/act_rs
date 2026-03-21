@@ -1,4 +1,6 @@
 
+use std::panic::UnwindSafe;
+
 #[cfg(feature = "async-trait")]
 use async_trait::async_trait;
 
@@ -24,4 +26,10 @@ pub trait ActorStateBuilderAsync<T>
 
     async fn build_async(self) -> Option<T>;
 
+}
+
+#[cfg(feature = "async-trait")]
+#[async_trait]
+pub trait ActorStateBuilderUnwindSafeAsync<T> : ActorStateBuilderAsync<T> + UnwindSafe
+{
 }
