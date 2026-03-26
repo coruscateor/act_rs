@@ -1,6 +1,6 @@
 #![doc = include_str!("../README.md")]
 
-#![cfg_attr(docsrs, feature(doc_auto_cfg))] // Invalid
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
 mod actor_state;
 

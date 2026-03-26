@@ -24,6 +24,9 @@ pub struct ThreadActor
 impl ThreadActor
 {
 
+    ///
+    /// Spawn a new actor with the provided state.
+    /// 
     pub fn spawn<ST>(state: ST) -> JoinHandle<()>
         where ST: ActorState + Send + 'static
     {
@@ -37,6 +40,9 @@ impl ThreadActor
 
     }
 
+    ///
+    /// Spawn a new actor and construct its state with the provided state builder in its thread.
+    /// 
     pub fn spawn_and_build_state<ST, STB>(state_builder: STB) -> JoinHandle<()>
         where ST: ActorState + Send + 'static,
               STB: ActorStateBuilder<ST> + Send + 'static
@@ -114,7 +120,7 @@ impl ThreadActor
 
     }
 
-    pub fn spawn_built_thread<ST>(builder: Builder, state: ST) -> Result<JoinHandle<()>>
+    pub fn build_spawn<ST>(builder: Builder, state: ST) -> Result<JoinHandle<()>>
         where ST: ActorState + Send + 'static
     {
         
@@ -127,7 +133,7 @@ impl ThreadActor
 
     }
 
-    pub fn spawn_built_thread_and_build_state<ST, STB>(builder: Builder, state_builder: STB) -> Result<JoinHandle<()>>
+    pub fn build_spawn_and_build_state<ST, STB>(builder: Builder, state_builder: STB) -> Result<JoinHandle<()>>
         where ST: ActorState + Send + 'static,
               STB: ActorStateBuilder<ST> + Send + 'static
     {
@@ -146,7 +152,7 @@ impl ThreadActor
 
     }
 
-    pub fn spawn_built_thread_and_catch_unwind<ST, F>(builder: Builder, state: ST, err_fn: F) -> Result<JoinHandle<()>>
+    pub fn build_spawn_and_catch_unwind<ST, F>(builder: Builder, state: ST, err_fn: F) -> Result<JoinHandle<()>>
         where ST: ActorState + Send + UnwindSafe + 'static,
               F: FnOnce(Box<dyn Any + Send>) + Send + 'static
     {
@@ -172,7 +178,7 @@ impl ThreadActor
 
     }
 
-    pub fn spawn_built_thread_build_state_and_catch_unwind<ST, STB, F>(builder: Builder, state_builder: STB, err_fn: F) -> Result<JoinHandle<()>>
+    pub fn build_spawn_build_state_and_catch_unwind<ST, STB, F>(builder: Builder, state_builder: STB, err_fn: F) -> Result<JoinHandle<()>>
         where ST: ActorState + Send + 'static,
               STB: ActorStateBuilder<ST> + Send + UnwindSafe + 'static,
               F: FnOnce(Box<dyn Any + Send>) + Send + 'static
