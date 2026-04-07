@@ -39,6 +39,12 @@ mod actor_state_flexible;
 
 pub use actor_state_flexible::*;
 
+#[cfg(feature = "async-trait")]
+mod async_panic_handler;
+
+#[cfg(feature = "async-trait")]
+pub use async_panic_handler::*;
+
 //Disabled
 
 /*

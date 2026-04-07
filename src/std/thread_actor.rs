@@ -4,6 +4,7 @@
 //use futures::{executor::block_on, FutureExt};
 
 use std::any::Any;
+
 use std::{marker::PhantomData, sync::Arc, panic::UnwindSafe};
 
 use crate::{ActorState, ActorStateBuilder};
@@ -62,11 +63,13 @@ impl ThreadActor
 
     }
 
-    pub fn spawn_catch_unwind<ST, F>(state: ST, err_fn: F) -> JoinHandle<()>
+    pub fn spawn_catch_unwind<ST, F>(state: ST, err_fn: &Arc<F>) -> JoinHandle<()>
         where ST: ActorState + Send + UnwindSafe + 'static,
-              F: FnOnce(Box<dyn Any + Send>) + Send + 'static
+              F: Fn(Box<dyn Any + Send>) + Send + Sync + 'static
     {
         
+        let err_fn_clone = err_fn.clone();
+
         thread::spawn(move ||
         {
 
@@ -80,7 +83,7 @@ impl ThreadActor
             if let Err(err) = result
             {
 
-                err_fn(err);
+                err_fn_clone(err);
 
             }
 
@@ -88,11 +91,13 @@ impl ThreadActor
 
     }
 
-    pub fn spawn_build_state_and_catch_unwind<ST, STB, F>(state_builder: STB, err_fn: F) -> JoinHandle<()>
+    pub fn spawn_build_state_and_catch_unwind<ST, STB, F>(state_builder: STB, err_fn: &Arc<F>) -> JoinHandle<()>
         where ST: ActorState + Send + 'static,
               STB: ActorStateBuilder<ST> + Send + UnwindSafe + 'static,
-              F: FnOnce(Box<dyn Any + Send>) + Send + 'static
+              F: Fn(Box<dyn Any + Send>) + Send + Sync + 'static
     {
+
+        let err_fn_clone = err_fn.clone();
         
         thread::spawn(move ||
         {
@@ -112,7 +117,7 @@ impl ThreadActor
             if let Err(err) = result
             {
 
-                err_fn(err);
+                err_fn_clone(err);
 
             }
 
@@ -152,11 +157,13 @@ impl ThreadActor
 
     }
 
-    pub fn build_spawn_and_catch_unwind<ST, F>(builder: Builder, state: ST, err_fn: F) -> Result<JoinHandle<()>>
+    pub fn build_spawn_and_catch_unwind<ST, F>(builder: Builder, state: ST, err_fn: &Arc<F>) -> Result<JoinHandle<()>>
         where ST: ActorState + Send + UnwindSafe + 'static,
-              F: FnOnce(Box<dyn Any + Send>) + Send + 'static
+              F: Fn(Box<dyn Any + Send>) + Send + Sync + 'static
     {
         
+        let err_fn_clone = err_fn.clone();
+
         builder.spawn(move ||
         {
 
@@ -170,7 +177,7 @@ impl ThreadActor
             if let Err(err) = result
             {
 
-                err_fn(err);
+                err_fn_clone(err);
 
             }
 
@@ -178,11 +185,13 @@ impl ThreadActor
 
     }
 
-    pub fn build_spawn_build_state_and_catch_unwind<ST, STB, F>(builder: Builder, state_builder: STB, err_fn: F) -> Result<JoinHandle<()>>
+    pub fn build_spawn_build_state_and_catch_unwind<ST, STB, F>(builder: Builder, state_builder: STB, err_fn: &Arc<F>) -> Result<JoinHandle<()>>
         where ST: ActorState + Send + 'static,
               STB: ActorStateBuilder<ST> + Send + UnwindSafe + 'static,
-              F: FnOnce(Box<dyn Any + Send>) + Send + 'static
+              F: Fn(Box<dyn Any + Send>) + Send + Sync + 'static
     {
+
+        let err_fn_clone = err_fn.clone();
         
         builder.spawn(move ||
         {
@@ -202,7 +211,7 @@ impl ThreadActor
             if let Err(err) = result
             {
 
-                err_fn(err);
+                err_fn_clone(err);
 
             }
 
