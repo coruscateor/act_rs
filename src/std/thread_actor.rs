@@ -222,11 +222,11 @@ impl ThreadActor
     pub fn run<ST>(mut state: ST)
         where ST: ActorState + Send + 'static
     {
-
-        let mut proceed = true;
         
         if state.pre_run()
         {
+
+            let mut proceed = true; 
 
             while proceed
             {
