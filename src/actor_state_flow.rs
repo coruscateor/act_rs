@@ -10,8 +10,7 @@ use crate::{ActorFlow, ActorState};
 ///
 /// An ActorState that deals with ActorFlows.
 /// 
-pub trait ActorStateFlow : ActorState
-    where Self: Sized
+pub trait ActorStateFlow : ActorState + Sized
 {
 
     fn pre_run_flow(&mut self) -> ActorFlow
@@ -48,8 +47,7 @@ pub trait ActorStateFlow : ActorState
 /// 
 #[cfg(feature = "async-trait")]
 #[async_trait]
-pub trait ActorStateFlowAsync : ActorStateAsync
-    where Self: Sized
+pub trait ActorStateFlowAsync : ActorStateAsync + Sized
 {
 
     async fn pre_run_flow_async(&mut self) -> ActorFlow

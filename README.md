@@ -150,7 +150,7 @@ Finally pass the state into the actor spawn method and there you have your actor
 
 ```rust
 
-    use act_rs::{ActorFlow, ActorStateFlow};
+    use act_rs::{ActorState, ActorFlow, ActorStateFlow};
 
     use std::sync::mpsc::{Sender, channel};
 
@@ -182,6 +182,18 @@ Finally pass the state into the actor spawn method and there you have your actor
 
         }
         
+    }
+
+    impl ActorState for TwoPlusTwoActorState
+    {
+
+        fn run(&mut self) -> bool
+        {
+
+            self.run_flow().into()
+
+        }
+
     }
 
     impl ActorStateFlow for TwoPlusTwoActorState

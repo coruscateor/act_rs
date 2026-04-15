@@ -37,8 +37,6 @@ commit f02245736a6389088d77554feb057b32960f9bcb
 
 Renamed - Added in this version - std::ThreadActor -
 
-- Made the run method of the ThreadActor implementation public.
-
 commit d1d65d513c4144bd635412f91bd959d243e60ef0
 
 - Added the ActorStateUnwindSafeAsync trait.
@@ -106,6 +104,10 @@ commit f02245736a6389088d77554feb057b32960f9bcb
 -- Removed the where clauses from the ActorState and ActorStateAsync traits.
 
 - Removed the where clauses from the ActorState and ActorStateAsync traits and made them derive from Sized trait instead.
+
+-- Made the run method of the ThreadActor implementation public.
+
+- Made the run method of the std::ThreadActor implementation public.
 
 commit dfaaef3fc46038aa88e2722cc5da6271f52f5692
 

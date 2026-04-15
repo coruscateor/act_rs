@@ -10,9 +10,8 @@ use crate::ActorState;
 ///
 /// An ActorState that deals with T.
 /// 
-pub trait ActorStateFlexible<T> : ActorState
-    where Self: Sized,
-          T: Into<bool>
+pub trait ActorStateFlexible<T> : ActorState + Sized
+    where T: Into<bool>
 {
 
     fn pre_run_flexible(&mut self) -> T;
@@ -44,9 +43,8 @@ pub trait ActorStateFlexible<T> : ActorState
 /// 
 #[cfg(feature = "async-trait")]
 #[async_trait]
-pub trait ActorStateFlexibleAsync<T> : ActorStateAsync
-    where Self: Sized,
-          T: Into<bool>
+pub trait ActorStateFlexibleAsync<T> : ActorStateAsync + Sized
+    where T: Into<bool>
 {
 
     async fn pre_run_flexible_async(&mut self) -> T;
@@ -76,9 +74,8 @@ pub trait ActorStateFlexibleAsync<T> : ActorStateAsync
 ///
 /// An ActorState that deals with T.
 /// 
-pub trait ActorStateFlexibleDefault<T> : ActorStateFlexible<T>
-    where Self: Sized,
-          T: Into<bool> + Default
+pub trait ActorStateFlexibleDefault<T> : ActorStateFlexible<T> + Sized
+    where T: Into<bool> + Default
 {
 
     fn pre_run_flexible(&mut self) -> T
@@ -96,8 +93,7 @@ pub trait ActorStateFlexibleDefault<T> : ActorStateFlexible<T>
 #[cfg(feature = "async-trait")]
 #[async_trait]
 pub trait ActorStateFlexibleDefaultAsync<T> : ActorStateFlexibleAsync<T>
-    where Self: Sized,
-          T: Into<bool> + Default
+    where T: Into<bool> + Default
 {
 
     async fn pre_run_flexible_async(&mut self) -> T
