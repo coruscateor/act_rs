@@ -140,7 +140,7 @@ Lastly Act.rs actors do not handle communications or errors by default. It is le
 
 You create a state struct that contains the state of your actor.
 
-This state struct should implement either ActorState or ActorStateAsync depending on whether or not you want the actor to be async compatible or ActorStateFlow, ActorStateFlowAsync, ActorStateFlexible etc if you want another way to indicate whether or not the actor should proceed.
+This state struct should implement either ActorState or ActorStateAsync depending on whether or not you want the actor to be async compatible.
 
 Finally pass the state into the actor spawn method and there you have your actor, which basically runs until its run method returns false or equivalent.
 
@@ -150,7 +150,7 @@ Finally pass the state into the actor spawn method and there you have your actor
 
 ```rust
 
-    use act_rs::{ActorState, ActorFlow, ActorStateFlow};
+    use act_rs::{ActorState, ActorFlow};
 
     use std::sync::mpsc::{Sender, channel};
 
@@ -181,23 +181,6 @@ Finally pass the state into the actor spawn method and there you have your actor
             }
 
         }
-        
-    }
-
-    impl ActorState for TwoPlusTwoActorState
-    {
-
-        fn run(&mut self) -> bool
-        {
-
-            self.run_flow().into()
-
-        }
-
-    }
-
-    impl ActorStateFlow for TwoPlusTwoActorState
-    {
 
         fn run_flow(&mut self) -> ActorFlow
         {
@@ -223,6 +206,18 @@ Finally pass the state into the actor spawn method and there you have your actor
             ActorFlow::Exit
             
         }
+        
+    }
+
+    impl ActorState for TwoPlusTwoActorState
+    {
+
+        fn run(&mut self) -> bool
+        {
+
+            self.run_flow().into()
+
+        }
 
     }
 
@@ -241,7 +236,7 @@ Finally pass the state into the actor spawn method and there you have your actor
 
 ```
 
-The ActorFlow enum, with its associated traits, can be used instead of bools when specifying whether or not the actor will proceed to the next loop.
+The ActorFlow enum can be used instead of bools when specifying whether or not the actor will proceed to the next loop.
 
 <br />
 
