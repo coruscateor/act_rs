@@ -145,6 +145,18 @@ commit 2f75a488fdf88845407074cc8cf2f34900d38877
 
 -- Replaced the async_trait decorating macro with a dynosaur decorating macro on ActorStateAsync trait.
 
+commit 5c6bbe835e21dd983fe1ce25e423a070bab1eced
+
+- Updated the readme
+
+commit 3e00373f5e5846f92e6320c733ba61cabc394943
+
+- Ran cargo update
+    
+-- Updated the changelog
+    
+-- Updated the readme
+
 
 
 ### Deprecated
