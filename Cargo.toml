@@ -1,6 +1,6 @@
 [package]
 name = "act_rs"
-version = "0.5.0-beta"
+version = "0.5.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 description = "Act.rs is a minimal actor framework."

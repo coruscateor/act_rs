@@ -5,176 +5,59 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) (post version 0.2.0),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Version 0.5.0 (__/04/2026)
+## Version 0.5.0 (17/04/2026)
 
 ### Added
 
-commit cf78360c1935687f953b57a0d28c3df21d52213d
-
 - Added the AsyncPanicHandler trait.
-
-commit edaf998bfb93193ee7fd7dad293a903ab8dd6466
-
--- Renamed spawn_built_thread to build_spawn, spawn_built_thread_and_build_state to build_spawn_and_build_state, spawn_built_thread_and_catch_unwind to build_spawn_and_catch_unwind and spawn_built_thread_build_state_and_catch_unwind to build_spawn_build_state_and_catch_unwind in the std::ThreadActor implementation.
-
- Renamed - Added in this version - std::ThreadActor -
-
-commit f02245736a6389088d77554feb057b32960f9bcb
 
 - Added the ActorStateBuilderUnwindSafeAsync trait.
 
--- Renamed spawn_and_build method to spawn_and_build_state in the ThreadActor implementation.
-
- Renamed - Added in this version - std::ThreadActor -
-
--- Renamed spawn_build_and_catch_unwind method to spawn_build_state_and_catch_unwind in the ThreadActor implementation.
-
- Renamed - Added in this version - std::ThreadActor -
-
--- Added the spawn_built_thread, spawn_built_thread_and_build_state, spawn_built_thread_and_catch_unwind and the spawn_built_thread_build_state_and_catch_unwind methods to the ThreadActor implementation.
-
 - Added the build_spawn, build_spawn_and_build_state, build_spawn_and_catch_unwind and build_spawn_build_state_and_catch_unwind methods to the ThreadActor implementation.
-
-Renamed - Added in this version - std::ThreadActor -
-
-commit d1d65d513c4144bd635412f91bd959d243e60ef0
 
 - Added the ActorStateUnwindSafeAsync trait.
 
--- Added the spawn_catch_unwind and spawn_build_and_catch_unwind methods to the ThreadActor implementation.
-
 - Added the spawn_catch_unwind and spawn_build_state_and_catch_unwind to the ThreadActor implementation.
-
-Renamed - Added in this version - std::ThreadActor -
-
-commit dfaaef3fc46038aa88e2722cc5da6271f52f5692
 
 - Added the ActorStateFlexible, ActorStateFlexibleAsync, ActorStateFlexibleDefault and ActorStateFlexibleDefaultAsync traits.
 
--- Fixed an issue where the ActorStateAsync trait was being included in the actor_state_flow module without the async-trait feature having been activated.
-
-Added in this version
-
-commit c4d8dd59f3dd67e08751d8414115bd762d2d17e1
-
 - Added the impl_pre_run_flow_async and impl_pre_run_flow_and_post_run_async macros.
-
--- Renamed the spawn_then_build_state method of the std::ThreadActor struct implementation to spawn_and_build and swapped the order of its generic parameters.
-
-Renamed - Added in this version - std::ThreadActor -
-
-commit 79e6f9500ae8f2f9bf4d010b3d993707f358e6f8
 
 - Added the ActorStateFlow and ActorStateFlowAsync traits.
 
-commit a8d9e3ca4505bdfe905d4d9318bca3220d0cc91c
-
--- Re-added and updated the async-trait dependency to version 0.1.89.
-
-commit a8d9e3ca4505bdfe905d4d9318bca3220d0cc91c
-
 - Added the ActorFlow enum.
 
--- Added the spawn_then_build_state method to the std::ThreadActor implementation.
-
 - Added the spawn_and_build_state method to the std::ThreadActor implementation.
-
-Renamed - Added in this version - std::ThreadActor -
 
 
 
 ### Changed
 
-commit a21bce0b1487b3a21160b740215a6eb307a8abdc
-
 - Moved the “proceed” bool declaration into the “if state.pre_run()” scope in the run method of the std::ThreadActor implementation.
-
-commit cf78360c1935687f953b57a0d28c3df21d52213d
-
--- Changed the type of the err_fn parameter to &Arc<F> where F is an std::ops::Fn object in the spawn_catch_unwind, spawn_build_state_and_catch_unwind, build_spawn_and_catch_unwind and build_spawn_build_state_and_catch_unwind methods of the std::ThreadActor implementation.
-
-Added in this version
-
-commit edaf998bfb93193ee7fd7dad293a903ab8dd6466
 
 - Replaced doc_auto_cfg with doc_cfg in the docsrs cfg_attr in the lib file.
 
-commit f02245736a6389088d77554feb057b32960f9bcb
-
--- Removed the where clauses from the ActorState and ActorStateAsync traits.
-
-- Removed the where clauses from the ActorState and ActorStateAsync traits and made them derive from Sized trait instead.
-
--- Made the run method of the ThreadActor implementation public.
-
 - Made the run method of the std::ThreadActor implementation public.
-
-commit dfaaef3fc46038aa88e2722cc5da6271f52f5692
-
--- Updated the package version to 0.5.0-alpha.
-
-commit dfaaef3fc46038aa88e2722cc5da6271f52f5692
 
 - Moved the std_tread_actor_test test function and related objects out of the std mod file and into the added thread_actor_tests file.
 
-commit 79e6f9500ae8f2f9bf4d010b3d993707f358e6f8
-
--- Continued work on the ActorFlow enum.
-
-commit a8d9e3ca4505bdfe905d4d9318bca3220d0cc91c
-
--- Re-added and updated the async-trait dependency to version 0.1.89.
-
 - Updated the async-trait dependency to version 0.1.89.
-
--- Made the inclusion of features that depend on the async_trait dependency optional, based on the inclusion of this dependency as a feature.
 
 - Made the async-trait dependency optional.
 
 - Made the inclusion of features that depend on the async-trait dependency optional.
 
--- Made a note that the cfg_attr section is currently invalid.
-
-- Removed the dead_code decoration from std::ThreadActor struct.
-
-commit 2f75a488fdf88845407074cc8cf2f34900d38877
-
--- Disabled the async-trait dependancy.
-
--- Removed the CHANGELOG-Notes-v0.4.0.md file.
-
--- Replaced the async_trait decorating macro with a dynosaur decorating macro on ActorStateAsync trait.
-
-commit 5c6bbe835e21dd983fe1ce25e423a070bab1eced
-
 - Updated the readme
 
-commit 3e00373f5e5846f92e6320c733ba61cabc394943
-
 - Ran cargo update
-    
--- Updated the changelog
-    
--- Updated the readme
-
-
-
-### Deprecated
 
 
 
 ### Removed
 
-commit a8d9e3ca4505bdfe905d4d9318bca3220d0cc91c
+- Removed the where clauses from the ActorState and ActorStateAsync traits and made them derive from Sized trait instead.
 
--- Removed the dynosaur dependency.
-
-
-### Fixed
-
-
-
-### Security
+- Removed the dead_code decoration from std::ThreadActor struct.
 
 
 
